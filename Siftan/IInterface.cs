@@ -7,8 +7,13 @@ namespace Siftan
   public interface IRecordReader
   {
     #region Methods
-    IRecord ReadRecord();
+    Record ReadRecord();
     #endregion
+  }
+
+  public class Record
+  {
+    public Int64 Start, End;
   }
 
   public interface IRecordWriter

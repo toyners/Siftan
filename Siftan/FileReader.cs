@@ -7,6 +7,7 @@ namespace Siftan
   using System.Linq;
   using System.Text;
   using System.Threading.Tasks;
+  using Jabberwocky.Toolkit.IO;
 
   public class FileReader : IStreamReader
   {
@@ -29,6 +30,19 @@ namespace Siftan
       get 
       { 
         return this.reader.EndOfStream;
+      }
+    }
+
+    public Int64 Position
+    {
+      get 
+      { 
+        return this.reader.BaseStream.Position; 
+      }
+
+      set 
+      {
+        this.reader.BaseStream.Position = value;
       }
     }
     #endregion
