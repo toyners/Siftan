@@ -81,67 +81,6 @@ namespace Siftan.UnitTests
     }
 
     [Test]
-    public void OneLineFile()
-    {
-      StreamReader sr = new StreamReader(@"C:\C#\Siftan\one_line.txt");
-      sr.EndOfStream.Should().BeFalse();
-      sr.BaseStream.Position.Should().Be(10);
-      sr.ReadLine().Should().Be("First Line");
-      sr.EndOfStream.Should().BeTrue();
-      sr.BaseStream.Position = 0;
-      sr.EndOfStream.Should().BeFalse();
-      sr.ReadLine().Should().Be("First Line");
-      sr.BaseStream.Position.Should().Be(0);
-    }
-
-    [Test]
-    public void TwoLineFileWithEmptyLine()
-    {
-      StreamReader sr = new StreamReader(@"C:\C#\Siftan\oneandempty_line.txt");
-      sr.EndOfStream.Should().BeFalse();
-      sr.BaseStream.Position.Should().Be(12);
-
-      sr.ReadLine().Should().Be("First Line");
-      sr.EndOfStream.Should().BeFalse();
-
-      sr.BaseStream.Position = 0;
-      sr.EndOfStream.Should().BeFalse();
-      sr.ReadLine().Should().Be("First Line");
-      sr.BaseStream.Position.Should().Be(0);
-    }
-
-    [Test]
-    public void ThreeLineFile()
-    {
-      StreamReader sr = new StreamReader(@"C:\C#\Siftan\three_lines.txt");
-      sr.EndOfStream.Should().BeFalse();
-      sr.BaseStream.Position.Should().Be(43);
-      sr.ReadLine().Should().Be("12 chars + 2");
-
-      sr.EndOfStream.Should().BeFalse();
-      sr.BaseStream.Position.Should().Be(43);
-      sr.ReadLine().Should().Be("13 chars  + 2");
-
-      sr.EndOfStream.Should().BeFalse();
-      sr.BaseStream.Position.Should().Be(43);
-      sr.ReadLine().Should().Be("14 chars   + 0");
-
-      sr.EndOfStream.Should().BeTrue();
-
-      sr.BaseStream.Position = 1;
-      sr.BaseStream.Position.Should().Be(1);
-      sr.ReadLine().Should().Be("2 chars  + 2");
-
-      sr.BaseStream.Position = 15;
-      sr.ReadLine().Should().Be("13 chars  + 2");
-      
-      /*sr.BaseStream.Position = 0;
-      sr.EndOfStream.Should().BeFalse();
-      sr.ReadLine().Should().Be("First Line");
-      sr.BaseStream.Position.Should().Be(0);*/
-    }
-
-    [Test]
     public void CreateMockReaderInstance_ManyLines_CreatesMockReader()
     {
       // Act
