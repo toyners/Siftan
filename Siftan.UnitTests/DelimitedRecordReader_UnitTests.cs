@@ -5,6 +5,7 @@ namespace Siftan.UnitTests
   using System.IO;
   using FluentAssertions;
   using Jabberwocky.Toolkit.IO;
+  using Jabberwocky.Toolkit.Validation;
   using NSubstitute;
   using NUnit.Framework;
 
@@ -44,7 +45,6 @@ namespace Siftan.UnitTests
     [Test]
     [TestCase(0, 7, "H,A,B,C")]
     [TestCase(0, 27, "H,A,B,C", "L1,A,B,C", "L2,A,B,C")]
-    [TestCase(0, 27, "H,A,B,C", "L1,A,B,C", "L2,A,B,C", "")]
     [TestCase(0, 29, "H,A,B,C", "L1,A,B,C", "L2,A,B,C", "H,D,E,F")]
     [TestCase(9, 16, "0,A,B,C", "H,A,B,C")]
     [TestCase(9, 26, "0,A,B,C", "H,A,B,C", "L1,A,B,C")]
@@ -91,56 +91,21 @@ namespace Siftan.UnitTests
       mockReader.EndOfStream.Should().Be(false);
 
       mockReader.ReadLine().Should().Be("First Line");
-      mockReader.Position.Should().Be("First Linern".Length);
+      mockReader.Position.Should().Be("First Line\r\n".Length);
       mockReader.EndOfStream.Should().Be(false);
 
       mockReader.ReadLine().Should().Be("Second Line");
-      mockReader.Position.Should().Be("First LinernSecond Linern".Length);
+      mockReader.Position.Should().Be("First Line\r\nSecond Line\r\n".Length);
       mockReader.EndOfStream.Should().Be(false);
 
       mockReader.ReadLine().Should().Be("Third Line");
-      mockReader.Position.Should().Be("First LinernSecond LinernThird Line".Length);
+      mockReader.Position.Should().Be("First Line\r\nSecond Line\r\nThird Line".Length);
       mockReader.EndOfStream.Should().Be(true);
-    }
-
-    [Test]
-    public void CreateMockReaderInstance_FileLinesIsNull_ThrowsExpectedException()
-    {
-      // Act
-      Action action = () => { this.CreateMockReaderInstance(null); };
-
-      // Assert
-      action.ShouldThrow<Exception>().WithMessage("Parameter 'fileLines' is null or empty.");
-    }
-
-    [Test]
-    public void CreateMockReaderInstance_FileLinesIsEmpty_ThrowsExpectedException()
-    {
-      // Act
-      Action action = () => { this.CreateMockReaderInstance(new String[] {}); };
-
-      // Assert
-      action.ShouldThrow<Exception>().WithMessage("Parameter 'fileLines' is null or empty.");
-    }
-
-    [Test]
-    public void SplitTest()
-    {
-      String line = "H,A,B,C";
-
-      String[] terms = line.Split(new[] { ',' }, 6, StringSplitOptions.None);
-
-      terms.Length.Should().Be(3);
-      terms[0].Should().Be("H");
-      terms[1].Should().Be("A");
     }
 
     private IStreamReader CreateMockReaderInstance(String[] fileLines)
     {
-      if (fileLines == null || fileLines.Length == 0)
-      {
-        throw new Exception("Parameter 'fileLines' is null or empty.");
-      }
+      fileLines.VerifyThatArrayIsNotNullAndNotEmpty("Parameter 'fileLines' is null or empty.");
 
       IStreamReader mockReader = Substitute.For<IStreamReader>();
 
