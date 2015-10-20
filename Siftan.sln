@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.UnitTests", "Siftan.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.IntegrationTests", "Siftan.IntegrationTests\Siftan.IntegrationTests.csproj", "{7177CF85-AB4E-41A7-814A-072B9CFA7DDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan_Console", "Siftan_Console\Siftan_Console.csproj", "{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{7177CF85-AB4E-41A7-814A-072B9CFA7DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7177CF85-AB4E-41A7-814A-072B9CFA7DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7177CF85-AB4E-41A7-814A-072B9CFA7DDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
