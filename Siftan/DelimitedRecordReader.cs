@@ -50,9 +50,9 @@ namespace Siftan
         // + 2 means that the line term index will be second to last in the array e.g. given "H,A,B,C" 
         // with line term index of 0 means setting maximum parameter to 2 (returning "H" and "A,B,C")
         // to get the 0th term ("H")  
-        String[] terms = line.Split(seperator, descriptor.LineTermIndex + 2, StringSplitOptions.None);
+        String[] terms = line.Split(seperator, descriptor.LineIDIndex + 2, StringSplitOptions.None);
 
-        if (terms[descriptor.LineTermIndex] != descriptor.HeaderTerm)
+        if (terms[descriptor.LineIDIndex] != descriptor.HeaderID)
         {
           continue;
         }
@@ -91,16 +91,5 @@ namespace Siftan
       this.Close();
     }
     #endregion
-  }
-
-  public class DelimitedRecordDescriptor
-  {
-    public String Delimiter;
-
-    public String Qualifier;
-
-    public String HeaderTerm;
-
-    public Int32 LineTermIndex;
   }
 }

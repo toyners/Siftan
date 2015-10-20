@@ -3,45 +3,40 @@ namespace Siftan
 {
   using System;
   using System.Collections.Generic;
-
-  public interface IRecordReader
-  {
-    #region Methods
-    Record ReadRecord();
-    #endregion
-  }
-
-  public class Record
-  {
-    public Int64 Start, End;
-  }
-
+  using System.Linq;
+  
   public interface IRecordWriter
   {
-    void WriteRecord(IRecord record);
+    void WriteRecord(Record record);
   }
 
-  public interface IRecordDescriptor
-  { 
-  }
+  public delegate void WriteRecordDelegate(Record record); 
 
-  public interface IRecord
+  public interface IRecordMatchExpression
   {
-    //Boolean IsMatch(IRecordMatchExpression expression);
+    Boolean IsMatch(Record record);
+
+    Boolean HasReachedMatchQuota { get; }
+
+    event WriteRecordDelegate WriteRecordToFile;
   }
 
-  public interface IRecordMatch
+  public class RecordMatchExpression
   {
-    #region Methods
-    Boolean IsMatch(IRecord record);
-    #endregion
-  }
+    public RecordMatchExpression()
+    {
+ 
+    }
 
-  public interface IRecordMatchComponent : IRecordMatch
-  {
-  }
+    public event WriteRecordDelegate WriteRecordToFile;
 
-  public interface IRecordMatchExpression : IRecordMatch
-  {
+    public virtual Boolean IsMatch(Record record)
+    {
+      return false;
+    }
+
+    public virtual Boolean HasReachedMatchQuota { get; protected set; }
+
+
   }
 }

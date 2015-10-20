@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="DelimitedRecordReader_UnitTests.cs" />
     <Compile Include="FileReader_UnitTests.cs" />
+    <Compile Include="InListExpression_UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@
 namespace Siftan.UnitTests
 {
   using System;
+  using System.Collections.Generic;
   using System.IO;
   using FluentAssertions;
   using Jabberwocky.Toolkit.IO;
@@ -12,6 +13,7 @@ namespace Siftan.UnitTests
   [TestFixture]
   public class DelimitedRecordReader_UnitTests
   {
+    #region Methods
     [Test]
     public void ReadRecord_FileReaderIsClosed_ReturnsNull()
     {
@@ -151,9 +153,10 @@ namespace Siftan.UnitTests
       {
         Delimiter = ",",
         Qualifier = "\"",
-        LineTermIndex = 0,
-        HeaderTerm = "H"
+        LineIDIndex = 0,
+        HeaderID = "H"
       };
     }
+    #endregion
   }
 }

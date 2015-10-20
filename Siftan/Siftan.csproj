@@ -43,10 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DelimitedRecordDescriptor.cs" />
     <Compile Include="DelimitedRecordReader.cs" />
+    <Compile Include="Engine.cs" />
     <Compile Include="FileReader.cs" />
     <Compile Include="IInterface.cs" />
+    <Compile Include="InListExpression.cs" />
+    <Compile Include="IRecordReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Record.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
