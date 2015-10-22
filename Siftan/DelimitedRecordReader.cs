@@ -2,11 +2,8 @@
 namespace Siftan
 {
   using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
-  using System.Threading.Tasks;
   using Jabberwocky.Toolkit.IO;
+  using Jabberwocky.Toolkit.String;
   using Jabberwocky.Toolkit.Validation;
 
   public class DelimitedRecordReader : IRecordReader, IDisposable
@@ -46,13 +43,9 @@ namespace Siftan
       {
         Int64 position = this.streamReader.Position;
         String line = this.streamReader.ReadLine();
+        String lineIDTerm = line.ExtractField(descriptor.Delimiter, descriptor.Qualifier, descriptor.LineIDIndex);
 
-        // + 2 means that the line term index will be second to last in the array e.g. given "H,A,B,C" 
-        // with line term index of 0 means setting maximum parameter to 2 (returning "H" and "A,B,C")
-        // to get the 0th term ("H")  
-        String[] terms = line.Split(seperator, descriptor.LineIDIndex + 2, StringSplitOptions.None);
-
-        if (terms[descriptor.LineIDIndex] != descriptor.HeaderID)
+        if (lineIDTerm != descriptor.HeaderID)
         {
           continue;
         }

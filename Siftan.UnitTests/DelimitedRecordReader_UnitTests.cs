@@ -34,7 +34,7 @@ namespace Siftan.UnitTests
     {
       // Arrange
       IStreamReader mockReader = this.CreateMockReaderInstance(lines);
-      DelimitedRecordDescriptor descriptor = this.CreateDelimitedRecordDescriptor();
+      DelimitedRecordDescriptor descriptor = this.CreateDelimitedRecordDescriptor(",", '\0', 0, "H");
       DelimitedRecordReader reader = new DelimitedRecordReader(mockReader, descriptor);
 
       // Act
@@ -50,12 +50,34 @@ namespace Siftan.UnitTests
     [TestCase(0, 29, "H,A,B,C", "L1,A,B,C", "L2,A,B,C", "H,D,E,F")]
     [TestCase(9, 16, "0,A,B,C", "H,A,B,C")]
     [TestCase(9, 26, "0,A,B,C", "H,A,B,C", "L1,A,B,C")]
-    [TestCase(0, 16, "H,A,B,C", "0,A,B,C")]
+    [TestCase(0, 17, "H,A,B,C", "L1,A,B,C")]
+    [TestCase(0, 25, "H,A,B,C", "L1,A,B,C", ",D,E,F")] // Next record is missing the "H" line id
     public void ReadRecord_GoodRecordData_ReturnsRecord(Int64 recordStart, Int64 recordEnd, params String [] lines)
     {
       // Arrange
       IStreamReader mockReader = this.CreateMockReaderInstance(lines);
-      DelimitedRecordDescriptor descriptor = this.CreateDelimitedRecordDescriptor();
+      DelimitedRecordDescriptor descriptor = this.CreateDelimitedRecordDescriptor(",", '\0', 0, "H");
+      DelimitedRecordReader reader = new DelimitedRecordReader(mockReader, descriptor);
+
+      // Act
+      Record record = reader.ReadRecord();
+
+      // Assert
+      record.Should().NotBeNull();
+      record.Start.Should().Be(recordStart);
+      record.End.Should().Be(recordEnd);
+    }
+
+    [Test]
+    [TestCase(0, 17, 0, "|H,1|,|A|,|B|,|C|")]
+    [TestCase(0, 17, 1, "|A|,|H,1|,|B|,|C|")]
+    [TestCase(0, 17, 2, "|A|,|B|,|H,1|,|C|")]
+    [TestCase(0, 17, 3, "|A|,|C|,|B|,|H,1|")]
+    public void ReadRecord_LineContainsQualifiers_ReturnsRecord(Int64 recordStart, Int64 recordEnd, Int32 lineIdIndex, String recordLine)
+    {
+      // Arrange
+      IStreamReader mockReader = this.CreateMockReaderInstanceFromStrings(recordLine);
+      DelimitedRecordDescriptor descriptor = this.CreateDelimitedRecordDescriptor(",", '|', (UInt32)lineIdIndex, "H,1");
       DelimitedRecordReader reader = new DelimitedRecordReader(mockReader, descriptor);
 
       // Act
@@ -105,6 +127,11 @@ namespace Siftan.UnitTests
       mockReader.EndOfStream.Should().Be(true);
     }
 
+    private IStreamReader CreateMockReaderInstanceFromStrings(params String[] fileLines)
+    {
+      return this.CreateMockReaderInstance(fileLines);
+    }
+
     private IStreamReader CreateMockReaderInstance(String[] fileLines)
     {
       fileLines.VerifyThatArrayIsNotNullAndNotEmpty("Parameter 'fileLines' is null or empty.");
@@ -147,14 +174,14 @@ namespace Siftan.UnitTests
       return mockReader;
     }
 
-    private DelimitedRecordDescriptor CreateDelimitedRecordDescriptor()
+    private DelimitedRecordDescriptor CreateDelimitedRecordDescriptor(String delimiter, Char qualifier, UInt32 lineIDIndex, String headerId)
     {
       return new DelimitedRecordDescriptor
       {
-        Delimiter = ",",
-        Qualifier = "\"",
-        LineIDIndex = 0,
-        HeaderID = "H"
+        Delimiter = delimiter,
+        Qualifier = qualifier,
+        LineIDIndex = lineIDIndex,
+        HeaderID = headerId
       };
     }
     #endregion

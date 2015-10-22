@@ -11,11 +11,11 @@ namespace Siftan
   {
     public String Delimiter;
 
-    public String Qualifier;
+    public Char Qualifier;
 
     public String HeaderID;
 
-    public Int32 LineIDIndex;
+    public UInt32 LineIDIndex;
 
     public SearchDefinition[] SearchDefinitions;
 
