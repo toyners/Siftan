@@ -3,6 +3,7 @@
 open NUnit.Framework
 open Siftan
 open Jabberwocky.Toolkit.IO
+open Foq
 
 module ``InListExpression UnitTests`` =
 
@@ -49,17 +50,33 @@ module ``InListExpression UnitTests`` =
     let CreateMockReaderInstance(fileLines: string[]) =
         VerifyArrayIsNotEmpty(fileLines, "Parameter 'fileLines' is null or empty.")
 
-        let position = 0
-        let fileLineIndex = 0
-        ignore
-        (*let MockReader(fileLines: string[]) =
-        {
-            new IStreamReader with 
-                member this.EndOfStream = 
-                    fileLineIndex = fileLines.Length
-                //member this.ReadLine() = 
-                    
-        }
+        let mutable position = 0L
+        let mutable fileLineIndex = 0
 
-        let obj2 = MockReader([|"ben"|])*)
+        Mock<IStreamReader>()
+            .Setup(fun x -> <@ x.EndOfStream @>).Returns(fun() -> fileLineIndex = fileLines.Length)
+            .Setup(fun x -> <@ x.Position @>).Returns(position)
+            .Setup(fun x -> <@ x.ReadLine() @>).Returns(fun() -> 
+                if fileLineIndex = fileLines.Length then
+                    ()
+                    
+                position <- position + int64 fileLines.[fileLineIndex].Length
+                let result = fileLines.[fileLineIndex]
+                fileLineIndex <- fileLineIndex + 1
+                if fileLineIndex < fileLines.Length then
+                    position <- position + 2L
+                result
+            )
+            .Create()
+
+    [<Test>]
+    let ``Mock file reader with one line``() =
+        let reader = CreateMockReaderInstance [|"First Line"|]
+
+        Assert.AreEqual(reader.EndOfStream, false)
+        Assert.AreEqual(reader.Position, 0L)
+        Assert.AreEqual(reader.ReadLine(), "First Line")
+        Assert.AreEqual(reader.EndOfStream, true)
+        Assert.AreEqual(reader.Position, "First Line".Length)
+
         

@@ -9,10 +9,11 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Siftan.FUnitTests</RootNamespace>
     <AssemblyName>Siftan.FUnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Name>Siftan.FUnitTests</Name>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,8 +77,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Siftan\Siftan.csproj">
       <Name>Siftan</Name>
       <Project>{4ad46b0c-edcc-4be6-94cf-a586a33f50c3}</Project>
