@@ -10,7 +10,7 @@
     <RootNamespace>Siftan.FUnitTests</RootNamespace>
     <AssemblyName>Siftan.FUnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Name>Siftan.FUnitTests</Name>
     <TargetFrameworkProfile />
@@ -56,18 +56,28 @@
     <None Include="Script.fsx" />
     <Content Include="packages.config" />
     <None Include="Foq.Usage.fsx" />
+    <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">
       <HintPath>..\packages\Foq.1.7.1\Lib\net45\Foq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Jabberwocky.Toolkit">
+    <Reference Include="FsUnit.NUnit">
+      <HintPath>..\packages\FsUnit.1.4.0.0\lib\net45\FsUnit.NUnit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Jabberwocky.Toolkit, Version=1.0.0.8, Culture=neutral, PublicKeyToken=8994d5f40ad2f5fb">
       <HintPath>..\packages\Jabberwocky.Toolkit.1.0.0.8\lib\net45\Jabberwocky.Toolkit.dll</HintPath>
       <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHamcrest">
+      <HintPath>..\packages\FsUnit.1.4.0.0\lib\net45\NHamcrest.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework">

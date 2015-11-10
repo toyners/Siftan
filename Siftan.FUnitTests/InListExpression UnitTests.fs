@@ -4,6 +4,7 @@ open NUnit.Framework
 open Siftan
 open Jabberwocky.Toolkit.IO
 open Foq
+open FsUnit
 
 module ``InListExpression UnitTests`` =
 
@@ -42,41 +43,73 @@ module ``InListExpression UnitTests`` =
         if fileLines = null || fileLines.Length = 0 then
             raise (System.Exception(exceptionMessage))
 
-    (*let MockReader(fileLines: string[]) =
-    {
-        new IStreamReader with member x.EndOfStream = 
-    }*)
+    let CreateMockReader(fileLines: string[]) =
+        let mutable fileLineIndex = 0
+
+        {
+            new Jabberwocky.Toolkit.IO.IStreamReader with
+            
+                member this.Position
+                    with get() = 
+                        let mutable position = 0
+                        for i = 0 to fileLineIndex - 1 do
+                            position <- position + fileLines.[i].Length
+
+                        if fileLineIndex > 0 then
+                            position <- position + (2 * (fileLineIndex - 1))
+
+                        int64 position
+                    and set(v: int64) = ()
+
+                member this.EndOfStream = 
+                    fileLineIndex = fileLines.Length
+
+                member this.ReadLine() =
+                    let result = fileLines.[fileLineIndex]
+                    fileLineIndex <- fileLineIndex + 1
+                    result
+
+                member this.Close() = ()
+
+                member this.Dispose() = ()
+        }
 
     let CreateMockReaderInstance(fileLines: string[]) =
         VerifyArrayIsNotEmpty(fileLines, "Parameter 'fileLines' is null or empty.")
 
-        let mutable position = 0L
         let mutable fileLineIndex = 0
 
         Mock<IStreamReader>()
             .Setup(fun x -> <@ x.EndOfStream @>).Returns(fun() -> fileLineIndex = fileLines.Length)
-            .Setup(fun x -> <@ x.Position @>).Returns(position)
+            .Setup(fun x -> <@ x.Position @>).Returns(fun() ->
+                let mutable position = 0
+                for i = 0 to fileLineIndex - 1 do
+                    position <- position + fileLines.[i].Length
+
+                if fileLineIndex > 0 then
+                    position <- position + (2 * (fileLineIndex - 1))
+
+                int64 position
+            )
             .Setup(fun x -> <@ x.ReadLine() @>).Returns(fun() -> 
                 if fileLineIndex = fileLines.Length then
                     ()
                     
-                position <- position + int64 fileLines.[fileLineIndex].Length
                 let result = fileLines.[fileLineIndex]
                 fileLineIndex <- fileLineIndex + 1
-                if fileLineIndex < fileLines.Length then
-                    position <- position + 2L
                 result
             )
             .Create()
 
     [<Test>]
     let ``Mock file reader with one line``() =
-        let reader = CreateMockReaderInstance [|"First Line"|]
+        let reader = CreateMockReader [|"First Line"|]
 
-        Assert.AreEqual(reader.EndOfStream, false)
-        Assert.AreEqual(reader.Position, 0L)
-        Assert.AreEqual(reader.ReadLine(), "First Line")
-        Assert.AreEqual(reader.EndOfStream, true)
-        Assert.AreEqual(reader.Position, "First Line".Length)
+        reader.EndOfStream |> should be False
+        reader.Position |> should equal 0
+
+        reader.ReadLine() |> should equal "First Line"
+        reader.EndOfStream |> should be True
+        reader.Position |> should equal "First Line".Length
 
         
