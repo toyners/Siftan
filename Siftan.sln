@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan", "Siftan\Siftan.csproj", "{4AD46B0C-EDCC-4BE6-94CF-A586A33F50C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.UnitTests", "Siftan.UnitTests\Siftan.UnitTests.csproj", "{C0542F39-119A-4600-848C-41327039D202}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan_Console", "Siftan_Console\Siftan_Console.csproj", "{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Siftan.FUnitTests", "Siftan.FUnitTests\Siftan.FUnitTests.fsproj", "{2A7F0A62-886B-42A0-99B4-C3A66AA84317}"
@@ -21,10 +19,6 @@ Global
 		{4AD46B0C-EDCC-4BE6-94CF-A586A33F50C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AD46B0C-EDCC-4BE6-94CF-A586A33F50C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AD46B0C-EDCC-4BE6-94CF-A586A33F50C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0542F39-119A-4600-848C-41327039D202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0542F39-119A-4600-848C-41327039D202}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0542F39-119A-4600-848C-41327039D202}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0542F39-119A-4600-848C-41327039D202}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
