@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan", "Siftan\Siftan.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan_Console", "Siftan_Console\Siftan_Console.csproj", "{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Siftan.FUnitTests", "Siftan.FUnitTests\Siftan.FUnitTests.fsproj", "{2A7F0A62-886B-42A0-99B4-C3A66AA84317}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Siftan.UnitTests", "Siftan.UnitTests\Siftan.UnitTests.fsproj", "{51FE39EA-EED9-403E-941F-3CAB90B1F26A}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A7F0A62-886B-42A0-99B4-C3A66AA84317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A7F0A62-886B-42A0-99B4-C3A66AA84317}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A7F0A62-886B-42A0-99B4-C3A66AA84317}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A7F0A62-886B-42A0-99B4-C3A66AA84317}.Release|Any CPU.Build.0 = Release|Any CPU
 		{51FE39EA-EED9-403E-941F-3CAB90B1F26A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{51FE39EA-EED9-403E-941F-3CAB90B1F26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51FE39EA-EED9-403E-941F-3CAB90B1F26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
