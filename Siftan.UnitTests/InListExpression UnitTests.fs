@@ -5,9 +5,9 @@ open Siftan
 open Jabberwocky.Toolkit.IO
 open FsUnit
 
-module ``InListExpression UnitTests`` = ()
+module ``InListExpression UnitTests`` =
 
-(*    [<Test>]
+    [<Test>]
     [<TestCase("A", true)>]
     [<TestCase("C", false)>]
     let ``IsMatch returns expected result for different terms``(term: string, expectedResult: bool) =
@@ -35,4 +35,4 @@ module ``InListExpression UnitTests`` = ()
         exp.HasReachedMatchQuota |> should be False
 
         exp.IsMatch(Record(Term = "C")) |> ignore
-        exp.HasReachedMatchQuota |> should equal expectedResult*)
+        exp.HasReachedMatchQuota |> should equal expectedResult

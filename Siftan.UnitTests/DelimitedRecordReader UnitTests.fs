@@ -7,9 +7,9 @@ open FsUnit
 open System
 //open Foq
 
-module ``DelimitedRecordReader UnitTests`` = ()
+module ``DelimitedRecordReader UnitTests`` =
 
-(*    let CreateMockReader(fileLines: string[]) =
+    let CreateMockReader(fileLines: string[]) =
         let mutable fileLineIndex = 0
 
         {
@@ -148,7 +148,7 @@ module ``DelimitedRecordReader UnitTests`` = ()
         record.Start |> should equal recordStart
         record.End |> should equal recordEnd
 
-    
+    (*
     let CreateMockReaderInstance(fileLines: string[]) =
         let mutable fileLineIndex = 0
 
@@ -173,5 +173,4 @@ module ``DelimitedRecordReader UnitTests`` = ()
                 result
             )
             .Create()
-    
-*)
+    *)
