@@ -38,7 +38,6 @@ namespace Siftan
     public Record ReadRecord()
     {
       Record record = null;
-      String[] seperator = new [] { descriptor.Delimiter };
       while (!this.streamReader.EndOfStream)
       {
         Int64 position = this.streamReader.Position;
