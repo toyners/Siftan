@@ -1,22 +1,32 @@
 ﻿
 namespace Siftan
 {
+  using System;
+  using Jabberwocky.Toolkit.IO;
+
   public class Engine
   {
     #region Methods
-    public void Execute(IRecordReader recordReader, IRecordMatchExpression expression, WriteRecordDelegate writeMatchedRecord, WriteRecordDelegate writeUnmatchedRecord)
+    public void Execute(String[] filePaths, IRecordReader recordReader, IRecordMatchExpression expression, IRecordWriter recordWriter)
     {
-      Record record;
-      while (!expression.HasReachedMatchQuota && (record = recordReader.ReadRecord()) != null)
+      foreach (String filePath in filePaths)
       {
-        if (expression.IsMatch(record))
+        FileReader fileReader = new FileReader(filePath);
+
+        Record record;
+        while (!expression.HasReachedMatchQuota && (record = recordReader.ReadRecord(fileReader)) != null)
         {
-          writeMatchedRecord(record);
+          if (expression.IsMatch(record))
+          {
+            recordWriter.WriteRecord(fileReader, record);
+          }
+          else if (recordWriter.Mode == RecordWriterModes.Unmatched)
+          {
+            recordWriter.WriteRecord(fileReader, record);
+          }
         }
-        else if (writeUnmatchedRecord != null)
-        {
-          writeUnmatchedRecord(record);
-        }
+
+        fileReader.Close();
       }
     }
     #endregion

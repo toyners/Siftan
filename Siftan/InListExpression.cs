@@ -48,10 +48,6 @@ namespace Siftan
     public Boolean HasReachedMatchQuota { get; protected set; }
     #endregion
 
-    #region Events
-    public event WriteRecordDelegate WriteRecordToFile;
-    #endregion
-
     #region Methods
     public Boolean IsMatch(Record record)
     {
@@ -71,8 +67,6 @@ namespace Siftan
         return false;
       }
 
-      this.WriteMatchedRecord(record);
-
       if (this.matchQuota == MatchQuotas.FirstMatchInList)
       {
         this.HasReachedMatchQuota = true;
@@ -84,14 +78,6 @@ namespace Siftan
       }
 
       return true;
-    }
-
-    private void WriteMatchedRecord(Record record)
-    {
-      if (this.WriteRecordToFile!= null)
-      {
-        this.WriteRecordToFile(record);
-      }
     }
     #endregion
 

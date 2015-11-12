@@ -101,8 +101,8 @@ module ``DelimitedRecordReader UnitTests`` =
     let ``No recognisable record so null is returned``(fileLines) =
         let fileReader = CreateMockReader fileLines
         // The new keyword is used to stop the warning about readability when creating a type that implements IDisposable
-        let recordReader = new DelimitedRecordReader(fileReader, CreateSimpleRecordDescriptor) 
-        recordReader.ReadRecord() |> should equal null
+        let recordReader = new DelimitedRecordReader(CreateSimpleRecordDescriptor) 
+        recordReader.ReadRecord(fileReader) |> should equal null
 
     [<Test>]
     [<TestCase(0, 7,  [|"H,A,B,C"|])>]
@@ -117,10 +117,10 @@ module ``DelimitedRecordReader UnitTests`` =
         // Arrange
         let fileReader = CreateMockReader fileLines
         // The new keyword is used to stop the warning about readability when instantiating a type that implements IDisposable
-        let recordReader = new DelimitedRecordReader(fileReader, CreateSimpleRecordDescriptor)
+        let recordReader = new DelimitedRecordReader(CreateSimpleRecordDescriptor)
 
         // Act
-        let record = recordReader.ReadRecord()
+        let record = recordReader.ReadRecord(fileReader)
 
         // Assert
         record |> should not' (equal null)
@@ -138,10 +138,10 @@ module ``DelimitedRecordReader UnitTests`` =
         let fileLines = fileLine.Split([|'\000'|], StringSplitOptions.RemoveEmptyEntries)
         let fileReader = CreateMockReader fileLines
         // The new keyword is used to stop the warning about readability when instantiating a type that implements IDisposable
-        let recordReader = new DelimitedRecordReader(fileReader, CreateQualifiedRecordDescriptor lineIDIndex)
+        let recordReader = new DelimitedRecordReader(CreateQualifiedRecordDescriptor lineIDIndex)
 
         // Act
-        let record = recordReader.ReadRecord()
+        let record = recordReader.ReadRecord(fileReader)
 
         // Assert
         record |> should not' (equal null)
