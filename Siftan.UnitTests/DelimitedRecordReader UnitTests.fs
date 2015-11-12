@@ -31,6 +31,8 @@ module ``DelimitedRecordReader UnitTests`` =
                 member this.EndOfStream = 
                     fileLineIndex = fileLines.Length
 
+                member this.Name = "file"
+
                 member this.ReadLine() =
                     let result = fileLines.[fileLineIndex]
                     fileLineIndex <- fileLineIndex + 1
