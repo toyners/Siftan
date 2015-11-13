@@ -5,92 +5,86 @@ namespace Siftan
   using System.IO;
   using Jabberwocky.Toolkit.IO;
 
-  public enum RecordWriterModes
-  {
-    OutputFile,
-    InputFile,
-    TermFile,
-    Unmatched
-  }
-
   public interface IRecordWriter
   {
-    RecordWriterModes Mode { get; set; }
+    void WriteMatchedRecord(IStreamReader reader, Record record);
 
-    String OutputDirectory { get; set; }
-
-    String InputFile { get;  set; }
-
-    void WriteRecord(IStreamReader reader, Record record);
+    void WriteUnmatchedRecord(IStreamReader reader, Record record);
   }
 
-  public class RecordWriter : IRecordWriter
+  public static class RecordWriteOperations
   {
-    #region Fields
-    private StreamWriter writer;
-
-    private RecordWriterModes mode;
-    #endregion
-
-    #region Properties
-    public Boolean IsOpen
-    {
-      get { return this.writer != null; }
-    }
-
-    public RecordWriterModes Mode
-    {
-      get { return this.mode; }
-      set
-      {
-        this.mode = value;
-      }
-    }
-
-    public String OutputDirectory
-    {
-      get; set;
-    }
-
-    public String InputFile
-    {
-      get; set;
-    }
-    #endregion
-
-    #region Methods
-    public void WriteRecord(IStreamReader reader, Record record)
-    {
-      if (!this.IsOpen)
-      {
-        throw new Exception("Writer is not open.");
-      }
-
-      this.WriteRecordToFile(reader, record);
-    }
-
-    public void Close()
-    {
-      if (!this.IsOpen)
-      {
-        return;
-      }
-
-      this.writer.Close();
-      this.writer = null;
-    }
-
-    private void WriteRecordToFile(IStreamReader reader, Record record)
+    public static void WriteRecordToStream(StreamWriter writer, IStreamReader reader, Record record)
     {
       Int64 position = reader.Position;
 
       reader.Position = record.Start;
       while (reader.Position < record.End)
       {
-        this.writer.WriteLine(reader.ReadLine());
+        writer.WriteLine(reader.ReadLine());
       }
 
       reader.Position = position;
+    }
+  }
+
+  // TODO: Better name
+  public class RecordWriter
+  {
+    #region Fields
+    private String matchedFilePath;
+
+    private String unmatchedFilePath;
+
+    private StreamWriter matchedWriter;
+
+    private StreamWriter unmatchedWriter;
+    #endregion
+
+    #region Construction
+    public RecordWriter(String matchedFilePath, String unmatchedFilePath)
+    {
+      this.matchedFilePath = matchedFilePath;
+      this.unmatchedFilePath = unmatchedFilePath;
+
+      // TODO: Should check that the paths are legal.
+    }
+    #endregion
+
+    #region Methods
+    public void WriteMatchedRecord(IStreamReader reader, Record record)
+    {
+      if (this.matchedWriter == null)
+      {
+        this.matchedWriter = new StreamWriter(this.matchedFilePath);
+      }
+
+      RecordWriteOperations.WriteRecordToStream(this.matchedWriter, reader, record);
+    }
+
+    public void WriteUnmatchedRecord(IStreamReader reader, Record record)
+    {
+      if (this.unmatchedWriter == null)
+      {
+        this.unmatchedWriter = new StreamWriter(this.unmatchedFilePath);
+      }
+
+      RecordWriteOperations.WriteRecordToStream(this.matchedWriter, reader, record);
+    }
+
+    public void Close()
+    {
+      if (this.matchedWriter != null)
+      {
+        this.matchedWriter.Close();
+        this.matchedWriter = null;
+      }
+
+      if (this.unmatchedWriter != null)
+      {
+        this.unmatchedWriter.Close();
+        this.unmatchedWriter = null;
+      }
     }
     #endregion
   }
