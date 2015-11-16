@@ -28,22 +28,28 @@ namespace Siftan
       {
         Int64 position = streamReader.Position;
         String line = streamReader.ReadLine();
-        String lineIDTerm = line.ExtractField(descriptor.Delimiter, descriptor.Qualifier, descriptor.LineIDIndex);
+        String lineIDTerm = line.ExtractField(this.descriptor.Delimiter, this.descriptor.Qualifier, this.descriptor.LineIDIndex);
 
-        if (lineIDTerm != descriptor.HeaderID)
+        if (lineIDTerm == this.descriptor.HeaderID)
+        {
+          if (record == null)
+          {
+            record = new Record { Start = position };
+          }
+          else
+          {
+            record.End = position;
+            return record;
+          }
+        }
+
+        if (lineIDTerm != this.descriptor.DelimitedTerm.LineID)
         {
           continue;
         }
 
-        if (record == null)
-        {
-          record = new Record { Start = position };
-          continue;
-        }
-
-        record.End = position;
-        return record;
-      };
+        record.Term = line.ExtractField(this.descriptor.Delimiter, this.descriptor.Qualifier, this.descriptor.DelimitedTerm.Index);
+      }
 
       if (record != null)
       {

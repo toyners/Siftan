@@ -20,7 +20,8 @@ namespace Siftan_Console
         Delimiter = "|",
         Qualifier = '\0',
         HeaderID = "01",
-        LineIDIndex = 0
+        LineIDIndex = 0,
+        DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition("01", 3)
       };
 
       DelimitedRecordReader delimitedReader = new DelimitedRecordReader(recordDescriptor);
@@ -31,7 +32,9 @@ namespace Siftan_Console
 
       Engine engine = new Engine();
 
-      engine.Execute(new[] { @"C:\C#\Siftan\Testdata.txt" }, null, delimitedReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
+      engine.Execute(new[] { @"C:\C#\Siftan\Testdata.txt" }, new FileReaderFactory(), delimitedReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
+
+      recordWriter.Close();
     }
   }
 }

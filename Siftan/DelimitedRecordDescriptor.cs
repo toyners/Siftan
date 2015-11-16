@@ -13,13 +13,19 @@ namespace Siftan
 
     public UInt32 LineIDIndex;
 
-    public SearchDefinition[] SearchDefinitions;
+    public TermDefinition DelimitedTerm;
 
-    public struct SearchDefinition
+    public struct TermDefinition
     {
-      String LineID;
+      public readonly String LineID;
 
-      Int32 Index;
+      public readonly UInt32 Index;
+
+      public TermDefinition(String lineID, UInt32 index)
+      {
+        LineID = lineID;
+        Index = index;
+      }
     }
   }
 }

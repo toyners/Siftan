@@ -45,7 +45,7 @@ namespace Siftan
         this.unmatchedWriter = new StreamWriter(this.unmatchedFilePath);
       }
 
-      StreamWriteOperations.WriteRecordToStream(this.matchedWriter, reader, record);
+      StreamWriteOperations.WriteRecordToStream(this.unmatchedWriter, reader, record);
     }
 
     public void Close()

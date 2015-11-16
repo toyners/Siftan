@@ -106,3 +106,21 @@ module public ``DelimitedRecordReader UnitTests`` =
         record |> should not' (equal null)
         record.Start |> should equal recordStart
         record.End |> should equal recordEnd
+
+    [<Test>]
+    [<TestCase("H", 0u, "H")>]
+    [<TestCase("H", 1u, "A")>]
+    [<TestCase("L1", 3u, "F")>]
+    [<TestCase("L2", 2u, "H")>]
+    let ``Term property set to expected value from record``(lineID: string, termIndex: uint32, expectedResult: string) =
+        // Arrange
+        let fileReader = CreateMockReader [|"H,A,B,C"; "L1,D,E,F"; "L2,G,H,I"|]
+        let recordReader = new DelimitedRecordReader(CreateCompleteRecordDescriptor 0u lineID termIndex)
+
+        // Act
+        let record = recordReader.ReadRecord(fileReader)
+
+        // Assert
+        record |> should not' (equal null)
+        record.Term |> should equal expectedResult
+
