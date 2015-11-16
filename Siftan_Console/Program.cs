@@ -27,11 +27,11 @@ namespace Siftan_Console
 
       InListExpression expression = new InListExpression(new []{ "12345" });
 
-      RecordWriter recordWriter = new RecordWriter(@"C:\C#\Siftan\Test output\matched.txt", @"C:\C#\Siftan\Test output\unmatched.txt");
+      OneFileRecordWriter recordWriter = new OneFileRecordWriter(@"C:\C#\Siftan\Test output\matched.txt", @"C:\C#\Siftan\Test output\unmatched.txt");
 
       Engine engine = new Engine();
 
-      engine.Execute(new[] { @"C:\C#\Siftan\Testdata.txt" }, null, delimitedReader, expression, recordWriter.WriteMatchedRecord, null);
+      engine.Execute(new[] { @"C:\C#\Siftan\Testdata.txt" }, null, delimitedReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
     }
   }
 }

@@ -31,7 +31,7 @@ namespace Siftan
     {
       foreach (String filePath in filePaths)
       {
-        FileReader fileReader = new FileReader(filePath);
+        IStreamReader fileReader = streamReaderFactory.CreateStreamReader(filePath);
 
         Record record;
         while (!expression.HasReachedMatchQuota && (record = recordReader.ReadRecord(fileReader)) != null)
@@ -50,7 +50,7 @@ namespace Siftan
     {
       foreach (String filePath in filePaths)
       {
-        FileReader fileReader = new FileReader(filePath);
+        IStreamReader fileReader = streamReaderFactory.CreateStreamReader(filePath);
 
         Record record;
         while (!expression.HasReachedMatchQuota && (record = recordReader.ReadRecord(fileReader)) != null)
@@ -71,7 +71,8 @@ namespace Siftan
     {
       foreach (String filePath in filePaths)
       {
-        FileReader fileReader = new FileReader(filePath);
+        IStreamReader fileReader = streamReaderFactory.CreateStreamReader(filePath);
+
         Record record;
         while ((record = recordReader.ReadRecord(fileReader)) != null)
         {

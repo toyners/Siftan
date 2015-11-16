@@ -46,12 +46,13 @@
     <Compile Include="DelimitedRecordDescriptor.cs" />
     <Compile Include="DelimitedRecordReader.cs" />
     <Compile Include="Engine.cs" />
-    <Compile Include="IInterface.cs" />
+    <Compile Include="OneFileRecordWriter.cs" />
     <Compile Include="InListExpression.cs" />
     <Compile Include="IRecordMatchExpression.cs" />
     <Compile Include="IRecordReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Record.cs" />
+    <Compile Include="StreamWriteOperations.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
