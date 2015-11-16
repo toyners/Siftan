@@ -1,4 +1,4 @@
-﻿namespace Siftan.FUnitTests
+﻿namespace Siftan.UnitTests
 
 open NUnit.Framework
 open Siftan

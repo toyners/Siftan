@@ -7,19 +7,19 @@ namespace Siftan
   public class Engine
   {
     #region Methods
-    public void Execute(String[] filePaths, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeMatchedRecordMethod, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
+    public void Execute(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeMatchedRecordMethod, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
     {
       if (writeMatchedRecordMethod != null && writeUnmatchedRecordMethod != null)
       {
-        this.SelectMatchedAndUnmatchedRecords(filePaths, recordReader, expression, writeMatchedRecordMethod, writeUnmatchedRecordMethod);
+        this.SelectMatchedAndUnmatchedRecords(filePaths, streamReaderFactory, recordReader, expression, writeMatchedRecordMethod, writeUnmatchedRecordMethod);
       }
       else if (writeMatchedRecordMethod != null)
       {
-        this.SelectMatchedRecordsOnly(filePaths, recordReader, expression, writeMatchedRecordMethod);
+        this.SelectMatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, writeMatchedRecordMethod);
       }
       else if (writeUnmatchedRecordMethod != null)
       {
-        this.SelectUnmatchedRecordsOnly(filePaths, recordReader, expression, writeUnmatchedRecordMethod);
+        this.SelectUnmatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, writeUnmatchedRecordMethod);
       }
       else
       {
@@ -27,7 +27,7 @@ namespace Siftan
       }
     }
 
-    private void SelectMatchedRecordsOnly(String[] filePaths, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeRecordMethod)
+    private void SelectMatchedRecordsOnly(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeRecordMethod)
     {
       foreach (String filePath in filePaths)
       {
@@ -46,7 +46,7 @@ namespace Siftan
       }
     }
 
-    private void SelectMatchedAndUnmatchedRecords(String[] filePaths, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeMatchedRecordMethod, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
+    private void SelectMatchedAndUnmatchedRecords(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeMatchedRecordMethod, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
     {
       foreach (String filePath in filePaths)
       {
@@ -67,7 +67,7 @@ namespace Siftan
       }
     }
 
-    private void SelectUnmatchedRecordsOnly(String[] filePaths, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
+    private void SelectUnmatchedRecordsOnly(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
     {
       foreach (String filePath in filePaths)
       {

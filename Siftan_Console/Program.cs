@@ -31,7 +31,7 @@ namespace Siftan_Console
 
       Engine engine = new Engine();
 
-      engine.Execute(new[] { @"C:\C#\Siftan\Testdata.txt" }, delimitedReader, expression, recordWriter.WriteMatchedRecord, null);
+      engine.Execute(new[] { @"C:\C#\Siftan\Testdata.txt" }, null, delimitedReader, expression, recordWriter.WriteMatchedRecord, null);
     }
   }
 }
