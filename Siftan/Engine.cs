@@ -64,6 +64,8 @@ namespace Siftan
             writeUnmatchedRecordMethod(fileReader, record);
           }
         }
+
+        fileReader.Close();
       }
     }
 
@@ -81,6 +83,8 @@ namespace Siftan
             writeUnmatchedRecordMethod(fileReader, record);
           }
         }
+
+        fileReader.Close();
       }
     }
     #endregion

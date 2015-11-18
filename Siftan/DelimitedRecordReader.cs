@@ -39,6 +39,7 @@ namespace Siftan
           else
           {
             record.End = position;
+            streamReader.Position = position;
             return record;
           }
         }
