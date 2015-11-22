@@ -57,6 +57,7 @@
     <Compile Include="DelimitedRecordReader UnitTests.fs" />
     <None Include="Foq.Usage.fsx" />
     <Content Include="packages.config" />
+    <Compile Include="Options UnitTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">
