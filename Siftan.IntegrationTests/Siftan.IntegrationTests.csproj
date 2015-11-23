@@ -38,8 +38,8 @@
       <HintPath>..\packages\FluentAssertions.4.0.1\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Jabberwocky.Toolkit, Version=1.0.2.1, Culture=neutral, PublicKeyToken=8994d5f40ad2f5fb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jabberwocky.Toolkit.1.0.2.1\lib\net45\Jabberwocky.Toolkit.dll</HintPath>
+    <Reference Include="Jabberwocky.Toolkit, Version=1.0.2.2, Culture=neutral, PublicKeyToken=8994d5f40ad2f5fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jabberwocky.Toolkit.1.0.2.2\lib\net45\Jabberwocky.Toolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">

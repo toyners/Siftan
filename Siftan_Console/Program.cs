@@ -9,26 +9,44 @@ namespace Siftan_Console
   {
     public static void Main(String[] args)
     {
-      FileReader fileReader = new FileReader(@"C:\C#\Siftan\testdata.txt");
+      Options options = new Options(args);
 
-      DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
+      String[] inputFilePaths = new[] { @"C:\C#\Siftan\Testdata.txt" };
+
+      IRecordReader recordReader = null;
+      if (options.Delimited != null)
       {
-        Delimiter = "|",
-        Qualifier = '\0',
-        HeaderID = "01",
-        LineIDIndex = 0,
-        DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition("01", 3)
-      };
+        DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
+        {
+          Delimiter = options.Delimited.Delimiter,
+          Qualifier = options.Delimited.Qualifier,
+          HeaderID = options.Delimited.HeaderLineID,
+          LineIDIndex = options.Delimited.LineIDIndex,
+          DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition(options.Delimited.TermLineID, options.Delimited.TermIndex)
+        };
 
-      DelimitedRecordReader delimitedReader = new DelimitedRecordReader(recordDescriptor);
+        recordReader = new DelimitedRecordReader(recordDescriptor);
+      }
+      else
+      {
+        // Set up fixed width record reader.
+      }
 
-      InListExpression expression = new InListExpression(new []{ "12345" });
+      IRecordMatchExpression expression = null;
+      if (options.InList.UseFile)
+      {
+        // Load file contents into in list expression.
+      }
+      else
+      {
+        expression = new InListExpression(options.InList.Values);
+      }
 
-      OneFileRecordWriter recordWriter = new OneFileRecordWriter(@"C:\C#\Siftan\Test output\matched.txt", @"C:\C#\Siftan\Test output\unmatched.txt");
+      OneFileRecordWriter recordWriter = new OneFileRecordWriter(options.Output.FileMatched, options.Output.FileUnmatched);
 
       Engine engine = new Engine();
 
-      engine.Execute(new[] { @"C:\C#\Siftan\Testdata.txt" }, new FileReaderFactory(), delimitedReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
+      engine.Execute(inputFilePaths, new FileReaderFactory(), recordReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
 
       recordWriter.Close();
     }

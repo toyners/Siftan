@@ -3,56 +3,90 @@ namespace Siftan
 {
   using System;
   using System.Collections;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
-  using System.Threading.Tasks;
 
   public class Options
   {
     #region Construction
     public Options(String[] args)
     {
+      if (args.Length == 0)
+      {
+        throw new Exception("No command line arguments.");
+      }
+
       Queue queue = new Queue(args);
 
-      String noun = queue.Dequeue() as String;
+      this.InputFiles = queue.Dequeue() as String;
 
-      switch (noun)
+      while (queue.Count > 0)
       {
-        case "delim":
-        {
-          this.Delimited = new DelimitedOptions(queue);
-          break;
-        }
+        String noun = queue.Dequeue() as String;
 
-        case "fixed":
+        switch (noun)
         {
-          this.FixedWidth = new FixedWidthOptions(queue);
-          break;
-        }
+          case "delim":
+          {
+            this.Delimited = new DelimitedOptions(queue);
+            break;
+          }
 
-        case "inlist":
-        {
-          this.InList = new InListOptions(queue);
-          break;
-        }
+          case "fixed":
+          {
+            this.FixedWidth = new FixedWidthOptions(queue);
+            break;
+          }
 
-        default:
-        {
-          throw new Exception("No recognised noun found in command line arguments.");
+          case "inlist":
+          {
+            this.InList = new InListOptions(queue);
+            break;
+          }
+
+          case "output":
+          {
+            this.Output = new OutputOptions(queue);
+            break;
+          }
+
+          default:
+          {
+            throw new Exception("No recognised noun found in command line arguments.");
+          }
         }
+      }
+
+      if (this.Delimited != null && this.FixedWidth != null)
+      {
+        throw new Exception("Cannot have both 'delim' and 'fixed' record descriptor terms.");
+      }
+
+      if (this.Delimited == null && this.FixedWidth == null)
+      {
+        throw new Exception("Missing required record descriptor term. Use either 'delim' or 'fixed'.");
+      }
+
+      if (this.InList == null)
+      {
+        throw new Exception("Missing required match descriptor term. Use 'inlist'.");
+      }
+
+      if (this.Output == null)
+      {
+        throw new Exception("Missing required output descriptor term. Use 'output'.");
       }
     }
     #endregion
 
-    #region Propertie
+    #region Properties
     public DelimitedOptions Delimited { get; private set; }
 
     public FixedWidthOptions FixedWidth { get; private set; }
 
     public InListOptions InList { get; private set; }
 
-    public String[] Files { get; private set; }
+    public OutputOptions Output { get; private set; }
+
+    public String InputFiles { get; private set; }
     #endregion
 
     #region Classes
@@ -323,6 +357,55 @@ namespace Siftan
       public InListExpression.MatchQuotas MatchQuota { get; private set; }
 
       public String FilePath { get; private set; }
+
+      public Boolean UseFile { get { return this.FilePath != null; } }
+      #endregion
+    }
+
+    public class OutputOptions
+    {
+      #region Construction
+      internal OutputOptions(Queue queue)
+      {
+        Boolean parsingComplete = false;
+        while (queue.Count > 0 && !parsingComplete)
+        {
+          String field = queue.Peek() as String;
+          switch (field)
+          {
+            case "-fm":
+            {
+              QueueOperations.DequeueArgument(queue);
+              this.FileMatched = QueueOperations.DequeueArgument(queue, "-fm");
+              break;
+            }
+
+            case "-fu":
+            {
+              QueueOperations.DequeueArgument(queue);
+              this.FileUnmatched = QueueOperations.DequeueArgument(queue, "-fu");
+              break;
+            }
+
+            default:
+            {
+              parsingComplete = true;
+              break;
+            }
+          }
+        }
+
+        if (this.FileMatched == null && this.FileUnmatched == null)
+        {
+          throw new Exception("Missing required file term. Use either '-fm' or '-fu' or both.");
+        }
+      }
+      #endregion
+
+      #region Properties
+      public String FileMatched { get; private set; }
+
+      public String FileUnmatched { get; private set; }
       #endregion
     }
     #endregion
