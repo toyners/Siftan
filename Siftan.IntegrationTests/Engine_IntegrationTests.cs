@@ -46,7 +46,7 @@ namespace Siftan.IntegrationTests
         };
         IRecordReader recordReader = new DelimitedRecordReader(recordDescriptor);
 
-        new Engine().Execute(new[] { testFilePath }, new FileReaderFactory(), recordReader, new InListExpression(new[] { "12345" }), matchedRecordMethod, unmatchedRecordMethod);
+        new Engine().Execute(new[] { testFilePath }, new FileReaderFactory(), recordReader, new InListExpression(new[] { "12345" }), null);
 
         matchedRecordTerm.Should().Be("12345");
         unmatchedRecordTerm.Should().Be("54321");

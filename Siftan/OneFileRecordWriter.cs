@@ -5,7 +5,7 @@ namespace Siftan
   using System.IO;
   using Jabberwocky.Toolkit.IO;
 
-  public class OneFileRecordWriter
+  public class OneFileRecordWriter : IRecordWriter
   {
     #region Fields
     private String matchedFilePath;
@@ -15,6 +15,11 @@ namespace Siftan
     private StreamWriter matchedWriter;
 
     private StreamWriter unmatchedWriter;
+
+    public RecordCategory Categories
+    {
+      get; set;
+    }
     #endregion
 
     #region Construction

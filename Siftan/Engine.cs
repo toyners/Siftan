@@ -4,12 +4,30 @@ namespace Siftan
   using System;
   using Jabberwocky.Toolkit.IO;
 
+  [Flags]
+  public enum RecordCategory
+  {
+    Matched,
+    Unmatched
+  }
+
+  public interface IRecordWriter
+  {
+    RecordCategory Categories { get; }
+
+    void WriteMatchedRecord(IStreamReader reader, Record record);
+
+    void WriteUnmatchedRecord(IStreamReader reader, Record record);
+
+    void Close();
+  }
+
   public class Engine
   {
     #region Methods
-    public void Execute(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeMatchedRecordMethod, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
+    public void Execute(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, IRecordWriter recordWriter)
     {
-      if (writeMatchedRecordMethod != null && writeUnmatchedRecordMethod != null)
+      /*if (writeMatchedRecordMethod != null && writeUnmatchedRecordMethod != null)
       {
         this.SelectMatchedAndUnmatchedRecords(filePaths, streamReaderFactory, recordReader, expression, writeMatchedRecordMethod, writeUnmatchedRecordMethod);
       }
@@ -24,7 +42,7 @@ namespace Siftan
       else
       {
         throw new Exception("No write methods passed in."); // TODO - better message.
-      }
+      }*/
     }
 
     private void SelectMatchedRecordsOnly(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeRecordMethod)

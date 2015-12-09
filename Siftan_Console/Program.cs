@@ -46,7 +46,7 @@ namespace Siftan_Console
 
       Engine engine = new Engine();
 
-      engine.Execute(inputFilePaths, new FileReaderFactory(), recordReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
+      engine.Execute(inputFilePaths, new FileReaderFactory(), recordReader, expression, recordWriter);
 
       recordWriter.Close();
     }
