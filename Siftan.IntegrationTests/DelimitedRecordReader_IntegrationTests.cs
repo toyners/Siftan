@@ -19,6 +19,9 @@ namespace Siftan.IntegrationTests
       String testFilePath = null;
       try
       {
+        Int32 firstRecordEndPosition = "ï»¿01|Ben|Toynbee|12345|1.23  02|||12345||  03|||12345||  03|||12345||  05|||12345||  ".Length;
+        Int32 secondRecordEndPosition = firstRecordEndPosition + "01|Sid|Sample|54321|1.23  02|||54321||  03|||54321||  05|||54321||".Length;
+
         // Arrange
         testFilePath = Path.GetTempPath() + Path.GetRandomFileName();
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.IntegrationTests.TestFile.csv", testFilePath);
@@ -48,9 +51,9 @@ namespace Siftan.IntegrationTests
         firstRecord.Should().NotBeSameAs(secondRecord);
 
         firstRecord.Start.Should().Be(0);
-        firstRecord.End.Should().Be(83);
-        secondRecord.Start.Should().Be(83);
-        secondRecord.End.Should().Be(152);
+        firstRecord.End.Should().Be(firstRecordEndPosition);
+        secondRecord.Start.Should().Be(firstRecordEndPosition);
+        secondRecord.End.Should().Be(secondRecordEndPosition);
       }
       finally
       {

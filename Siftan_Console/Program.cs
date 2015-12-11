@@ -2,6 +2,7 @@
 namespace Siftan_Console
 {
   using System;
+  using System.IO;
   using Jabberwocky.Toolkit.IO;
   using Siftan;
 
@@ -44,9 +45,10 @@ namespace Siftan_Console
 
       OneFileRecordWriter recordWriter = new OneFileRecordWriter(options.Output.FileMatched, options.Output.FileUnmatched);
 
-      Engine engine = new Engine();
+      String logFilePath = inputFilePaths[0] + ".log";
 
-      engine.Execute(inputFilePaths, new FileReaderFactory(), recordReader, expression, recordWriter);
+      Engine engine = new Engine();
+      engine.Execute(inputFilePaths, logFilePath, new FileReaderFactory(), recordReader, expression, recordWriter);
 
       recordWriter.Close();
     }

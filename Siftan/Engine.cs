@@ -2,12 +2,13 @@
 namespace Siftan
 {
   using System;
+  using System.IO;
   using Jabberwocky.Toolkit.IO;
 
   [Flags]
   public enum RecordCategory
   {
-    Matched,
+    Matched = 1,
     Unmatched
   }
 
@@ -25,24 +26,40 @@ namespace Siftan
   public class Engine
   {
     #region Methods
-    public void Execute(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, IRecordWriter recordWriter)
+    public void Execute(
+      String[] filePaths, 
+      String logFilePath,
+      IStreamReaderFactory streamReaderFactory, 
+      IRecordReader recordReader, 
+      IRecordMatchExpression expression, 
+      IRecordWriter recordWriter)
     {
-      /*if (writeMatchedRecordMethod != null && writeUnmatchedRecordMethod != null)
+      if (recordWriter.Categories < RecordCategory.Matched || recordWriter.Categories >= (RecordCategory)((Int32)RecordCategory.Unmatched << (Int32)RecordCategory.Matched))
       {
-        this.SelectMatchedAndUnmatchedRecords(filePaths, streamReaderFactory, recordReader, expression, writeMatchedRecordMethod, writeUnmatchedRecordMethod);
+        throw new Exception(String.Format("IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was {0}.", recordWriter.Categories));
       }
-      else if (writeMatchedRecordMethod != null)
+
+      using (StreamWriter log = new StreamWriter(logFilePath))
       {
-        this.SelectMatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, writeMatchedRecordMethod);
+        log.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] Starting...");
+
+        if ((recordWriter.Categories & (RecordCategory.Matched | RecordCategory.Unmatched)) == (RecordCategory.Matched | RecordCategory.Unmatched))
+        {
+          this.SelectMatchedAndUnmatchedRecords(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
+        }
+        else if ((recordWriter.Categories & RecordCategory.Matched) == RecordCategory.Matched)
+        {
+          this.SelectMatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord);
+        }
+        else if ((recordWriter.Categories & RecordCategory.Unmatched) == RecordCategory.Unmatched)
+        {
+          this.SelectUnmatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteUnmatchedRecord);
+        }
+
+        recordWriter.Close();
+
+        log.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] Finished.");
       }
-      else if (writeUnmatchedRecordMethod != null)
-      {
-        this.SelectUnmatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, writeUnmatchedRecordMethod);
-      }
-      else
-      {
-        throw new Exception("No write methods passed in."); // TODO - better message.
-      }*/
     }
 
     private void SelectMatchedRecordsOnly(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeRecordMethod)

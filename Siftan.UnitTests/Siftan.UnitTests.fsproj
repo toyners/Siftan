@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Siftan.UnitTests</RootNamespace>
     <AssemblyName>Siftan.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Name>Siftan.UnitTests</Name>
@@ -69,7 +69,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Jabberwocky.Toolkit">
-      <HintPath>..\packages\Jabberwocky.Toolkit.1.0.2.2\lib\net45\Jabberwocky.Toolkit.dll</HintPath>
+      <HintPath>..\packages\Jabberwocky.Toolkit.1.0.2.3\lib\net45\Jabberwocky.Toolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />

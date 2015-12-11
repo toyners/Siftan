@@ -23,7 +23,11 @@ module public SupportFunctions =
                             position <- position + (2 * linesConsumed)
 
                         int64 position
-                    and set(v: int64) = ()
+                    and set(position: int64) =
+                        let mutable workingPosition = 0l
+                        fileLineIndex <- 0
+                        while this.Position < position do
+                            fileLineIndex <- fileLineIndex + 1
 
                 member this.EndOfStream = 
                     fileLineIndex = fileLines.Length
@@ -38,7 +42,7 @@ module public SupportFunctions =
                 member this.Close() = ()
 
                 member this.Dispose() = ()
-        }
+        }   
 
     let CreateRecordDescriptor delimiter qualifier lineIDIndex headerID =
        DelimitedRecordDescriptor(Delimiter = delimiter, Qualifier = qualifier, LineIDIndex = lineIDIndex, HeaderID = headerID)
