@@ -59,6 +59,7 @@ module public ``DelimitedRecordReader UnitTests`` =
     [<TestCase([|"H1,A,B,C"; "L2,A,B,C"; "L3,A,B,C"|])>]
     let ``No recognisable record so null is returned``(fileLines) =
         let fileReader = CreateMockReader fileLines
+
         // The new keyword is used to stop the warning about readability when creating a type that implements IDisposable
         let recordReader = new DelimitedRecordReader(CreateSimpleRecordDescriptor) 
         recordReader.ReadRecord(fileReader) |> should equal null
@@ -75,6 +76,7 @@ module public ``DelimitedRecordReader UnitTests`` =
         
         // Arrange
         let fileReader = CreateMockReader fileLines
+
         // The new keyword is used to stop the warning about readability when instantiating a type that implements IDisposable
         let recordReader = new DelimitedRecordReader(CreateSimpleRecordDescriptor)
 
@@ -96,6 +98,7 @@ module public ``DelimitedRecordReader UnitTests`` =
         // Arrange
         let fileLines = fileLine.Split([|'\000'|], StringSplitOptions.RemoveEmptyEntries)
         let fileReader = CreateMockReader fileLines
+
         // The new keyword is used to stop the warning about readability when instantiating a type that implements IDisposable
         let recordReader = new DelimitedRecordReader(CreateQualifiedRecordDescriptor lineIDIndex)
 
