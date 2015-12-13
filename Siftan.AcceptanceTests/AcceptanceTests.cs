@@ -18,7 +18,7 @@ namespace Siftan.AcceptanceTests
 
     #region Methods
     [Test]
-    public void SetToWriteMatchedAndUnmatchedRecords()
+    public void SetToWriteMatchedAndUnmatchedDelimitedRecordsThatAreFoundInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -30,7 +30,7 @@ namespace Siftan.AcceptanceTests
         // Arrange
         CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
-        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.TestFile.csv", inputFilePath);
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
         outputWriter.Categories = RecordCategory.Matched | RecordCategory.Unmatched;
@@ -71,30 +71,7 @@ namespace Siftan.AcceptanceTests
     }
 
     [Test]
-    [TestCase(0)]
-    [TestCase(4)]
-    public void NotSetToWriteMatchedOrUnmatchedRecords(Int32 categoryValue)
-    {
-      // Arrange
-      IRecordWriter mockOutputWriter = Substitute.For<IRecordWriter>();
-      mockOutputWriter.Categories.Returns((RecordCategory)categoryValue);
-
-      // Act
-      Action action = () => 
-        new Engine().Execute(
-          null,
-          null,
-          Substitute.For<IStreamReaderFactory>(),
-          Substitute.For<IRecordReader>(),
-          Substitute.For<IRecordMatchExpression>(),
-          mockOutputWriter);
-
-      // Assert
-      action.ShouldThrow<Exception>().WithMessage("IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was " + mockOutputWriter.Categories + ".");
-    }
-
-    [Test]
-    public void SetToWriteMatchedRecordsThatAreFoundInDataFile()
+    public void SetToWriteMatchedDelimitedRecordsThatAreFoundInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -106,7 +83,7 @@ namespace Siftan.AcceptanceTests
         // Arrange
         CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
-        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.TestFile.csv", inputFilePath);
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
         outputWriter.Categories = RecordCategory.Matched;
@@ -139,7 +116,7 @@ namespace Siftan.AcceptanceTests
     }
 
     [Test]
-    public void SetToWriteMatchedRecordsThatAreNotFoundInDataFile()
+    public void SetToWriteMatchedDelimitedRecordsThatAreNotFoundInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -151,7 +128,7 @@ namespace Siftan.AcceptanceTests
         // Arrange
         CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
-        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.TestFile.csv", inputFilePath);
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, null);
         outputWriter.Categories = RecordCategory.Matched;
@@ -177,7 +154,7 @@ namespace Siftan.AcceptanceTests
     }
 
     [Test]
-    public void SetToWriteUnmatchedRecords()
+    public void SetToWriteUnmatchedDelimitedRecordsThatAreFoundInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -189,7 +166,7 @@ namespace Siftan.AcceptanceTests
         // Arrange
         CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
-        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.TestFile.csv", inputFilePath);
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
         outputWriter.Categories = RecordCategory.Unmatched;
@@ -220,6 +197,29 @@ namespace Siftan.AcceptanceTests
       {
         DeleteWorkingDirectory(inputFilePath);
       }
+    }
+
+    [Test]
+    [TestCase(0)]
+    [TestCase(4)]
+    public void NotSetToWriteMatchedOrUnmatchedRecords(Int32 categoryValue)
+    {
+      // Arrange
+      IRecordWriter mockOutputWriter = Substitute.For<IRecordWriter>();
+      mockOutputWriter.Categories.Returns((RecordCategory)categoryValue);
+
+      // Act
+      Action action = () =>
+        new Engine().Execute(
+          null,
+          null,
+          Substitute.For<IStreamReaderFactory>(),
+          Substitute.For<IRecordReader>(),
+          Substitute.For<IRecordMatchExpression>(),
+          mockOutputWriter);
+
+      // Assert
+      action.ShouldThrow<Exception>().WithMessage("IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was " + mockOutputWriter.Categories + ".");
     }
 
     private void CreateFilePaths(out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
