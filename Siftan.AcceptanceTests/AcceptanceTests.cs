@@ -40,7 +40,7 @@ namespace Siftan.AcceptanceTests
           new[] { inputFilePath },
           logFilePath,
           new FileReaderFactory(),
-          CreateDelimtedRecordReader(),
+          CreateDelimitedRecordReader(),
           new InListExpression(new[] { "12345" }),
           outputWriter);
 
@@ -66,7 +66,59 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteWorkingDirectory(inputFilePath);
+        DeleteDirectoryContainingInputFile(inputFilePath);
+      }
+    }
+
+    [Test]
+    public void SetToWriteMatchedAndUnmatchedFixedWidthRecordsThatAreFoundInDataFile()
+    {
+      String inputFilePath = null;
+      String matchedOutputFilePath = null;
+      String unmatchedOutputFilePath = null;
+      String logFilePath = null;
+
+      try
+      {
+        // Arrange
+        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.csv", inputFilePath);
+
+        OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
+        outputWriter.Categories = RecordCategory.Matched | RecordCategory.Unmatched;
+
+        // Act
+        new Engine().Execute(
+          new[] { inputFilePath },
+          logFilePath,
+          new FileReaderFactory(),
+          CreateFixedWidthRecordReader(),
+          new InListExpression(new[] { "12345" }),
+          outputWriter);
+
+        // Assert
+        this.AssertLogfileIsCorrect(logFilePath);
+
+        File.Exists(matchedOutputFilePath).Should().BeTrue();
+        String[] lines = File.ReadAllLines(matchedOutputFilePath);
+        lines.Length.Should().Be(5);
+        lines[0].Should().Be("01Ben Toynbee123451.23");
+        lines[1].Should().Be("02           12345");
+        lines[2].Should().Be("03           12345");
+        lines[3].Should().Be("03           12345");
+        lines[4].Should().Be("05           12345");
+
+        File.Exists(unmatchedOutputFilePath).Should().BeTrue();
+        lines = File.ReadAllLines(unmatchedOutputFilePath);
+        lines.Length.Should().Be(4);
+        lines[0].Should().Be("01Sid Sample 543211.23");
+        lines[1].Should().Be("02           54321");
+        lines[2].Should().Be("03           54321");
+        lines[3].Should().Be("05           54321");
+      }
+      finally
+      {
       }
     }
 
@@ -93,7 +145,7 @@ namespace Siftan.AcceptanceTests
           new[] { inputFilePath },
           logFilePath,
           new FileReaderFactory(),
-          CreateDelimtedRecordReader(),
+          CreateDelimitedRecordReader(),
           new InListExpression(new[] { "12345" }),
           outputWriter);
 
@@ -111,7 +163,52 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteWorkingDirectory(inputFilePath);
+        DeleteDirectoryContainingInputFile(inputFilePath);
+      }
+    }
+
+    [Test]
+    public void SetToWriteMatchedFixedWidthRecordsThatAreFoundInDataFile()
+    {
+      String inputFilePath = null;
+      String matchedOutputFilePath = null;
+      String unmatchedOutputFilePath = null;
+      String logFilePath = null;
+
+      try
+      {
+        // Arrange
+        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.csv", inputFilePath);
+
+        OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
+        outputWriter.Categories = RecordCategory.Matched;
+
+        // Act
+        new Engine().Execute(
+          new[] { inputFilePath },
+          logFilePath,
+          new FileReaderFactory(),
+          CreateFixedWidthRecordReader(),
+          new InListExpression(new[] { "12345" }),
+          outputWriter);
+
+        // Assert
+        this.AssertLogfileIsCorrect(logFilePath);
+
+        File.Exists(matchedOutputFilePath).Should().BeTrue();
+        String[] lines = File.ReadAllLines(matchedOutputFilePath);
+        lines.Length.Should().Be(5);
+        lines[0].Should().Be("01Ben Toynbee123451.23");
+        lines[1].Should().Be("02           12345");
+        lines[2].Should().Be("03           12345");
+        lines[3].Should().Be("03           12345");
+        lines[4].Should().Be("05           12345");
+      }
+      finally
+      {
+        DeleteDirectoryContainingInputFile(inputFilePath);
       }
     }
 
@@ -138,7 +235,7 @@ namespace Siftan.AcceptanceTests
           new[] { inputFilePath },
           logFilePath,
           new FileReaderFactory(),
-          CreateDelimtedRecordReader(),
+          CreateDelimitedRecordReader(),
           new InListExpression(new[] { "11111" }),
           outputWriter);
 
@@ -149,7 +246,45 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteWorkingDirectory(inputFilePath);
+        DeleteDirectoryContainingInputFile(inputFilePath);
+      }
+    }
+
+    [Test]
+    public void SetToWriteMatchedFixedWidthRecordsThatAreNotFoundInDataFile()
+    {
+      String inputFilePath = null;
+      String matchedOutputFilePath = null;
+      String unmatchedOutputFilePath = null;
+      String logFilePath = null;
+
+      try
+      {
+        // Arrange
+        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.csv", inputFilePath);
+
+        OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, null);
+        outputWriter.Categories = RecordCategory.Matched;
+
+        // Act
+        new Engine().Execute(
+          new[] { inputFilePath },
+          logFilePath,
+          new FileReaderFactory(),
+          CreateDelimitedRecordReader(),
+          new InListExpression(new[] { "11111" }),
+          outputWriter);
+
+        // Assert
+        this.AssertLogfileIsCorrect(logFilePath);
+
+        File.Exists(matchedOutputFilePath).Should().BeFalse();
+      }
+      finally
+      {
+        DeleteDirectoryContainingInputFile(inputFilePath);
       }
     }
 
@@ -176,7 +311,7 @@ namespace Siftan.AcceptanceTests
           new[] { inputFilePath },
           logFilePath,
           new FileReaderFactory(),
-          CreateDelimtedRecordReader(),
+          CreateDelimitedRecordReader(),
           new InListExpression(new[] { "12345" }),
           outputWriter);
 
@@ -195,7 +330,53 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteWorkingDirectory(inputFilePath);
+        DeleteDirectoryContainingInputFile(inputFilePath);
+      }
+    }
+
+    [Test]
+    public void SetToWriteUnmatchedFixedWidthRecordsThatAreFoundInDataFile()
+    {
+      String inputFilePath = null;
+      String matchedOutputFilePath = null;
+      String unmatchedOutputFilePath = null;
+      String logFilePath = null;
+
+      try
+      {
+        // Arrange
+        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.csv", inputFilePath);
+
+        OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
+        outputWriter.Categories = RecordCategory.Unmatched;
+
+        // Act
+        new Engine().Execute(
+          new[] { inputFilePath },
+          logFilePath,
+          new FileReaderFactory(),
+          CreateDelimitedRecordReader(),
+          new InListExpression(new[] { "12345" }),
+          outputWriter);
+
+        // Assert
+        this.AssertLogfileIsCorrect(logFilePath);
+
+        File.Exists(matchedOutputFilePath).Should().BeFalse();
+
+        File.Exists(unmatchedOutputFilePath).Should().BeTrue();
+        String[] lines = File.ReadAllLines(unmatchedOutputFilePath);
+        lines.Length.Should().Be(4);
+        lines[0].Should().Be("01Sid Sample 543211.23");
+        lines[1].Should().Be("02           54321");
+        lines[2].Should().Be("03           54321");
+        lines[3].Should().Be("05           54321");
+      }
+      finally
+      {
+        DeleteDirectoryContainingInputFile(inputFilePath);
       }
     }
 
@@ -233,7 +414,7 @@ namespace Siftan.AcceptanceTests
       logFilePath = workingDirectory + "Siftan.log";
     }
 
-    private IRecordReader CreateDelimtedRecordReader()
+    private IRecordReader CreateDelimitedRecordReader()
     {
       DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
       {
@@ -247,7 +428,12 @@ namespace Siftan.AcceptanceTests
       return new DelimitedRecordReader(recordDescriptor);
     }
 
-    private void DeleteWorkingDirectory(String inputFilePath)
+    private IRecordReader CreateFixedWidthRecordReader()
+    {
+      throw new NotImplementedException();
+    }
+
+    private void DeleteDirectoryContainingInputFile(String inputFilePath)
     {
       if (inputFilePath != null && File.Exists(inputFilePath))
       {
