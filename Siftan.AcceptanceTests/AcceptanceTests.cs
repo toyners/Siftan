@@ -28,25 +28,9 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
-        Directory.CreateDirectory(workingDirectory);
-
-        inputFilePath = workingDirectory + "input_file.csv";
-        matchedOutputFilePath = workingDirectory + "matched_output_file.csv";
-        unmatchedOutputFilePath = workingDirectory + "unmatched_output_file.csv";
-        logFilePath = workingDirectory + "log.log";
+        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.TestFile.csv", inputFilePath);
-
-        DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
-        {
-          Delimiter = "|",
-          Qualifier = '\0',
-          LineIDIndex = 0,
-          HeaderID = "01",
-          DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition("01", 3)
-        };
-        IRecordReader recordReader = new DelimitedRecordReader(recordDescriptor);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
         outputWriter.Categories = RecordCategory.Matched | RecordCategory.Unmatched;
@@ -56,7 +40,7 @@ namespace Siftan.AcceptanceTests
           new[] { inputFilePath },
           logFilePath,
           new FileReaderFactory(),
-          new DelimitedRecordReader(recordDescriptor),
+          CreateDelimtedRecordReader(),
           new InListExpression(new[] { "12345" }),
           outputWriter);
 
@@ -82,10 +66,7 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        if (inputFilePath != null && File.Exists(inputFilePath))
-        {
-          File.Delete(inputFilePath);
-        }
+        DeleteWorkingDirectory(inputFilePath);
       }
     }
 
@@ -95,20 +76,14 @@ namespace Siftan.AcceptanceTests
     public void NotSetToWriteMatchedOrUnmatchedRecords(Int32 categoryValue)
     {
       // Arrange
-      String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
-      Directory.CreateDirectory(workingDirectory);
-
-      String inputFilePath = workingDirectory + "input_file.csv";
-      String logFilePath = workingDirectory + "log.log";
-
       IRecordWriter mockOutputWriter = Substitute.For<IRecordWriter>();
       mockOutputWriter.Categories.Returns((RecordCategory)categoryValue);
 
       // Act
       Action action = () => 
         new Engine().Execute(
-          new[] { inputFilePath },
-          logFilePath,
+          null,
+          null,
           Substitute.For<IStreamReaderFactory>(),
           Substitute.For<IRecordReader>(),
           Substitute.For<IRecordMatchExpression>(),
@@ -129,25 +104,9 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
-        Directory.CreateDirectory(workingDirectory);
-
-        inputFilePath = workingDirectory + "input_file.csv";
-        matchedOutputFilePath = workingDirectory + "matched_output_file.csv";
-        unmatchedOutputFilePath = workingDirectory + "unmatched_output_file.csv";
-        logFilePath = workingDirectory + "log.log";
+        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.TestFile.csv", inputFilePath);
-
-        DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
-        {
-          Delimiter = "|",
-          Qualifier = '\0',
-          LineIDIndex = 0,
-          HeaderID = "01",
-          DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition("01", 3)
-        };
-        IRecordReader recordReader = new DelimitedRecordReader(recordDescriptor);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
         outputWriter.Categories = RecordCategory.Matched;
@@ -157,7 +116,7 @@ namespace Siftan.AcceptanceTests
           new[] { inputFilePath },
           logFilePath,
           new FileReaderFactory(),
-          new DelimitedRecordReader(recordDescriptor),
+          CreateDelimtedRecordReader(),
           new InListExpression(new[] { "12345" }),
           outputWriter);
 
@@ -175,10 +134,7 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        if (inputFilePath != null && File.Exists(inputFilePath))
-        {
-          File.Delete(inputFilePath);
-        }
+        DeleteWorkingDirectory(inputFilePath);
       }
     }
 
@@ -193,25 +149,9 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
-        Directory.CreateDirectory(workingDirectory);
-
-        inputFilePath = workingDirectory + "input_file.csv";
-        matchedOutputFilePath = workingDirectory + "matched_output_file.csv";
-        unmatchedOutputFilePath = workingDirectory + "unmatched_output_file.csv";
-        logFilePath = workingDirectory + "log.log";
+        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.TestFile.csv", inputFilePath);
-
-        DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
-        {
-          Delimiter = "|",
-          Qualifier = '\0',
-          LineIDIndex = 0,
-          HeaderID = "01",
-          DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition("01", 3)
-        };
-        IRecordReader recordReader = new DelimitedRecordReader(recordDescriptor);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, null);
         outputWriter.Categories = RecordCategory.Matched;
@@ -221,7 +161,7 @@ namespace Siftan.AcceptanceTests
           new[] { inputFilePath },
           logFilePath,
           new FileReaderFactory(),
-          new DelimitedRecordReader(recordDescriptor),
+          CreateDelimtedRecordReader(),
           new InListExpression(new[] { "11111" }),
           outputWriter);
 
@@ -232,10 +172,7 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        if (inputFilePath != null && File.Exists(inputFilePath))
-        {
-          File.Delete(inputFilePath);
-        }
+        DeleteWorkingDirectory(inputFilePath);
       }
     }
 
@@ -250,25 +187,9 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
-        Directory.CreateDirectory(workingDirectory);
-
-        inputFilePath = workingDirectory + "input_file.csv";
-        matchedOutputFilePath = workingDirectory + "matched_output_file.csv";
-        unmatchedOutputFilePath = workingDirectory + "unmatched_output_file.csv";
-        logFilePath = workingDirectory + "log.log";
+        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.TestFile.csv", inputFilePath);
-
-        DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
-        {
-          Delimiter = "|",
-          Qualifier = '\0',
-          LineIDIndex = 0,
-          HeaderID = "01",
-          DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition("01", 3)
-        };
-        IRecordReader recordReader = new DelimitedRecordReader(recordDescriptor);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
         outputWriter.Categories = RecordCategory.Unmatched;
@@ -278,7 +199,7 @@ namespace Siftan.AcceptanceTests
           new[] { inputFilePath },
           logFilePath,
           new FileReaderFactory(),
-          new DelimitedRecordReader(recordDescriptor),
+          CreateDelimtedRecordReader(),
           new InListExpression(new[] { "12345" }),
           outputWriter);
 
@@ -297,10 +218,40 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        if (inputFilePath != null && File.Exists(inputFilePath))
-        {
-          File.Delete(inputFilePath);
-        }
+        DeleteWorkingDirectory(inputFilePath);
+      }
+    }
+
+    private void CreateFilePaths(out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
+    {
+      String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
+      Directory.CreateDirectory(workingDirectory);
+
+      inputFilePath = workingDirectory + "input_file.csv";
+      matchedOutputFilePath = workingDirectory + "matched_output_file.csv";
+      unmatchedOutputFilePath = workingDirectory + "unmatched_output_file.csv";
+      logFilePath = workingDirectory + "Siftan.log";
+    }
+
+    private IRecordReader CreateDelimtedRecordReader()
+    {
+      DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
+      {
+        Delimiter = "|",
+        Qualifier = '\0',
+        LineIDIndex = 0,
+        HeaderID = "01",
+        DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition("01", 3)
+      };
+
+      return new DelimitedRecordReader(recordDescriptor);
+    }
+
+    private void DeleteWorkingDirectory(String inputFilePath)
+    {
+      if (inputFilePath != null && File.Exists(inputFilePath))
+      {
+        Directory.GetParent(inputFilePath).Delete(true);
       }
     }
 
