@@ -58,3 +58,6 @@ module public SupportFunctions =
     // Create a record descriptor that includes the term definition.
     let CreateCompleteRecordDescriptor lineIDIndex lineID termIndex  = 
         DelimitedRecordDescriptor(Delimiter = ",", Qualifier = '\000', LineIDIndex = lineIDIndex, HeaderID = "H", DelimitedTerm = DelimitedRecordDescriptor.TermDefinition(lineID, termIndex))
+
+    let CreateCompleteFixedWidthRecordDescriptor termLineID termStart termLength =
+        FixedWidthRecordDescriptor(0u, 2u, "01", FixedWidthRecordDescriptor.TermDefinition(termLineID, termStart, termLength))

@@ -58,6 +58,7 @@
     <None Include="Foq.Usage.fsx" />
     <Content Include="packages.config" />
     <Compile Include="Options UnitTests.fs" />
+    <Compile Include="FixedWidthRecordReader Unit Tests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">

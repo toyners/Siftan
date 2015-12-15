@@ -83,7 +83,7 @@ namespace Siftan.AcceptanceTests
         // Arrange
         CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
-        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.csv", inputFilePath);
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
         outputWriter.Categories = RecordCategory.Matched | RecordCategory.Unmatched;
@@ -430,7 +430,9 @@ namespace Siftan.AcceptanceTests
 
     private IRecordReader CreateFixedWidthRecordReader()
     {
-      throw new NotImplementedException();
+      FixedWidthRecordDescriptor recordDescriptor = new FixedWidthRecordDescriptor(0, 2, "01", new FixedWidthRecordDescriptor.TermDefinition("02", 0, 1));
+
+      return new FixedWidthRecordReader(recordDescriptor);
     }
 
     private void DeleteDirectoryContainingInputFile(String inputFilePath)

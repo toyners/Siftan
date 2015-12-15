@@ -46,6 +46,8 @@
     <Compile Include="DelimitedRecordDescriptor.cs" />
     <Compile Include="DelimitedRecordReader.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="FixedWidthRecordDescriptor.cs" />
+    <Compile Include="FixedWidthRecordReader.cs" />
     <Compile Include="OneFileRecordWriter.cs" />
     <Compile Include="InListExpression.cs" />
     <Compile Include="IRecordMatchExpression.cs" />
