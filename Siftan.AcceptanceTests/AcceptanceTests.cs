@@ -18,7 +18,7 @@ namespace Siftan.AcceptanceTests
 
     #region Methods
     [Test]
-    public void SetToWriteMatchedAndUnmatchedDelimitedRecordsThatAreFoundInDataFile()
+    public void SetToWriteMatchedAndUnmatchedDelimitedRecordsThatAreInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -28,7 +28,7 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+        CreateFilePathsForDelimitedTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
@@ -71,7 +71,7 @@ namespace Siftan.AcceptanceTests
     }
 
     [Test]
-    public void SetToWriteMatchedAndUnmatchedFixedWidthRecordsThatAreFoundInDataFile()
+    public void SetToWriteMatchedAndUnmatchedFixedWidthRecordsThatAreInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -81,7 +81,7 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+        CreateFilePathsForFixedWidthTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
@@ -119,11 +119,12 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
+        DeleteDirectoryContainingInputFile(inputFilePath);
       }
     }
 
     [Test]
-    public void SetToWriteMatchedDelimitedRecordsThatAreFoundInDataFile()
+    public void SetToWriteMatchedDelimitedRecordsThatAreInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -133,7 +134,7 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+        CreateFilePathsForDelimitedTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
@@ -168,7 +169,7 @@ namespace Siftan.AcceptanceTests
     }
 
     [Test]
-    public void SetToWriteMatchedFixedWidthRecordsThatAreFoundInDataFile()
+    public void SetToWriteMatchedFixedWidthRecordsThatAreInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -178,9 +179,9 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+        CreateFilePathsForFixedWidthTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
-        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.csv", inputFilePath);
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
         outputWriter.Categories = RecordCategory.Matched;
@@ -213,7 +214,7 @@ namespace Siftan.AcceptanceTests
     }
 
     [Test]
-    public void SetToWriteMatchedDelimitedRecordsThatAreNotFoundInDataFile()
+    public void SetToWriteMatchedDelimitedRecordsThatAreNotInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -223,7 +224,7 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+        CreateFilePathsForDelimitedTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
@@ -251,7 +252,7 @@ namespace Siftan.AcceptanceTests
     }
 
     [Test]
-    public void SetToWriteMatchedFixedWidthRecordsThatAreNotFoundInDataFile()
+    public void SetToWriteMatchedFixedWidthRecordsThatAreNotInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -261,9 +262,9 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+        CreateFilePathsForFixedWidthTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
-        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.csv", inputFilePath);
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, null);
         outputWriter.Categories = RecordCategory.Matched;
@@ -289,7 +290,7 @@ namespace Siftan.AcceptanceTests
     }
 
     [Test]
-    public void SetToWriteUnmatchedDelimitedRecordsThatAreFoundInDataFile()
+    public void SetToWriteUnmatchedDelimitedRecordsThatAreInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -299,7 +300,7 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+        CreateFilePathsForDelimitedTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
@@ -335,7 +336,7 @@ namespace Siftan.AcceptanceTests
     }
 
     [Test]
-    public void SetToWriteUnmatchedFixedWidthRecordsThatAreFoundInDataFile()
+    public void SetToWriteUnmatchedFixedWidthRecordsThatAreInDataFile()
     {
       String inputFilePath = null;
       String matchedOutputFilePath = null;
@@ -345,9 +346,9 @@ namespace Siftan.AcceptanceTests
       try
       {
         // Arrange
-        CreateFilePaths(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+        CreateFilePathsForFixedWidthTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
-        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.csv", inputFilePath);
+        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
         outputWriter.Categories = RecordCategory.Unmatched;
@@ -357,7 +358,7 @@ namespace Siftan.AcceptanceTests
           new[] { inputFilePath },
           logFilePath,
           new FileReaderFactory(),
-          CreateDelimitedRecordReader(),
+          CreateFixedWidthRecordReader(),
           new InListExpression(new[] { "12345" }),
           outputWriter);
 
@@ -403,14 +404,24 @@ namespace Siftan.AcceptanceTests
       action.ShouldThrow<Exception>().WithMessage("IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was " + mockOutputWriter.Categories + ".");
     }
 
-    private void CreateFilePaths(out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
+    private void CreateFilePathsForDelimitedTests(out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
+    {
+      CreateFilePaths("input_file.csv", "csv", out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+    }
+
+    private void CreateFilePathsForFixedWidthTests(out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
+    {
+      CreateFilePaths("input_file.txt", "txt", out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+    }
+
+    private void CreateFilePaths(String inputFileName, String outputExtension, out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
     {
       String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
       Directory.CreateDirectory(workingDirectory);
 
-      inputFilePath = workingDirectory + "input_file.csv";
-      matchedOutputFilePath = workingDirectory + "matched_output_file.csv";
-      unmatchedOutputFilePath = workingDirectory + "unmatched_output_file.csv";
+      inputFilePath = workingDirectory + inputFileName;
+      matchedOutputFilePath = workingDirectory + "matched_output_file." + outputExtension;
+      unmatchedOutputFilePath = workingDirectory + "unmatched_output_file." + outputExtension;
       logFilePath = workingDirectory + "Siftan.log";
     }
 
@@ -430,7 +441,7 @@ namespace Siftan.AcceptanceTests
 
     private IRecordReader CreateFixedWidthRecordReader()
     {
-      FixedWidthRecordDescriptor recordDescriptor = new FixedWidthRecordDescriptor(0, 2, "01", new FixedWidthRecordDescriptor.TermDefinition("02", 0, 1));
+      FixedWidthRecordDescriptor recordDescriptor = new FixedWidthRecordDescriptor(0, 2, "01", new FixedWidthRecordDescriptor.TermDefinition("02", 13, 5));
 
       return new FixedWidthRecordReader(recordDescriptor);
     }
