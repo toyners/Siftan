@@ -66,7 +66,7 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteDirectoryContainingInputFile(inputFilePath);
+        DeleteDirectoryContainingFile(inputFilePath);
       }
     }
 
@@ -119,7 +119,7 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteDirectoryContainingInputFile(inputFilePath);
+        DeleteDirectoryContainingFile(inputFilePath);
       }
     }
 
@@ -164,7 +164,7 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteDirectoryContainingInputFile(inputFilePath);
+        DeleteDirectoryContainingFile(inputFilePath);
       }
     }
 
@@ -209,7 +209,7 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteDirectoryContainingInputFile(inputFilePath);
+        DeleteDirectoryContainingFile(inputFilePath);
       }
     }
 
@@ -247,7 +247,7 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteDirectoryContainingInputFile(inputFilePath);
+        DeleteDirectoryContainingFile(inputFilePath);
       }
     }
 
@@ -285,7 +285,7 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteDirectoryContainingInputFile(inputFilePath);
+        DeleteDirectoryContainingFile(inputFilePath);
       }
     }
 
@@ -331,7 +331,7 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteDirectoryContainingInputFile(inputFilePath);
+        DeleteDirectoryContainingFile(inputFilePath);
       }
     }
 
@@ -377,31 +377,42 @@ namespace Siftan.AcceptanceTests
       }
       finally
       {
-        DeleteDirectoryContainingInputFile(inputFilePath);
+        DeleteDirectoryContainingFile(inputFilePath);
       }
     }
 
     [Test]
-    [TestCase(0)]
-    [TestCase(4)]
-    public void NotSetToWriteMatchedOrUnmatchedRecords(Int32 categoryValue)
+    [TestCase(0, "IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was 0.")]
+    [TestCase(4, "IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was 4.")]
+    public void NotSetToWriteMatchedOrUnmatchedRecords(Int32 categoryValue, String expectedExceptionMessage)
     {
       // Arrange
-      IRecordWriter mockOutputWriter = Substitute.For<IRecordWriter>();
-      mockOutputWriter.Categories.Returns((RecordCategory)categoryValue);
+      String logFilePath = null;
 
-      // Act
-      Action action = () =>
-        new Engine().Execute(
-          null,
-          null,
-          Substitute.For<IStreamReaderFactory>(),
-          Substitute.For<IRecordReader>(),
-          Substitute.For<IRecordMatchExpression>(),
-          mockOutputWriter);
+      try
+      {
+        logFilePath = CreateLogFilePath();
+        IRecordWriter mockOutputWriter = Substitute.For<IRecordWriter>();
+        mockOutputWriter.Categories.Returns((RecordCategory)categoryValue);
 
-      // Assert
-      action.ShouldThrow<Exception>().WithMessage("IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was " + mockOutputWriter.Categories + ".");
+        // Act
+        Action action = () =>
+          new Engine().Execute(
+            null,
+            logFilePath,
+            Substitute.For<IStreamReaderFactory>(),
+            Substitute.For<IRecordReader>(),
+            Substitute.For<IRecordMatchExpression>(),
+            mockOutputWriter);
+
+        // Assert
+        action.ShouldThrow<Exception>().WithMessage(expectedExceptionMessage);
+        this.AssertLogfileContainsExpectedException(logFilePath, "EXCEPTION: " + expectedExceptionMessage);
+      }
+      finally
+      {
+        DeleteDirectoryContainingFile(logFilePath);
+      }
     }
 
     private void CreateFilePathsForDelimitedTests(out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
@@ -425,6 +436,13 @@ namespace Siftan.AcceptanceTests
       logFilePath = workingDirectory + "Siftan.log";
     }
 
+    private String CreateLogFilePath()
+    {
+      String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
+      Directory.CreateDirectory(workingDirectory);
+      return workingDirectory + "Siftan.log";
+    }
+
     private IRecordReader CreateDelimitedRecordReader()
     {
       DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
@@ -446,11 +464,11 @@ namespace Siftan.AcceptanceTests
       return new FixedWidthRecordReader(recordDescriptor);
     }
 
-    private void DeleteDirectoryContainingInputFile(String inputFilePath)
+    private void DeleteDirectoryContainingFile(String filePath)
     {
-      if (inputFilePath != null && File.Exists(inputFilePath))
+      if (filePath != null && File.Exists(filePath))
       {
-        Directory.GetParent(inputFilePath).Delete(true);
+        Directory.GetParent(filePath).Delete(true);
       }
     }
 
@@ -462,6 +480,15 @@ namespace Siftan.AcceptanceTests
 
       logLines[0].Should().MatchRegex(DateTimeStampRegex + "Starting...");
       logLines[1].Should().MatchRegex(DateTimeStampRegex + "Finished.");
+    }
+
+    private void AssertLogfileContainsExpectedException(String logFilePath, String exceptionMessage)
+    {
+      File.Exists(logFilePath).Should().BeTrue();
+      String[] logLines = File.ReadAllLines(logFilePath);
+      logLines.Length.Should().Be(1);
+
+      logLines[0].Should().MatchRegex(DateTimeStampRegex + exceptionMessage);
     }
     #endregion
   }

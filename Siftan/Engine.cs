@@ -34,31 +34,39 @@ namespace Siftan
       IRecordMatchExpression expression, 
       IRecordWriter recordWriter)
     {
-      if (recordWriter.Categories < RecordCategory.Matched || recordWriter.Categories >= (RecordCategory)((Int32)RecordCategory.Unmatched << (Int32)RecordCategory.Matched))
-      {
-        throw new Exception(String.Format("IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was {0}.", recordWriter.Categories));
-      }
-
       using (StreamWriter log = new StreamWriter(logFilePath))
       {
-        log.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] Starting...");
-
-        if ((recordWriter.Categories & (RecordCategory.Matched | RecordCategory.Unmatched)) == (RecordCategory.Matched | RecordCategory.Unmatched))
+        try
         {
-          this.SelectMatchedAndUnmatchedRecords(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
-        }
-        else if ((recordWriter.Categories & RecordCategory.Matched) == RecordCategory.Matched)
-        {
-          this.SelectMatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord);
-        }
-        else if ((recordWriter.Categories & RecordCategory.Unmatched) == RecordCategory.Unmatched)
-        {
-          this.SelectUnmatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteUnmatchedRecord);
-        }
+          if (recordWriter.Categories < RecordCategory.Matched || recordWriter.Categories >= (RecordCategory)((Int32)RecordCategory.Unmatched << (Int32)RecordCategory.Matched))
+          {
+            throw new Exception(String.Format("IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was {0}.", recordWriter.Categories));
+          }
 
-        recordWriter.Close();
+          log.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] Starting...");
 
-        log.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] Finished.");
+          if ((recordWriter.Categories & (RecordCategory.Matched | RecordCategory.Unmatched)) == (RecordCategory.Matched | RecordCategory.Unmatched))
+          {
+            this.SelectMatchedAndUnmatchedRecords(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
+          }
+          else if ((recordWriter.Categories & RecordCategory.Matched) == RecordCategory.Matched)
+          {
+            this.SelectMatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord);
+          }
+          else if ((recordWriter.Categories & RecordCategory.Unmatched) == RecordCategory.Unmatched)
+          {
+            this.SelectUnmatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteUnmatchedRecord);
+          }
+
+          recordWriter.Close();
+
+          log.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] Finished.");
+        }
+        catch (Exception exception)
+        {
+          log.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] EXCEPTION: " + exception.Message);
+          throw exception;
+        }
       }
     }
 
