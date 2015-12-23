@@ -2,7 +2,6 @@
 namespace Siftan_Console
 {
   using System;
-  using System.IO;
   using Jabberwocky.Toolkit.IO;
   using Siftan;
 
