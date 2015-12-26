@@ -10,7 +10,11 @@ namespace Siftan.AcceptanceTests
   using Jabberwocky.Toolkit.Path;
   using NUnit.Framework;
   using NSubstitute;
-
+  using TestStack.White;
+  using TestStack.White.UIItems;
+  using TestStack.White.UIItems.Finders;
+  using TestStack.White.UIItems.WindowItems;
+  using System.Diagnostics;
   [TestFixture]
   public class AcceptanceTests
   {
@@ -415,20 +419,19 @@ namespace Siftan.AcceptanceTests
       }
     }
 
-    private void CreateFilePathsForDelimitedTests(out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
+    private static void CreateFilePathsForDelimitedTests(out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
     {
       CreateFilePaths("input_file.csv", "csv", out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
     }
 
-    private void CreateFilePathsForFixedWidthTests(out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
+    private static void CreateFilePathsForFixedWidthTests(out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
     {
       CreateFilePaths("input_file.txt", "txt", out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
     }
 
-    private void CreateFilePaths(String inputFileName, String outputExtension, out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
+    private static void CreateFilePaths(String inputFileName, String outputExtension, out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
     {
-      String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
-      Directory.CreateDirectory(workingDirectory);
+      String workingDirectory = CreateWorkingDirectory();
 
       inputFilePath = workingDirectory + inputFileName;
       matchedOutputFilePath = workingDirectory + "matched_output_file." + outputExtension;
@@ -436,7 +439,15 @@ namespace Siftan.AcceptanceTests
       logFilePath = workingDirectory + "Siftan.log";
     }
 
-    private String CreateLogFilePath()
+    private static String CreateWorkingDirectory()
+    {
+      String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
+      
+      Directory.CreateDirectory(workingDirectory);
+      return workingDirectory;
+    }
+
+    private static String CreateLogFilePath()
     {
       String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
       Directory.CreateDirectory(workingDirectory);
@@ -489,6 +500,89 @@ namespace Siftan.AcceptanceTests
       logLines.Length.Should().Be(1);
 
       logLines[0].Should().MatchRegex(DateTimeStampRegex + exceptionMessage);
+    }
+
+    [Test]
+    public void TestWPFApplication()
+    {
+
+      var applicationPath = TestContext.CurrentContext.TestDirectory;
+      if (applicationPath.Contains("Release"))
+      {
+        throw new Exception();
+      }
+
+      applicationPath = @"C:\C#\Siftan\Siftan_WPF\bin\Debug\Siftan.exe";
+
+      Application application = Application.Launch(applicationPath);
+      Window window = application.GetWindow("Siftan");
+
+      try
+      {
+        //SearchCriteria 
+        SearchCriteria searchCriteria = SearchCriteria.
+          ByAutomationId("mybutton").
+          AndControlType(typeof(Button), WindowsFramework.Wpf);
+
+        Button button = (Button)window.Get(searchCriteria);
+
+        button.Should().NotBeNull();
+      }
+      finally
+      {
+        window.Close();
+      }
+    }
+
+    [Test]
+    public void TestConsoleApplication()
+    {
+      var command = GetApplicationPath("Siftan_Console");
+      VerifyApplicationFilePath(command);
+
+      String inputFilePath = null;
+      String matchedOutputFilePath = null;
+      String unmatchedOutputFilePath = null;
+      String logFilePath = null;
+      CreateFilePathsForDelimitedTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+
+      var commandArguments = CreateCommandArgumentsForDelimitedFile(inputFilePath, "01", "02", "12345", matchedOutputFilePath);
+
+      ProcessStartInfo processStartInfo = new ProcessStartInfo(command, commandArguments);
+
+      Application application = Application.Launch(processStartInfo);
+    }
+
+    private static String CreateCommandArgumentsForDelimitedFile(
+      String inputFilePath, 
+      String headerLineID, 
+      String termLineID,
+      String value,
+      String outputFilePath)
+    {
+      return String.Format("{0} delim -h {1} -t {2} inlist -v {3} output -fm {4}", 
+        inputFilePath, 
+        headerLineID, 
+        termLineID,
+        value,
+        outputFilePath);
+    }
+
+    private static String GetApplicationPath(String applicationName)
+    {
+      var applicationPath = @"C:\C#\Siftan\" + applicationName + @"\bin\" +
+        (TestContext.CurrentContext.TestDirectory.Contains("Release") ? "Release" : "Debug") + 
+        @"\" + applicationName + ".exe";
+
+      return applicationPath;
+    }
+
+    private static void VerifyApplicationFilePath(String applicationPath)
+    {
+      if (!File.Exists(applicationPath))
+      {
+        throw new FileNotFoundException(String.Format("File '{0}' not found.", applicationPath));
+      }
     }
     #endregion
   }
