@@ -16,15 +16,7 @@ namespace Siftan_Console
       IRecordReader recordReader = null;
       if (options.Delimited != null)
       {
-        DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
-        {
-          Delimiter = options.Delimited.Delimiter,
-          Qualifier = options.Delimited.Qualifier,
-          HeaderID = options.Delimited.HeaderLineID,
-          LineIDIndex = options.Delimited.LineIDIndex,
-          DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition(options.Delimited.TermLineID, options.Delimited.TermIndex)
-        };
-
+        DelimitedRecordDescriptor recordDescriptor = CreateDelimitedRecordDescriptor(options.Delimited);
         recordReader = new DelimitedRecordReader(recordDescriptor);
       }
       else
@@ -50,6 +42,18 @@ namespace Siftan_Console
       engine.Execute(inputFilePaths, logFilePath, new FileReaderFactory(), recordReader, expression, recordWriter);
 
       recordWriter.Close();
+    }
+
+    private static DelimitedRecordDescriptor CreateDelimitedRecordDescriptor(Options.DelimitedOptions delimitedOptions)
+    {
+      return new DelimitedRecordDescriptor
+      {
+        Delimiter = delimitedOptions.Delimiter,
+        Qualifier = delimitedOptions.Qualifier,
+        HeaderID = delimitedOptions.HeaderLineID,
+        LineIDIndex = delimitedOptions.LineIDIndex,
+        DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition(delimitedOptions.TermLineID, delimitedOptions.TermIndex)
+      };
     }
   }
 }
