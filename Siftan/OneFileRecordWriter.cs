@@ -28,6 +28,16 @@ namespace Siftan
       this.matchedFilePath = matchedFilePath;
       this.unmatchedFilePath = unmatchedFilePath;
 
+      if (!String.IsNullOrEmpty(this.matchedFilePath))
+      {
+        this.Categories |= RecordCategory.Matched;
+      }
+
+      if (!String.IsNullOrEmpty(this.unmatchedFilePath))
+      {
+        this.Categories |= RecordCategory.Unmatched;
+      }
+
       // TODO: Should check that the paths are legal.
     }
     #endregion

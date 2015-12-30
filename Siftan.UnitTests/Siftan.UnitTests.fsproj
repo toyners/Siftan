@@ -55,10 +55,11 @@
     <Compile Include="SupportFunctions.fs" />
     <Compile Include="InListExpression UnitTests.fs" />
     <Compile Include="DelimitedRecordReader UnitTests.fs" />
-    <None Include="Foq.Usage.fsx" />
-    <Content Include="packages.config" />
     <Compile Include="Options UnitTests.fs" />
     <Compile Include="FixedWidthRecordReader Unit Tests.fs" />
+    <Compile Include="OneFileRecordWriter Unit Tests.fs" />
+    <None Include="Foq.Usage.fsx" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">
