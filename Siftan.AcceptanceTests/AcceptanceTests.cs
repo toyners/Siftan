@@ -547,7 +547,8 @@ namespace Siftan.AcceptanceTests
       String logFilePath = null;
       CreateFilePathsForDelimitedTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
-      CreateInputFilesForDelimitedTests(inputFilePath, "Siftan.AcceptanceTests.DelimitedRecordFile.csv");
+      const String DelimitedInputFileResourcePath = "Siftan.AcceptanceTests.DelimitedRecordFile.csv";
+      CreateInputFilesForDelimitedTests(DelimitedInputFileResourcePath, inputFilePath);
 
       var commandArguments = CreateCommandArgumentsForDelimitedFile(inputFilePath, "01", "02", "12345", matchedOutputFilePath);
 
@@ -556,7 +557,7 @@ namespace Siftan.AcceptanceTests
       Application application = Application.Launch(processStartInfo);
     }
 
-    private static void CreateInputFilesForDelimitedTests(String inputFilePath, String resourceFilePath)
+    private static void CreateInputFilesForDelimitedTests(String resourceFilePath, String inputFilePath)
     {
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFilePath, inputFilePath);
     }
@@ -568,7 +569,8 @@ namespace Siftan.AcceptanceTests
       String value,
       String outputFilePath)
     {
-      return String.Format("{0} delim -h {1} -t {2} inlist -v {3} output -fm {4}", 
+      const String CommandLineForDelimitedRunTemplate = "{0} delim -h {1} -t {2} inlist -v {3} output -fm {4}";
+      return String.Format(CommandLineForDelimitedRunTemplate, 
         inputFilePath, 
         headerLineID, 
         termLineID,
@@ -578,9 +580,11 @@ namespace Siftan.AcceptanceTests
 
     private static String GetApplicationPath(String applicationName)
     {
-      var applicationPath = @"C:\C#\Siftan\" + applicationName + @"\bin\" +
-        (TestContext.CurrentContext.TestDirectory.Contains("Release") ? "Release" : "Debug") + 
-        @"\" + applicationName + ".exe";
+      const String ApplicationPathTemplate = @"C:\C#\Siftan\{0}\bin\{1}\{0}.exe";
+
+      var applicationPath = String.Format(ApplicationPathTemplate,
+        applicationName,
+        (TestContext.CurrentContext.TestDirectory.Contains("Release") ? "Release" : "Debug"));
 
       return applicationPath;
     }
