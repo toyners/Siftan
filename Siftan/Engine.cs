@@ -5,24 +5,6 @@ namespace Siftan
   using System.IO;
   using Jabberwocky.Toolkit.IO;
 
-  [Flags]
-  public enum RecordCategory
-  {
-    Matched = 1,
-    Unmatched
-  }
-
-  public interface IRecordWriter
-  {
-    RecordCategory Categories { get; }
-
-    void WriteMatchedRecord(IStreamReader reader, Record record);
-
-    void WriteUnmatchedRecord(IStreamReader reader, Record record);
-
-    void Close();
-  }
-
   public class Engine
   {
     #region Methods
