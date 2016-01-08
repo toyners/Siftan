@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.AcceptanceTests", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan_WPF", "Siftan_WPF\Siftan_WPF.csproj", "{EB36723A-CB4A-40BD-9541-B7174ECCC7E8}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Siftan_Console.UnitTests", "Siftan_Console.UnitTests\Siftan_Console.UnitTests.fsproj", "{8D7F69D8-C43D-4D1E-8854-ECD2B4DE4EBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{EB36723A-CB4A-40BD-9541-B7174ECCC7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB36723A-CB4A-40BD-9541-B7174ECCC7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB36723A-CB4A-40BD-9541-B7174ECCC7E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D7F69D8-C43D-4D1E-8854-ECD2B4DE4EBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D7F69D8-C43D-4D1E-8854-ECD2B4DE4EBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D7F69D8-C43D-4D1E-8854-ECD2B4DE4EBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D7F69D8-C43D-4D1E-8854-ECD2B4DE4EBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

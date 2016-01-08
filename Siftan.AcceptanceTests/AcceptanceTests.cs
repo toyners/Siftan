@@ -2,19 +2,20 @@
 namespace Siftan.AcceptanceTests
 {
   using System;
+  using System.Diagnostics;
   using System.IO;
   using System.Reflection;
   using FluentAssertions;
   using Jabberwocky.Toolkit.Assembly;
   using Jabberwocky.Toolkit.IO;
   using Jabberwocky.Toolkit.Path;
-  using NUnit.Framework;
   using NSubstitute;
+  using NUnit.Framework;
   using TestStack.White;
   using TestStack.White.UIItems;
   using TestStack.White.UIItems.Finders;
   using TestStack.White.UIItems.WindowItems;
-  using System.Diagnostics;
+
   [TestFixture]
   public class AcceptanceTests
   {
@@ -546,11 +547,18 @@ namespace Siftan.AcceptanceTests
       String logFilePath = null;
       CreateFilePathsForDelimitedTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
 
+      CreateInputFilesForDelimitedTests(inputFilePath, "Siftan.AcceptanceTests.DelimitedRecordFile.csv");
+
       var commandArguments = CreateCommandArgumentsForDelimitedFile(inputFilePath, "01", "02", "12345", matchedOutputFilePath);
 
       ProcessStartInfo processStartInfo = new ProcessStartInfo(command, commandArguments);
 
       Application application = Application.Launch(processStartInfo);
+    }
+
+    private static void CreateInputFilesForDelimitedTests(String inputFilePath, String resourceFilePath)
+    {
+      Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFilePath, inputFilePath);
     }
 
     private static String CreateCommandArgumentsForDelimitedFile(

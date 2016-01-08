@@ -2,6 +2,7 @@
 namespace Siftan_Console
 {
   using System;
+  using System.IO;
   using Jabberwocky.Toolkit.IO;
   using Siftan;
 
@@ -11,7 +12,7 @@ namespace Siftan_Console
     {
       Options options = new Options(args);
 
-      String[] inputFilePaths = new[] { @"C:\C#\Siftan\Testdata.txt" };
+      String[] inputFilePaths = GetInputFilePaths(options);
 
       IRecordReader recordReader = null;
       if (options.Delimited != null)
@@ -37,11 +38,23 @@ namespace Siftan_Console
       OneFileRecordWriter recordWriter = new OneFileRecordWriter(options.Output.FileMatched, options.Output.FileUnmatched);
 
       String logFilePath = inputFilePaths[0] + ".log";
-
-      Engine engine = new Engine();
-      engine.Execute(inputFilePaths, logFilePath, new FileReaderFactory(), recordReader, expression, recordWriter);
+        
+      new Engine().Execute(inputFilePaths, logFilePath, new FileReaderFactory(), recordReader, expression, recordWriter);
 
       recordWriter.Close();
+    }
+
+    private static String[] GetInputFilePaths(Options options)
+    {
+      FilePatternResolver.SearchDepths searchDepth = options.Input.SearchSubdirectories ? FilePatternResolver.SearchDepths.AllDirectories : FilePatternResolver.SearchDepths.InitialDirectoryOnly;
+      String[] inputFilePaths = new FilePatternResolver().ResolveFilePattern(options.Input.Pattern, searchDepth);
+
+      if (inputFilePaths.Length == 0)
+      {
+        throw new FileNotFoundException(String.Format("No files found matching pattern '{0}'.", options.Input.Pattern));
+      }
+
+      return inputFilePaths;
     }
 
     private static DelimitedRecordDescriptor CreateDelimitedRecordDescriptor(Options.DelimitedOptions delimitedOptions)
