@@ -8,10 +8,34 @@ open System
 [<TestFixture>]
 type OptionsUnitTests() =
 
+    let InputFileName = @"C:\InputFile.txt"
+    let InputFilePattern = "@C:\*.txt"
+    let SearchAllDirectories = "-r "
     let CommandLineForDelimitedRunWithInListFile = @"C:\InputFile.txt delim -d | -q ' -h 01 -li 0 -t 02 -ti 3 inlist -f C:\Values.txt output -fm C:\Output\matched.txt"
+    let CommandLineForDelimitedRunWithRecursiveInputPattern = "@C:\*.txt -r delim -d | -q ' -h 01 -li 0 -t 02 -ti 3 inlist -f C:\Values.txt output -fm C:\Output\matched.txt"
     let CommandLineForDelimitedRunWithInListValues = @"C:\InputFile.txt delim -d | -q ' -h 01 -li 0 -t 02 -ti 3 inlist -v A:B:C output -fm C:\Output\matched.txt"
     let CommandLineForDelimitedRunWithDefaults = @"C:\InputFile.txt delim -h 01 -t 02 inlist -f C:\Values.txt output -fm C:\Output\matched.txt"
     let CommandLineForFixedWidthRun = @"C:\InputFile.txt fixed -h 01 -ls 1 -ll 10 -t 02 -ts 12 -tl 11 inlist -f C:\Values.txt output -fm C:\Output\matched.txt"
+
+    [<Test>]
+    member public this.``Command line containing input file name returns valid object``() =
+        // Act
+        let options = CommandLineForFixedWidthRun.Split(' ') |> Options
+
+        // Assert
+        options.Input |> should not' (equal null)
+        options.Input.Pattern |> should equal InputFileName
+        options.Input.SearchSubdirectories |> should equal false
+
+    [<Test>]
+    member public this.``Command line containing input pattern and recursive flag name returns valid object``() =
+        // Act
+        let options = CommandLineForDelimitedRunWithRecursiveInputPattern.Split(' ') |> Options
+
+        // Assert
+        options.Input |> should not' (equal null)
+        options.Input.Pattern |> should equal InputFilePattern
+        options.Input.SearchSubdirectories |> should equal true
 
     [<Test>]
     member public this.``Command line containing delim returns valid object``() =
@@ -19,8 +43,6 @@ type OptionsUnitTests() =
         let options = CommandLineForDelimitedRunWithInListFile.Split(' ') |> Options 
 
         // Assert
-        options.InputFiles |> should equal @"C:\InputFile.txt"
-
         options.Delimited |> should not' (equal null)
         options.Delimited.Delimiter |> should equal "|"
         options.Delimited.Qualifier |> should equal '\''
@@ -41,8 +63,6 @@ type OptionsUnitTests() =
         let options = CommandLineForDelimitedRunWithInListFile.Split(' ') |> Options 
 
         // Assert
-        options.InputFiles |> should equal @"C:\InputFile.txt"
-
         options.InList |> should not' (equal null)
         options.InList.FilePath |> should equal @"C:\Values.txt"
 

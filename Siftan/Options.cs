@@ -16,7 +16,7 @@ namespace Siftan
 
       Queue queue = new Queue(args);
 
-      this.InputFiles = queue.Dequeue() as String;
+      this.Input = new InputOptions(queue);
 
       while (queue.Count > 0)
       {
@@ -78,6 +78,8 @@ namespace Siftan
     #endregion
 
     #region Properties
+    public InputOptions Input { get; private set; }
+
     public DelimitedOptions Delimited { get; private set; }
 
     public FixedWidthOptions FixedWidth { get; private set; }
@@ -85,11 +87,27 @@ namespace Siftan
     public InListOptions InList { get; private set; }
 
     public OutputOptions Output { get; private set; }
-
-    public String InputFiles { get; private set; }
     #endregion
 
     #region Classes
+    public class InputOptions
+    {
+      internal InputOptions(Queue queue)
+      {
+        this.Pattern = QueueOperations.DequeueArgument(queue);
+        String field = queue.Peek() as String;
+        if (field == "-r")
+        {
+          queue.Dequeue();
+          this.SearchSubdirectories = true;
+        }
+      }
+
+      public String Pattern { get; private set; }
+
+      public Boolean SearchSubdirectories { get; private set; }
+    }
+
     public class DelimitedOptions
     {
       #region Construction
