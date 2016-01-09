@@ -13,6 +13,8 @@ namespace Siftan
 
     private StreamWriter jobLog;
 
+    private IDateTimeStamper dateTimeStamper;
+
     public LogManager(String applicationLogFilePath, String jobLogFilePath) 
       : this(null, applicationLogFilePath, jobLogFilePath)
     {
@@ -20,8 +22,11 @@ namespace Siftan
 
     public LogManager(IDateTimeStamper dateTimeStamper, String applicationLogFilePath, String jobLogFilePath)
     {
+      dateTimeStamper.VerifyThatObjectIsNotNull("Parameter 'dateTimeStamper' is null.");
       applicationLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Parameter 'applicationLogFilePath' is null or empty.");
       jobLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Parameter 'jobLogFilePath' is null or empty.");
+
+      this.dateTimeStamper = dateTimeStamper;
 
       FileStream applicationLogStream = new FileStream(applicationLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
       this.applicationLog = new StreamWriter(applicationLogStream);
@@ -39,7 +44,7 @@ namespace Siftan
     {
       if (logEntryType == LogEntryTypes.Application)
       {
-        this.applicationLog.WriteLine(message);
+        this.applicationLog.WriteLine("[" + this.dateTimeStamper.Now.ToString("dd-MM-yyyy HH:mm:ss") + "] " + message);
 
         if (flushType == LogEntryFlushTypes.Force)
         {
@@ -49,7 +54,7 @@ namespace Siftan
         return;
       }
 
-      this.jobLog.WriteLine(message);
+      this.jobLog.WriteLine("[" + this.dateTimeStamper.Now.ToString("dd-MM-yyyy HH:mm:ss") + "] " + message);
       if (flushType == LogEntryFlushTypes.Force)
       {
         this.jobLog.Flush();
