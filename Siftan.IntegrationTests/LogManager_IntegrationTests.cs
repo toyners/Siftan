@@ -50,22 +50,14 @@ namespace Siftan.IntegrationTests
       LogManager logManager = new LogManager(this.applicationLogFilePath, this.jobLogFilePath);
 
       // Act
-      logManager.WriteMessage(LogEntryTypes.Application, FirstLogMessage);
-      logManager.WriteMessage(LogEntryTypes.Application, SecondLogMessage);
-      logManager.WriteMessage(LogEntryTypes.Application, ThirdLogMessage);
+      WriteMessagesToLogManager(logManager, LogEntryTypes.Application, LogEntryFlushTypes.Lazy);
       logManager.Close();
 
       // Assert
       File.Exists(this.applicationLogFilePath).Should().BeTrue();
 
-      String[] logFileLines = null;
-      Action action = () => logFileLines = File.ReadAllLines(this.applicationLogFilePath);
-      action.ShouldNotThrow();
-
-      logFileLines.Length.Should().Be(3);
-      logFileLines[0].Should().Be(FirstLogMessage);
-      logFileLines[1].Should().Be(SecondLogMessage);
-      logFileLines[2].Should().Be(ThirdLogMessage);
+      String[] logFileLines = File.ReadAllLines(this.applicationLogFilePath);
+      AssertLogFileContentsAreCorrect(logFileLines);
     }
 
     [Test]
@@ -77,21 +69,13 @@ namespace Siftan.IntegrationTests
       try
       {
         // Act
-        logManager.WriteMessage(LogEntryTypes.Application, FirstLogMessage, LogEntryFlushTypes.Force);
-        logManager.WriteMessage(LogEntryTypes.Application, SecondLogMessage, LogEntryFlushTypes.Force);
-        logManager.WriteMessage(LogEntryTypes.Application, ThirdLogMessage, LogEntryFlushTypes.Force);
+        WriteMessagesToLogManager(logManager, LogEntryTypes.Application, LogEntryFlushTypes.Force);
 
         // Assert
         File.Exists(this.applicationLogFilePath).Should().BeTrue();
 
-        List<String> logFileLines = null;
-        Action action = () => logFileLines = ReadAllLinesFromOpenLogFile(this.applicationLogFilePath);
-        action.ShouldNotThrow();
-
-        logFileLines.Count.Should().Be(3);
-        logFileLines[0].Should().Be(FirstLogMessage);
-        logFileLines[1].Should().Be(SecondLogMessage);
-        logFileLines[2].Should().Be(ThirdLogMessage);
+        String[] logFileLines = GetOpenLogFileContent(this.applicationLogFilePath);
+        AssertLogFileContentsAreCorrect(logFileLines);
       }
       finally
       {
@@ -101,7 +85,7 @@ namespace Siftan.IntegrationTests
     }
 
     [Test]
-    public void MessagesInOpenApplicationLogNotFlushedCannotBeReadByOtherReader()
+    public void MessagesInOpenApplicationLogNotFlushedIsNotReadByOtherReader()
     {
       // Arrange
       LogManager logManager = new LogManager(this.applicationLogFilePath, this.jobLogFilePath);
@@ -109,18 +93,13 @@ namespace Siftan.IntegrationTests
       try
       {
         // Act
-        logManager.WriteMessage(LogEntryTypes.Application, FirstLogMessage, LogEntryFlushTypes.Lazy);
-        logManager.WriteMessage(LogEntryTypes.Application, SecondLogMessage, LogEntryFlushTypes.Lazy);
-        logManager.WriteMessage(LogEntryTypes.Application, ThirdLogMessage, LogEntryFlushTypes.Lazy);
+        WriteMessagesToLogManager(logManager, LogEntryTypes.Application, LogEntryFlushTypes.Lazy);
 
         // Assert
         File.Exists(this.applicationLogFilePath).Should().BeTrue();
 
-        List<String> logFileLines = null;
-        Action action = () => logFileLines = ReadAllLinesFromOpenLogFile(this.applicationLogFilePath);
-        action.ShouldNotThrow();
-
-        logFileLines.Count.Should().Be(0);
+        String[] logFileLines = GetOpenLogFileContent(this.applicationLogFilePath);
+        logFileLines.Length.Should().Be(0);
       }
       finally
       {
@@ -136,19 +115,14 @@ namespace Siftan.IntegrationTests
       LogManager logManager = new LogManager(this.applicationLogFilePath, this.jobLogFilePath);
 
       // Act
-      logManager.WriteMessage(LogEntryTypes.Job, FirstLogMessage);
-      logManager.WriteMessage(LogEntryTypes.Job, SecondLogMessage);
-      logManager.WriteMessage(LogEntryTypes.Job, ThirdLogMessage);
+      WriteMessagesToLogManager(logManager, LogEntryTypes.Job, LogEntryFlushTypes.Lazy);
       logManager.Close();
 
       // Assert
       File.Exists(this.jobLogFilePath).Should().BeTrue();
-      String[] logLines = File.ReadAllLines(this.jobLogFilePath);
 
-      logLines.Length.Should().Be(3);
-      logLines[0].Should().Be(FirstLogMessage);
-      logLines[1].Should().Be(SecondLogMessage);
-      logLines[2].Should().Be(ThirdLogMessage);
+      String[] logFileLines = File.ReadAllLines(this.jobLogFilePath);
+      AssertLogFileContentsAreCorrect(logFileLines);
     }
 
     [Test]
@@ -160,21 +134,13 @@ namespace Siftan.IntegrationTests
       try
       {
         // Act
-        logManager.WriteMessage(LogEntryTypes.Job, FirstLogMessage, LogEntryFlushTypes.Force);
-        logManager.WriteMessage(LogEntryTypes.Job, SecondLogMessage, LogEntryFlushTypes.Force);
-        logManager.WriteMessage(LogEntryTypes.Job, ThirdLogMessage, LogEntryFlushTypes.Force);
+        WriteMessagesToLogManager(logManager, LogEntryTypes.Job, LogEntryFlushTypes.Force);
 
         // Assert
         File.Exists(this.jobLogFilePath).Should().BeTrue();
 
-        List<String> logFileLines = null;
-        Action action = () => logFileLines = ReadAllLinesFromOpenLogFile(this.jobLogFilePath);
-        action.ShouldNotThrow();
-
-        logFileLines.Count.Should().Be(3);
-        logFileLines[0].Should().Be(FirstLogMessage);
-        logFileLines[1].Should().Be(SecondLogMessage);
-        logFileLines[2].Should().Be(ThirdLogMessage);
+        String[] logFileLines = GetOpenLogFileContent(this.jobLogFilePath);
+        AssertLogFileContentsAreCorrect(logFileLines);
       }
       finally
       {
@@ -184,7 +150,7 @@ namespace Siftan.IntegrationTests
     }
 
     [Test]
-    public void MessagesInOpenJobLogNotFlushedCannotBeReadByOtherReader()
+    public void MessagesInOpenJobLogNotFlushedIsNotReadByOtherReader()
     {
       // Arrange
       LogManager logManager = new LogManager(this.applicationLogFilePath, this.jobLogFilePath);
@@ -192,18 +158,13 @@ namespace Siftan.IntegrationTests
       try
       {
         // Act
-        logManager.WriteMessage(LogEntryTypes.Job, FirstLogMessage, LogEntryFlushTypes.Lazy);
-        logManager.WriteMessage(LogEntryTypes.Job, SecondLogMessage, LogEntryFlushTypes.Lazy);
-        logManager.WriteMessage(LogEntryTypes.Job, ThirdLogMessage, LogEntryFlushTypes.Lazy);
+        WriteMessagesToLogManager(logManager, LogEntryTypes.Job, LogEntryFlushTypes.Lazy);
 
         // Assert
         File.Exists(this.jobLogFilePath).Should().BeTrue();
 
-        List<String> logFileLines = null;
-        Action action = () => logFileLines = ReadAllLinesFromOpenLogFile(this.jobLogFilePath);
-        action.ShouldNotThrow();
-
-        logFileLines.Count.Should().Be(0);
+        String[] logFileLines = GetOpenLogFileContent(this.jobLogFilePath);
+        logFileLines.Length.Should().Be(0);
       }
       finally
       {
@@ -212,20 +173,44 @@ namespace Siftan.IntegrationTests
       }
     }
 
-    private static List<String> ReadAllLinesFromOpenLogFile(String filePath)
+    private static void WriteMessagesToLogManager(LogManager logManager, LogEntryTypes entryType, LogEntryFlushTypes flushType)
     {
-      FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Write);
+      logManager.WriteMessage(entryType, FirstLogMessage, flushType);
+      logManager.WriteMessage(entryType, SecondLogMessage, flushType);
+      logManager.WriteMessage(entryType, ThirdLogMessage, flushType);
+    }
 
-      List<String> lines = new List<String>();
-      using (StreamReader sr = new StreamReader(fs))
+    private static String[] GetOpenLogFileContent(String filePath)
+    {
+      String[] logFileLines = null;
+      Action action = () =>
       {
-        while (!sr.EndOfStream)
-        {
-          lines.Add(sr.ReadLine());
-        }
-      }
+        FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Write);
 
-      return lines;
+        List<String> lines = new List<String>();
+        using (StreamReader sr = new StreamReader(fs))
+        {
+          while (!sr.EndOfStream)
+          {
+            lines.Add(sr.ReadLine());
+          }
+        }
+
+        logFileLines = lines.ToArray();
+      };
+      
+      // Explicitly checking that no exception is thrown is part of having informative diagnostics
+      action.ShouldNotThrow();
+
+      return logFileLines;
+    }
+
+    private static void AssertLogFileContentsAreCorrect(String[] logFileLines)
+    {
+      logFileLines.Length.Should().Be(3);
+      logFileLines[0].Should().Be(FirstLogMessage);
+      logFileLines[1].Should().Be(SecondLogMessage);
+      logFileLines[2].Should().Be(ThirdLogMessage);
     }
     #endregion
   }
