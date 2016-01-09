@@ -4,6 +4,7 @@ namespace Siftan
   using System;
   using System.IO;
   using Jabberwocky.Toolkit.IO;
+  using Jabberwocky.Toolkit.Validation;
 
   public class Engine
   {
@@ -118,37 +119,91 @@ namespace Siftan
     Job
   }
 
-  public interface ILogManager
+  public enum LogEntryFlushTypes
   {
-    void WriteMessage(LogEntryTypes logEntryType, String message);
+    Force,
+    Lazy
   }
 
-  public class LogManager : ILogManager
+  public interface ILogManager
   {
+    void WriteMessage(LogEntryTypes logEntryType, String message, LogEntryFlushTypes flushType = LogEntryFlushTypes.Lazy);
+  }
+
+  public class LogManager : ILogManager, IDisposable
+  {
+    private Boolean disposedValue = false; // To detect redundant calls
+
     private StreamWriter applicationLog;
 
     private StreamWriter jobLog;
 
     public LogManager(String applicationLogFilePath, String jobLogFilePath)
     {
-      throw new NotImplementedException();
-      this.applicationLog = new StreamWriter(applicationLogFilePath);
+      applicationLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Parameter 'applicationLogFilePath' is null or empty.");
+      jobLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Parameter 'jobLogFilePath' is null or empty.");
+
+      FileStream applicationLogStream = new FileStream(applicationLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
+      this.applicationLog = new StreamWriter(applicationLogStream);
+
+      FileStream jobLogStream = new FileStream(jobLogFilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
+      this.jobLog = new StreamWriter(jobLogStream);
     }
 
     public void Close()
     {
-      throw new NotImplementedException();
-      if (this.applicationLog != null)
+      this.Dispose(true);
+    }
+
+    public void WriteMessage(LogEntryTypes logEntryType, String message, LogEntryFlushTypes flushType = LogEntryFlushTypes.Lazy)
+    {
+      if (logEntryType == LogEntryTypes.Application)
       {
-        this.applicationLog.Close();
-        this.applicationLog = null;
+        this.applicationLog.WriteLine(message);
+
+        if (flushType == LogEntryFlushTypes.Force)
+        {
+          this.applicationLog.Flush();
+        }
+
+        return;
+      }
+
+      this.jobLog.WriteLine(message);
+      if (flushType == LogEntryFlushTypes.Force)
+      {
+        this.jobLog.Flush();
       }
     }
 
-    public void WriteMessage(LogEntryTypes logEntryType, String message)
+    // This code added to correctly implement the disposable pattern.
+    public void Dispose()
     {
-      throw new NotImplementedException();
-      //"[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] 
+      // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+      this.Dispose(true);
+    }
+
+    protected virtual void Dispose(Boolean disposing)
+    {
+      if (!disposedValue)
+      {
+        if (disposing)
+        {
+          if (this.applicationLog != null)
+          {
+            this.applicationLog.Close();
+            this.applicationLog = null;
+          }
+
+          if (this.jobLog != null)
+          {
+            this.jobLog.Close();
+            this.jobLog = null;
+          }
+        }
+
+        disposedValue = true;
+      }
     }
   }
 }
