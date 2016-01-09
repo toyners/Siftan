@@ -9,46 +9,43 @@ namespace Siftan
   {
     #region Methods
     public void Execute(
-      String[] filePaths, 
-      String logFilePath,
-      IStreamReaderFactory streamReaderFactory, 
-      IRecordReader recordReader, 
-      IRecordMatchExpression expression, 
+      String[] filePaths,
+      ILogManager logManager,
+      IStreamReaderFactory streamReaderFactory,
+      IRecordReader recordReader,
+      IRecordMatchExpression expression,
       IRecordWriter recordWriter)
     {
-      using (StreamWriter log = new StreamWriter(logFilePath))
+      try
       {
-        try
+        if (recordWriter.Categories < RecordCategory.Matched || recordWriter.Categories >= (RecordCategory)((Int32)RecordCategory.Unmatched << (Int32)RecordCategory.Matched))
         {
-          if (recordWriter.Categories < RecordCategory.Matched || recordWriter.Categories >= (RecordCategory)((Int32)RecordCategory.Unmatched << (Int32)RecordCategory.Matched))
-          {
-            throw new Exception(String.Format("IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was {0}.", recordWriter.Categories));
-          }
-
-          log.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] Starting...");
-
-          if ((recordWriter.Categories & (RecordCategory.Matched | RecordCategory.Unmatched)) == (RecordCategory.Matched | RecordCategory.Unmatched))
-          {
-            this.SelectMatchedAndUnmatchedRecords(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
-          }
-          else if ((recordWriter.Categories & RecordCategory.Matched) == RecordCategory.Matched)
-          {
-            this.SelectMatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord);
-          }
-          else if ((recordWriter.Categories & RecordCategory.Unmatched) == RecordCategory.Unmatched)
-          {
-            this.SelectUnmatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteUnmatchedRecord);
-          }
-
-          recordWriter.Close();
-
-          log.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] Finished.");
+          throw new Exception(String.Format("IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was {0}.", recordWriter.Categories));
         }
-        catch (Exception exception)
+
+        logManager.WriteMessage(LogEntryTypes.Application, "Starting...");
+
+        if ((recordWriter.Categories & (RecordCategory.Matched | RecordCategory.Unmatched)) == (RecordCategory.Matched | RecordCategory.Unmatched))
         {
-          log.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] EXCEPTION: " + exception.Message);
-          throw exception;
+          this.SelectMatchedAndUnmatchedRecords(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
         }
+        else if ((recordWriter.Categories & RecordCategory.Matched) == RecordCategory.Matched)
+        {
+          this.SelectMatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord);
+        }
+        else if ((recordWriter.Categories & RecordCategory.Unmatched) == RecordCategory.Unmatched)
+        {
+          this.SelectUnmatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteUnmatchedRecord);
+        }
+
+        recordWriter.Close();
+
+        logManager.WriteMessage(LogEntryTypes.Application, "Finished.");
+      }
+      catch (Exception exception)
+      {
+        logManager.WriteMessage(LogEntryTypes.Application, "EXCEPTION: " + exception.Message);
+        throw exception;
       }
     }
 
@@ -113,5 +110,45 @@ namespace Siftan
       }
     }
     #endregion
+  }
+
+  public enum LogEntryTypes
+  {
+    Application,
+    Job
+  }
+
+  public interface ILogManager
+  {
+    void WriteMessage(LogEntryTypes logEntryType, String message);
+  }
+
+  public class LogManager : ILogManager
+  {
+    private StreamWriter applicationLog;
+
+    private StreamWriter jobLog;
+
+    public LogManager(String applicationLogFilePath, String jobLogFilePath)
+    {
+      throw new NotImplementedException();
+      this.applicationLog = new StreamWriter(applicationLogFilePath);
+    }
+
+    public void Close()
+    {
+      throw new NotImplementedException();
+      if (this.applicationLog != null)
+      {
+        this.applicationLog.Close();
+        this.applicationLog = null;
+      }
+    }
+
+    public void WriteMessage(LogEntryTypes logEntryType, String message)
+    {
+      throw new NotImplementedException();
+      //"[" + DateTime.Now.ToString("dd-MM-yy HH:mm:ss") + "] 
+    }
   }
 }

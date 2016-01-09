@@ -43,7 +43,7 @@ namespace Siftan.AcceptanceTests
         // Act
         new Engine().Execute(
           new[] { inputFilePath },
-          logFilePath,
+          new LogManager(null, null),
           new FileReaderFactory(),
           CreateDelimitedRecordReader(),
           new InListExpression(new[] { "12345" }),
@@ -96,7 +96,7 @@ namespace Siftan.AcceptanceTests
         // Act
         new Engine().Execute(
           new[] { inputFilePath },
-          logFilePath,
+          new LogManager(null, null),
           new FileReaderFactory(),
           CreateFixedWidthRecordReader(),
           new InListExpression(new[] { "12345" }),
@@ -149,7 +149,7 @@ namespace Siftan.AcceptanceTests
         // Act
         new Engine().Execute(
           new[] { inputFilePath },
-          logFilePath,
+          new LogManager(null, null),
           new FileReaderFactory(),
           CreateDelimitedRecordReader(),
           new InListExpression(new[] { "12345" }),
@@ -194,7 +194,7 @@ namespace Siftan.AcceptanceTests
         // Act
         new Engine().Execute(
           new[] { inputFilePath },
-          logFilePath,
+          new LogManager(null, null),
           new FileReaderFactory(),
           CreateFixedWidthRecordReader(),
           new InListExpression(new[] { "12345" }),
@@ -239,7 +239,7 @@ namespace Siftan.AcceptanceTests
         // Act
         new Engine().Execute(
           new[] { inputFilePath },
-          logFilePath,
+          new LogManager(null, null),
           new FileReaderFactory(),
           CreateDelimitedRecordReader(),
           new InListExpression(new[] { "11111" }),
@@ -277,7 +277,7 @@ namespace Siftan.AcceptanceTests
         // Act
         new Engine().Execute(
           new[] { inputFilePath },
-          logFilePath,
+          new LogManager(null, null),
           new FileReaderFactory(),
           CreateDelimitedRecordReader(),
           new InListExpression(new[] { "11111" }),
@@ -315,7 +315,7 @@ namespace Siftan.AcceptanceTests
         // Act
         new Engine().Execute(
           new[] { inputFilePath },
-          logFilePath,
+          new LogManager(null, null),
           new FileReaderFactory(),
           CreateDelimitedRecordReader(),
           new InListExpression(new[] { "12345" }),
@@ -361,7 +361,7 @@ namespace Siftan.AcceptanceTests
         // Act
         new Engine().Execute(
           new[] { inputFilePath },
-          logFilePath,
+          new LogManager(null, null),
           new FileReaderFactory(),
           CreateFixedWidthRecordReader(),
           new InListExpression(new[] { "12345" }),
@@ -404,7 +404,7 @@ namespace Siftan.AcceptanceTests
         Action action = () =>
           new Engine().Execute(
             null,
-            logFilePath,
+            new LogManager(null, null),
             Substitute.For<IStreamReaderFactory>(),
             Substitute.For<IRecordReader>(),
             Substitute.For<IRecordMatchExpression>(),

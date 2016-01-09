@@ -39,7 +39,7 @@ namespace Siftan_Console
 
       String logFilePath = inputFilePaths[0] + ".log";
         
-      new Engine().Execute(inputFilePaths, logFilePath, new FileReaderFactory(), recordReader, expression, recordWriter);
+      new Engine().Execute(inputFilePaths, new LogManager(null, null), new FileReaderFactory(), recordReader, expression, recordWriter);
 
       recordWriter.Close();
     }
