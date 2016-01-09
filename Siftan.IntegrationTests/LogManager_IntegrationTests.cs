@@ -42,11 +42,8 @@ namespace Siftan.IntegrationTests
 
       this.jobLogFilePath = this.parentDirectory + @"\JobLogFile.log";
 
-      DateTime LateNewYearsEveDateTime = new DateTime(2015, 12, 31, 23, 59, 59);
-      DateTime EarlyNewYearsDayDateTime = new DateTime(2016, 1, 1, 0, 0, 1);
-      DateTime NewYearsDayDateTime = new DateTime(2016, 1, 1, 11, 23, 45);
       this.mockDateTimeStamper = Substitute.For<IDateTimeStamper>();
-      this.mockDateTimeStamper.Now.Returns(LateNewYearsEveDateTime, EarlyNewYearsDayDateTime, NewYearsDayDateTime);
+      this.mockDateTimeStamper.Now.Returns(LateNewYearsEveDateTimeStamp, EarlyNewYearsDayDateTimeStamp, NewYearsDayDateTimeStamp);
     }
 
     [TearDown]

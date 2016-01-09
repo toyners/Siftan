@@ -44,7 +44,7 @@ namespace Siftan
     {
       if (logEntryType == LogEntryTypes.Application)
       {
-        this.applicationLog.WriteLine("[" + this.dateTimeStamper.Now.ToString("dd-MM-yyyy HH:mm:ss") + "] " + message);
+        this.applicationLog.WriteLine(this.dateTimeStamper.Now + " " + message);
 
         if (flushType == LogEntryFlushTypes.Force)
         {
@@ -54,7 +54,7 @@ namespace Siftan
         return;
       }
 
-      this.jobLog.WriteLine("[" + this.dateTimeStamper.Now.ToString("dd-MM-yyyy HH:mm:ss") + "] " + message);
+      this.jobLog.WriteLine(this.dateTimeStamper.Now + " " + message);
       if (flushType == LogEntryFlushTypes.Force)
       {
         this.jobLog.Flush();

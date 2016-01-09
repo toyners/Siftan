@@ -5,6 +5,6 @@ namespace Siftan
 
   public interface IDateTimeStamper
   {
-    DateTime Now { get; }
+    String Now { get; }
   }
 }
