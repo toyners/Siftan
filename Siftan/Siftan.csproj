@@ -48,6 +48,7 @@
     <Compile Include="Engine.cs" />
     <Compile Include="FixedWidthRecordDescriptor.cs" />
     <Compile Include="FixedWidthRecordReader.cs" />
+    <Compile Include="IDateTimeStamper.cs" />
     <Compile Include="ILogManager.cs" />
     <Compile Include="IRecordWriter.cs" />
     <Compile Include="LogEntryFlushTypes.cs" />
