@@ -5,6 +5,7 @@ namespace Siftan.IntegrationTests
   using System.Collections.Generic;
   using System.IO;
   using FluentAssertions;
+  using NSubstitute;
   using NUnit.Framework;
 
   [TestFixture]
@@ -16,11 +17,19 @@ namespace Siftan.IntegrationTests
 
     private const String ThirdLogMessage = "Test message #3";
 
+    private const String LateNewYearsEveDateTimeStamp = "[31-12-2015 23:59:59]";
+
+    private const String EarlyNewYearsDayDateTimeStamp = "[01-01-2016 00:00:01]";
+
+    private const String NewYearsDayDateTimeStamp = "[01-01-2016 11:23:45]";
+
     private String parentDirectory;
 
     private String applicationLogFilePath;
 
     private String jobLogFilePath;
+
+    private IDateTimeStamper mockDateTimeStamper;
 
     #region Methods
     [SetUp]
@@ -32,6 +41,12 @@ namespace Siftan.IntegrationTests
       this.applicationLogFilePath = this.parentDirectory + @"\ApplicationLogFile.log";
 
       this.jobLogFilePath = this.parentDirectory + @"\JobLogFile.log";
+
+      DateTime LateNewYearsEveDateTime = new DateTime(2015, 12, 31, 23, 59, 59);
+      DateTime EarlyNewYearsDayDateTime = new DateTime(2016, 1, 1, 0, 0, 1);
+      DateTime NewYearsDayDateTime = new DateTime(2016, 1, 1, 11, 23, 45);
+      this.mockDateTimeStamper = Substitute.For<IDateTimeStamper>();
+      this.mockDateTimeStamper.Now.Returns(LateNewYearsEveDateTime, EarlyNewYearsDayDateTime, NewYearsDayDateTime);
     }
 
     [TearDown]
@@ -47,7 +62,7 @@ namespace Siftan.IntegrationTests
     public void WritingMessagesToApplicationLogAndClosingCreatesValidLog()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
 
       // Act
       WriteMessagesToLogManager(logManager, LogEntryTypes.Application, LogEntryFlushTypes.Lazy);
@@ -64,7 +79,7 @@ namespace Siftan.IntegrationTests
     public void MessagesInOpenApplicationLogCanBeReadByOtherReader()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
 
       try
       {
@@ -88,7 +103,7 @@ namespace Siftan.IntegrationTests
     public void MessagesInOpenApplicationLogNotFlushedIsNotReadByOtherReader()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
 
       try
       {
@@ -112,7 +127,7 @@ namespace Siftan.IntegrationTests
     public void WritingMessagesToJobLogAndClosingCreatesValidLog()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
 
       // Act
       WriteMessagesToLogManager(logManager, LogEntryTypes.Job, LogEntryFlushTypes.Lazy);
@@ -129,7 +144,7 @@ namespace Siftan.IntegrationTests
     public void MessagesInOpenJobLogCanBeReadByOtherReader()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
 
       try
       {
@@ -153,7 +168,7 @@ namespace Siftan.IntegrationTests
     public void MessagesInOpenJobLogNotFlushedIsNotReadByOtherReader()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
 
       try
       {
@@ -208,9 +223,9 @@ namespace Siftan.IntegrationTests
     private static void AssertLogFileContentsAreCorrect(String[] logFileLines)
     {
       logFileLines.Length.Should().Be(3);
-      logFileLines[0].Should().Be(FirstLogMessage);
-      logFileLines[1].Should().Be(SecondLogMessage);
-      logFileLines[2].Should().Be(ThirdLogMessage);
+      logFileLines[0].Should().Be(LateNewYearsEveDateTimeStamp + " " + FirstLogMessage);
+      logFileLines[1].Should().Be(EarlyNewYearsDayDateTimeStamp + " " + SecondLogMessage);
+      logFileLines[2].Should().Be(NewYearsDayDateTimeStamp + " " + ThirdLogMessage);
     }
     #endregion
   }

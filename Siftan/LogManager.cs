@@ -13,7 +13,12 @@ namespace Siftan
 
     private StreamWriter jobLog;
 
-    public LogManager(String applicationLogFilePath, String jobLogFilePath)
+    public LogManager(String applicationLogFilePath, String jobLogFilePath) 
+      : this(null, applicationLogFilePath, jobLogFilePath)
+    {
+    }
+
+    public LogManager(IDateTimeStamper dateTimeStamper, String applicationLogFilePath, String jobLogFilePath)
     {
       applicationLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Parameter 'applicationLogFilePath' is null or empty.");
       jobLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Parameter 'jobLogFilePath' is null or empty.");
@@ -80,5 +85,10 @@ namespace Siftan
         disposedValue = true;
       }
     }
+  }
+
+  public interface IDateTimeStamper
+  {
+    DateTime Now { get; }
   }
 }
