@@ -16,7 +16,7 @@ namespace Siftan
     private IDateTimeStamper dateTimeStamper;
 
     public LogManager(String applicationLogFilePath, String jobLogFilePath) 
-      : this(null, applicationLogFilePath, jobLogFilePath)
+      : this(new DateTimeStamper(), applicationLogFilePath, jobLogFilePath)
     {
     }
 

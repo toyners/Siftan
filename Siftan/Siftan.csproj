@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeStamper.cs" />
     <Compile Include="DelimitedRecordDescriptor.cs" />
     <Compile Include="DelimitedRecordReader.cs" />
     <Compile Include="Engine.cs" />
