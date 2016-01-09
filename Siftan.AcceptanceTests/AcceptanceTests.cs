@@ -538,6 +538,7 @@ namespace Siftan.AcceptanceTests
     [Test]
     public void TestConsoleApplication()
     {
+      // Arrange
       var command = GetApplicationPath("Siftan_Console");
       VerifyApplicationFilePath(command);
 
@@ -554,7 +555,13 @@ namespace Siftan.AcceptanceTests
 
       ProcessStartInfo processStartInfo = new ProcessStartInfo(command, commandArguments);
 
+      // Act
       Application application = Application.Launch(processStartInfo);
+
+      // Assert
+      File.Exists(logFilePath).Should().BeTrue();
+      File.Exists(matchedOutputFilePath).Should().BeTrue();
+      File.Exists(unmatchedOutputFilePath).Should().BeTrue();
     }
 
     private static void CreateInputFilesForDelimitedTests(String resourceFilePath, String inputFilePath)
