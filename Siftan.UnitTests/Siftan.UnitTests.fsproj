@@ -91,6 +91,11 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Siftan.TestSupport\Siftan.TestSupport.csproj">
+      <Name>Siftan.TestSupport</Name>
+      <Project>{94a7a486-163b-4f81-bdb5-0174debc68ad}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Siftan\Siftan.csproj">
       <Name>Siftan</Name>
       <Project>{4ad46b0c-edcc-4be6-94cf-a586a33f50c3}</Project>

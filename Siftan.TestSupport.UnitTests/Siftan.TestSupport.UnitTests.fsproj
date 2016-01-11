@@ -55,8 +55,8 @@
     <Compile Include="DelimBuilderTests.fs" />
     <Compile Include="InListBuilderTests.fs" />
     <Compile Include="InputBuilderTests.fs" />
-    <Content Include="packages.config" />
     <Compile Include="OutputBuilderTests.fs" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Siftan\Siftan.csproj">

@@ -2,6 +2,7 @@
 
 open NUnit.Framework
 open Siftan
+open Siftan.TestSupport
 open FsUnit
 open System
 
@@ -16,6 +17,23 @@ type OptionsUnitTests() =
     let CommandLineForDelimitedRunWithInListValues = @"C:\InputFile.txt delim -d | -q ' -h 01 -li 0 -t 02 -ti 3 inlist -v A:B:C output -fm C:\Output\matched.txt"
     let CommandLineForDelimitedRunWithDefaults = @"C:\InputFile.txt delim -h 01 -t 02 inlist -f C:\Values.txt output -fm C:\Output\matched.txt"
     let CommandLineForFixedWidthRun = @"C:\InputFile.txt fixed -h 01 -ls 1 -ll 10 -t 02 -ts 12 -tl 11 inlist -f C:\Values.txt output -fm C:\Output\matched.txt"
+
+    member private this.``Build Command Line for Delimited Run with InList file``() =
+        CommandLineArgumentsBuilder()
+            .WithInput(InputBuilder()
+                .IsSingleFile())
+            .WithDelim(DelimBuilder()
+                .HasDelimiter("|")
+                .HasQualifier('\'')
+                .HasHeaderLineID("01")
+                .HasLineIDIndex(0u)
+                .HasTermLineID("02")
+                .HasTermIndex(3u))
+            .WithInList(InListBuilder()
+                .HasValuesFile(@"C:\Values.txt"))
+            .WithOutput(OutputBuilder()
+                .HasMatchedOutputFile(@"C:\Output\matched.txt"))
+            .Build()
 
     [<Test>]
     member public this.``Command line containing input file name returns valid object``() =
@@ -40,7 +58,7 @@ type OptionsUnitTests() =
     [<Test>]
     member public this.``Command line containing delim returns valid object``() =
         // Act
-        let options = CommandLineForDelimitedRunWithInListFile.Split(' ') |> Options 
+        let options = this.``Build Command Line for Delimited Run with InList file``() |> Options
 
         // Assert
         options.Delimited |> should not' (equal null)

@@ -10,7 +10,25 @@ namespace Siftan.TestSupport
 
     public CommandLineArgumentsBuilder WithInput(InputBuilder inputBuilder)
     {
-      builders.Add(inputBuilder);
+      this.builders.Add(inputBuilder);
+      return this;
+    }
+
+    public CommandLineArgumentsBuilder WithDelim(DelimBuilder delimBuilder)
+    {
+      this.builders.Add(delimBuilder);
+      return this;
+    }
+
+    public CommandLineArgumentsBuilder WithInList(InListBuilder inListBuilder)
+    {
+      this.builders.Add(inListBuilder);
+      return this;
+    }
+
+    public CommandLineArgumentsBuilder WithOutput(OutputBuilder outputBuilder)
+    {
+      this.builders.Add(outputBuilder);
       return this;
     }
 
