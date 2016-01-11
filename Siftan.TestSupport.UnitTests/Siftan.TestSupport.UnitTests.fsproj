@@ -53,10 +53,16 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="DelimBuilderTests.fs" />
+    <Compile Include="InListBuilderTests.fs" />
     <Compile Include="InputBuilderTests.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Siftan\Siftan.csproj">
+      <Name>Siftan</Name>
+      <Project>{4ad46b0c-edcc-4be6-94cf-a586a33f50c3}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <Reference Include="FsUnit.NUnit">
       <HintPath>..\packages\FsUnit.1.4.0.0\lib\net45\FsUnit.NUnit.dll</HintPath>
       <Private>True</Private>
