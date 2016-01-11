@@ -48,6 +48,7 @@
     <Compile Include="IBuilder.cs" />
     <Compile Include="InListBuilder.cs" />
     <Compile Include="InputBuilder.cs" />
+    <Compile Include="OutputBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
