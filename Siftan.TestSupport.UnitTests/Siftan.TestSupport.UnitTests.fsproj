@@ -55,6 +55,7 @@
     <Compile Include="DelimBuilderTests.fs" />
     <Compile Include="InListBuilderTests.fs" />
     <Compile Include="InputBuilderTests.fs" />
+    <Compile Include="LogBuilderTests.fs" />
     <Compile Include="OutputBuilderTests.fs" />
     <Content Include="packages.config" />
   </ItemGroup>

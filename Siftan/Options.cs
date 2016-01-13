@@ -6,6 +6,8 @@ namespace Siftan
 
   public class Options
   {
+    public const String UnrecognisedNounMessageTemplate = "'{0}' is not a recognised noun in command line arguments.";
+
     #region Construction
     public Options(String[] args)
     {
@@ -48,9 +50,15 @@ namespace Siftan
             break;
           }
 
+          case "log":
+          {
+            this.Log = new LogOptions(queue);
+            break;
+          }
+
           default:
           {
-            throw new Exception("No recognised noun found in command line arguments.");
+            throw new Exception(String.Format(UnrecognisedNounMessageTemplate, noun));
           }
         }
       }
@@ -75,9 +83,9 @@ namespace Siftan
         throw new Exception("Missing required output descriptor term. Use 'output'.");
       }
 
-      if (this.Logging == null)
+      if (this.Log == null)
       {
-        this.Logging = new LoggingOptions(this.Output.FileMatched);
+        this.Log = new LogOptions(this.Output.FileMatched);
       }
     }
     #endregion
@@ -93,7 +101,7 @@ namespace Siftan
 
     public OutputOptions Output { get; private set; }
 
-    public LoggingOptions Logging { get; private set; }
+    public LogOptions Log { get; private set; }
     #endregion
 
     #region Classes
@@ -434,16 +442,47 @@ namespace Siftan
       #endregion
     }
 
-    public class LoggingOptions
+    public class LogOptions
     {
       public const String DefaultApplicationLogFileName = "Siftan.log";
 
       public const String DefaultJobLogFileName = "Job.log";
 
-      internal LoggingOptions(String matchOutputFilePath)
+      internal LogOptions(String matchOutputFilePath)
       {
-        this.ApplicationLogFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location + @"\" + LoggingOptions.DefaultApplicationLogFileName;
-        this.JobLogFilePath = System.IO.Path.GetDirectoryName(matchOutputFilePath) + LoggingOptions.DefaultJobLogFileName;
+        this.ApplicationLogFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location + @"\" + LogOptions.DefaultApplicationLogFileName;
+        this.JobLogFilePath = System.IO.Path.GetDirectoryName(matchOutputFilePath) + LogOptions.DefaultJobLogFileName;
+      }
+
+      internal LogOptions(Queue queue)
+      {
+        Boolean parsingComplete = false;
+        while (queue.Count > 0 && !parsingComplete)
+        {
+          String field = queue.Peek() as String;
+          switch (field)
+          {
+            case "-a":
+            {
+              QueueOperations.DequeueArgument(queue);
+              this.ApplicationLogFilePath = QueueOperations.DequeueArgument(queue, "-a");
+              break;
+            }
+
+            case "-j":
+            {
+              QueueOperations.DequeueArgument(queue);
+              this.JobLogFilePath = QueueOperations.DequeueArgument(queue, "-j");
+              break;
+            }
+
+            default:
+            {
+              parsingComplete = true;
+              break;
+            }
+          }
+        }
       }
 
       public String ApplicationLogFilePath { get; private set; }

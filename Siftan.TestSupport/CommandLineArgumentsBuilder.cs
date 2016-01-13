@@ -32,6 +32,12 @@ namespace Siftan.TestSupport
       return this;
     }
 
+    public CommandLineArgumentsBuilder WithLog(LogBuilder logBuilder)
+    {
+      this.builders.Add(logBuilder);
+      return this;
+    }
+
     public String[] Build()
     {
       List<String> results = new List<String>();

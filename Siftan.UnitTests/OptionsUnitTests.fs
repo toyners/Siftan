@@ -18,6 +18,10 @@ type OptionsUnitTests() =
     let CommandLineForDelimitedRunWithDefaults = @"C:\InputFile.txt delim -h 01 -t 02 inlist -f C:\Values.txt output -fm C:\Output\matched.txt"
     let CommandLineForFixedWidthRun = @"C:\InputFile.txt fixed -h 01 -ls 1 -ll 10 -t 02 -ts 12 -tl 11 inlist -f C:\Values.txt output -fm C:\Output\matched.txt"
 
+    let ApplicationLogFilePath = @"C:\Output\siftan.log"
+    let JobLogFilePath = @"C:\Output\job.log"
+    let NotACommandLineNoun = "NotACommandLineNoun"
+
     member private this.``Build Command Line for Delimited Run with InList file``() =
         CommandLineArgumentsBuilder()
             .WithInput(InputBuilder()
@@ -34,6 +38,35 @@ type OptionsUnitTests() =
             .WithOutput(OutputBuilder()
                 .HasMatchedOutputFile(@"C:\Output\matched.txt"))
             .Build()
+
+    member private this.``Build Command Line for Run with Logging Information``() =
+        CommandLineArgumentsBuilder()
+            .WithInput(InputBuilder()
+                .IsSingleFile())
+            .WithDelim(DelimBuilder()
+                .HasDelimiter("|")
+                .HasQualifier('\'')
+                .HasHeaderLineID("01")
+                .HasLineIDIndex(0u)
+                .HasTermLineID("02")
+                .HasTermIndex(3u))
+            .WithInList(InListBuilder()
+                .HasValuesFile(@"C:\Values.txt"))
+            .WithOutput(OutputBuilder()
+                .HasMatchedOutputFile(@"C:\Output\matched.txt"))
+            .WithLog(LogBuilder()
+                .HasApplicationLogFilePath(ApplicationLogFilePath)
+                .HasJobLogFilePath(JobLogFilePath))
+            .Build()
+
+    member private this.``Build Command Line with missing delim noun``() =
+        let args = 
+            CommandLineArgumentsBuilder()
+                .WithInput(InputBuilder()
+                    .IsSingleFile())
+                .Build()
+
+        Array.append args [| NotACommandLineNoun |]
 
     [<Test>]
     member public this.``Command line containing input file name returns valid object``() =
@@ -80,9 +113,18 @@ type OptionsUnitTests() =
         // Act
         let options = this.``Build Command Line for Delimited Run with InList file``() |> Options
 
-        options.Logging |> should not' (equal null)
-        options.Logging.ApplicationLogFilePath |> should endWith (@"\" + Options.LoggingOptions.DefaultApplicationLogFileName)
-        options.Logging.JobLogFilePath |> should equal (System.IO.Path.GetDirectoryName(options.Output.FileMatched) + Options.LoggingOptions.DefaultJobLogFileName);
+        options.Log |> should not' (equal null)
+        options.Log.ApplicationLogFilePath |> should endWith (@"\" + Options.LogOptions.DefaultApplicationLogFileName)
+        options.Log.JobLogFilePath |> should equal (System.IO.Path.GetDirectoryName(options.Output.FileMatched) + Options.LogOptions.DefaultJobLogFileName);
+
+    [<Test>]
+    member public this.``Command line containing logging information returns expected logging object``() =
+        // Act
+        let options = this.``Build Command Line for Run with Logging Information``() |> Options
+
+        options.Log |> should not' (equal null)
+        options.Log.ApplicationLogFilePath |> should equal ApplicationLogFilePath
+        options.Log.JobLogFilePath |> should equal JobLogFilePath
 
     [<Test>]
     member public this.``Command line containing inlist file path returns valid object``() =
@@ -141,11 +183,12 @@ type OptionsUnitTests() =
     [<Test>]
     member public this.``Missing Delimited noun throws meaningful exception``() =
         // Arrange
-        let args = [|"-d"; "|"; "-h"; "01"; "-li"; "A"; "-t"; "01"; "-ti"; "3"|]
+        let args = this.``Build Command Line with missing delim noun``()
+        let expectedExceptionMessage = String.Format(Options.UnrecognisedNounMessageTemplate, NotACommandLineNoun)
 
         // Act && Assert
         (fun () -> Options args |> ignore)
-        |> should (throwWithMessage "No recognised noun found in command line arguments.") typeof<System.Exception>
+        |> should (throwWithMessage expectedExceptionMessage) typeof<System.Exception>
 
     [<Test>]
     member public this.``Delimited command line segment with bad type throws meaningful exception``() =
