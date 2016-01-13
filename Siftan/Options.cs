@@ -74,6 +74,11 @@ namespace Siftan
       {
         throw new Exception("Missing required output descriptor term. Use 'output'.");
       }
+
+      if (this.Logging == null)
+      {
+        this.Logging = new LoggingOptions(this.Output.FileMatched);
+      }
     }
     #endregion
 
@@ -87,6 +92,8 @@ namespace Siftan
     public InListOptions InList { get; private set; }
 
     public OutputOptions Output { get; private set; }
+
+    public LoggingOptions Logging { get; private set; }
     #endregion
 
     #region Classes
@@ -425,6 +432,23 @@ namespace Siftan
 
       public String FileUnmatched { get; private set; }
       #endregion
+    }
+
+    public class LoggingOptions
+    {
+      public const String DefaultApplicationLogFileName = "Siftan.log";
+
+      public const String DefaultJobLogFileName = "Job.log";
+
+      internal LoggingOptions(String matchOutputFilePath)
+      {
+        this.ApplicationLogFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location + @"\" + LoggingOptions.DefaultApplicationLogFileName;
+        this.JobLogFilePath = System.IO.Path.GetDirectoryName(matchOutputFilePath) + LoggingOptions.DefaultJobLogFileName;
+      }
+
+      public String ApplicationLogFilePath { get; private set; }
+
+      public String JobLogFilePath { get; private set; }
     }
     #endregion
   }

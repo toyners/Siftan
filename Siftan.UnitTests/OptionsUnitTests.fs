@@ -76,6 +76,15 @@ type OptionsUnitTests() =
         options.Output.FileMatched |> should equal @"C:\Output\matched.txt"
 
     [<Test>]
+    member public this.``Command line containing no logging information returns default logging object``() =
+        // Act
+        let options = this.``Build Command Line for Delimited Run with InList file``() |> Options
+
+        options.Logging |> should not' (equal null)
+        options.Logging.ApplicationLogFilePath |> should endWith (@"\" + Options.LoggingOptions.DefaultApplicationLogFileName)
+        options.Logging.JobLogFilePath |> should equal (System.IO.Path.GetDirectoryName(options.Output.FileMatched) + Options.LoggingOptions.DefaultJobLogFileName);
+
+    [<Test>]
     member public this.``Command line containing inlist file path returns valid object``() =
         // Act
         let options = CommandLineForDelimitedRunWithInListFile.Split(' ') |> Options 
