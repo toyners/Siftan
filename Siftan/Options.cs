@@ -3,7 +3,8 @@ namespace Siftan
 {
   using System;
   using System.Collections;
-
+  using System.IO;
+  using System.Reflection;
   public class Options
   {
     public const String UnrecognisedNounMessageTemplate = "'{0}' is not a recognised noun in command line arguments.";
@@ -450,8 +451,8 @@ namespace Siftan
 
       internal LogOptions(String matchOutputFilePath)
       {
-        this.ApplicationLogFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location + @"\" + LogOptions.DefaultApplicationLogFileName;
-        this.JobLogFilePath = System.IO.Path.GetDirectoryName(matchOutputFilePath) + LogOptions.DefaultJobLogFileName;
+        this.ApplicationLogFilePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + LogOptions.DefaultApplicationLogFileName;
+        this.JobLogFilePath = Path.GetDirectoryName(matchOutputFilePath) + LogOptions.DefaultJobLogFileName;
       }
 
       internal LogOptions(Queue queue)
