@@ -5,6 +5,7 @@ namespace Siftan
   using System.Collections;
   using System.IO;
   using System.Reflection;
+  using Jabberwocky.Toolkit.Path;
   public class Options
   {
     public const String UnrecognisedNounMessageTemplate = "'{0}' is not a recognised noun in command line arguments.";
@@ -451,8 +452,12 @@ namespace Siftan
 
       internal LogOptions(String matchOutputFilePath)
       {
-        this.ApplicationLogFilePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + LogOptions.DefaultApplicationLogFileName;
-        this.JobLogFilePath = Path.GetDirectoryName(matchOutputFilePath) + LogOptions.DefaultJobLogFileName;
+        String assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        this.ApplicationLogFilePath = PathOperations.CompleteDirectoryPath(assemblyDirectory) +
+                                      LogOptions.DefaultApplicationLogFileName;
+        String matchedOutputDirectory = Path.GetDirectoryName(matchOutputFilePath);
+        this.JobLogFilePath = PathOperations.CompleteDirectoryPath(matchedOutputDirectory) + 
+                              LogOptions.DefaultJobLogFileName;
       }
 
       internal LogOptions(Queue queue)

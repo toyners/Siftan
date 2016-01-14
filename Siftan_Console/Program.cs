@@ -37,17 +37,19 @@ namespace Siftan_Console
 
       OneFileRecordWriter recordWriter = new OneFileRecordWriter(options.Output.FileMatched, options.Output.FileUnmatched);
 
-      String logFilePath = inputFilePaths[0] + ".log";
+      LogManager logManager = new LogManager(options.Log.ApplicationLogFilePath, options.Log.JobLogFilePath);
         
       new Engine().Execute(
         inputFilePaths, 
-        new LogManager(options.Log.ApplicationLogFilePath, options.Log.JobLogFilePath), 
+        logManager, 
         new FileReaderFactory(), 
         recordReader, 
         expression, 
         recordWriter);
 
       recordWriter.Close();
+
+      logManager.Close();
     }
 
     private static String[] GetInputFilePaths(Options options)
