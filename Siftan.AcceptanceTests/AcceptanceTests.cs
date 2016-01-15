@@ -2,10 +2,8 @@
 namespace Siftan.AcceptanceTests
 {
   using System;
-  using System.Diagnostics;
   using System.IO;
   using System.Reflection;
-  using System.Threading;
   using FluentAssertions;
   using Jabberwocky.Toolkit.Assembly;
   using Jabberwocky.Toolkit.IO;
@@ -22,7 +20,6 @@ namespace Siftan.AcceptanceTests
   {
     private const String DateTimeStampRegex = @"\A\[\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] ";
 
-    #region Methods
     [Test]
     public void SetToWriteMatchedAndUnmatchedDelimitedRecordsThatAreInDataFile()
     {
@@ -554,26 +551,8 @@ namespace Siftan.AcceptanceTests
 
       var commandArguments = CreateCommandArgumentsForDelimitedFile(inputFilePath, "01", "02", "12345", matchedOutputFilePath);
 
-      ProcessStartInfo processStartInfo = new ProcessStartInfo(command, commandArguments);
-
       // Act
-      Application application = Application.Launch(processStartInfo);
-      Boolean hasExited = false;
-      Int32 counter = 5;
-      while ((hasExited = application.Process.HasExited) == false && (counter--) > 0)
-      {
-        Thread.Sleep(1000);
-      }
-
-      if (!hasExited)
-      {
-        throw new TimeoutException("Console application has hung.");
-      }
-
-      if (application.Process.ExitCode != 0)
-      {
-        throw new Exception(String.Format("Console application has finished with exit code {0}.", application.Process.ExitCode));
-      }
+      ConsoleRunner.Run(command, commandArguments);
 
       // Assert
       File.Exists(logFilePath).Should().BeTrue();
@@ -620,6 +599,5 @@ namespace Siftan.AcceptanceTests
         throw new FileNotFoundException(String.Format("File '{0}' not found.", applicationPath));
       }
     }
-    #endregion
   }
 }
