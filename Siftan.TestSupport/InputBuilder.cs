@@ -19,15 +19,15 @@ namespace Siftan.TestSupport
       return this.tokens.ToArray();
     }
 
-    public InputBuilder IsSingleFile()
+    public InputBuilder IsSingleFile(String filePath = SingleFile)
     {
-      this.tokens.Add(SingleFile);
+      this.tokens.Add(filePath);
       return this;
     }
 
-    public InputBuilder IsMultipleFiles()
+    public InputBuilder IsMultipleFiles(String filePattern = MultipleFiles)
     {
-      this.tokens.Add(MultipleFiles);
+      this.tokens.Add(filePattern);
       return this;
     }
 
