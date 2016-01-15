@@ -10,6 +10,7 @@ namespace Siftan.AcceptanceTests
   using Jabberwocky.Toolkit.Path;
   using NSubstitute;
   using NUnit.Framework;
+  using Siftan.TestSupport;
   using TestStack.White;
   using TestStack.White.UIItems;
   using TestStack.White.UIItems.Finders;
@@ -19,6 +20,42 @@ namespace Siftan.AcceptanceTests
   public class AcceptanceTests
   {
     private const String DateTimeStampRegex = @"\A\[\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] ";
+
+    private const String DelimitedInputFileResourcePath = "Siftan.AcceptanceTests.DelimitedRecordFile.csv";
+
+    private String workingDirectory = null;
+
+    private String delimitedInputFilePath = null;
+
+    private String matchedDelimitedOutputFilePath = null;
+
+    private String unmatchedDelimitedOutputFilePath = null;
+
+    private String applicationLogFilePath = null;
+
+    private String jobLogFilePath = null;
+
+    [TestFixtureSetUp]
+    public void SetupBeforeAllTests()
+    {
+      this.workingDirectory = Path.GetTempPath() + @"Siftan.AcceptanceTests\";
+      this.delimitedInputFilePath = this.workingDirectory + "Input.csv";
+      this.matchedDelimitedOutputFilePath = this.workingDirectory + "Matched.csv";
+      this.unmatchedDelimitedOutputFilePath = this.workingDirectory + "Unmatched.csv";
+      this.applicationLogFilePath = this.workingDirectory + "Application.log";
+      this.jobLogFilePath = this.workingDirectory + "Job.log";
+    }
+
+    [SetUp]
+    public void SetupBeforeEachTest()
+    {
+      if (Directory.Exists(this.workingDirectory))
+      {
+        Directory.Delete(this.workingDirectory, true);
+      }
+
+      Directory.CreateDirectory(this.workingDirectory);
+    }
 
     [Test]
     public void SetToWriteMatchedAndUnmatchedDelimitedRecordsThatAreInDataFile()
@@ -430,20 +467,12 @@ namespace Siftan.AcceptanceTests
 
     private static void CreateFilePaths(String inputFileName, String outputExtension, out String inputFilePath, out String matchedOutputFilePath, out String unmatchedOutputFilePath, out String logFilePath)
     {
-      String workingDirectory = CreateWorkingDirectory();
+      String workingDirectory = null;
 
       inputFilePath = workingDirectory + inputFileName;
       matchedOutputFilePath = workingDirectory + "matched_output_file." + outputExtension;
       unmatchedOutputFilePath = workingDirectory + "unmatched_output_file." + outputExtension;
       logFilePath = workingDirectory + "Siftan.log";
-    }
-
-    private static String CreateWorkingDirectory()
-    {
-      String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
-      
-      Directory.CreateDirectory(workingDirectory);
-      return workingDirectory;
     }
 
     private static String CreateLogFilePath()
@@ -537,48 +566,36 @@ namespace Siftan.AcceptanceTests
     public void TestConsoleApplication()
     {
       // Arrange
-      var command = GetApplicationPath("Siftan_Console");
-      VerifyApplicationFilePath(command);
+      CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.delimitedInputFilePath);
 
-      String inputFilePath = null;
-      String matchedOutputFilePath = null;
-      String unmatchedOutputFilePath = null;
-      String logFilePath = null;
-      CreateFilePathsForDelimitedTests(out inputFilePath, out matchedOutputFilePath, out unmatchedOutputFilePath, out logFilePath);
+      var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan_Console");
 
-      const String DelimitedInputFileResourcePath = "Siftan.AcceptanceTests.DelimitedRecordFile.csv";
-      CreateInputFilesForDelimitedTests(DelimitedInputFileResourcePath, inputFilePath);
+      const String HeaderLineID = "01";
+      const String TermLineID = "02";
+      const String ValuesList = "12345";
 
-      var commandArguments = CreateCommandArgumentsForDelimitedFile(inputFilePath, "01", "02", "12345", matchedOutputFilePath);
-
+      var commandLineArguments = CommandLineArgumentsCreator.CreateForDelimitedTests(
+        this.delimitedInputFilePath,
+        HeaderLineID,
+        TermLineID,
+        ValuesList,
+        this.matchedDelimitedOutputFilePath,
+        this.unmatchedDelimitedOutputFilePath,
+        this.applicationLogFilePath,
+        this.jobLogFilePath);
+      
       // Act
-      ConsoleRunner.Run(command, commandArguments);
+      ConsoleRunner.Run(applicationPath, commandLineArguments);
 
       // Assert
-      File.Exists(logFilePath).Should().BeTrue();
-      File.Exists(matchedOutputFilePath).Should().BeTrue();
-      File.Exists(unmatchedOutputFilePath).Should().BeTrue();
+      File.Exists(this.applicationLogFilePath).Should().BeTrue();
+      File.Exists(this.matchedDelimitedOutputFilePath).Should().BeTrue();
+      File.Exists(this.unmatchedDelimitedOutputFilePath).Should().BeTrue();
     }
 
-    private static void CreateInputFilesForDelimitedTests(String resourceFilePath, String inputFilePath)
+    private static void CreateInputFileForDelimitedTests(String resourceFilePath, String inputFilePath)
     {
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFilePath, inputFilePath);
-    }
-
-    private static String CreateCommandArgumentsForDelimitedFile(
-      String inputFilePath, 
-      String headerLineID, 
-      String termLineID,
-      String value,
-      String outputFilePath)
-    {
-      const String CommandLineForDelimitedRunTemplate = "{0} delim -h {1} -t {2} inlist -v {3} output -fm {4}";
-      return String.Format(CommandLineForDelimitedRunTemplate, 
-        inputFilePath, 
-        headerLineID, 
-        termLineID,
-        value,
-        outputFilePath);
     }
 
     private static String GetApplicationPath(String applicationName)
@@ -593,6 +610,61 @@ namespace Siftan.AcceptanceTests
     }
 
     private static void VerifyApplicationFilePath(String applicationPath)
+    {
+      if (!File.Exists(applicationPath))
+      {
+        throw new FileNotFoundException(String.Format("File '{0}' not found.", applicationPath));
+      }
+    }
+  }
+
+  public static class CommandLineArgumentsCreator
+  {
+    public static String CreateForDelimitedTests(
+      String inputFilePath,
+      String headerLineID,
+      String termLineID,
+      String value,
+      String matchedOutputFilePath,
+      String unmatchedOutputFilePath,
+      String applicationLogFilePath,
+      String jobLogFilePath)
+    {
+      var commandLineArgumentsBuilder = new CommandLineArgumentsBuilder()
+        .WithInput(new InputBuilder()
+          .IsSingleFile(inputFilePath))
+        .WithDelim(new DelimBuilder()
+          .HasHeaderLineID(headerLineID)
+          .HasTermLineID(termLineID))
+        .WithInList(new InListBuilder()
+          .HasValuesList(value))
+        .WithOutput(new OutputBuilder()
+          .HasMatchedOutputFile(matchedOutputFilePath)
+          .HasUnmatchedOutputFile(unmatchedOutputFilePath))
+        .WithLog(new LogBuilder()
+          .HasApplicationLogFilePath(applicationLogFilePath)
+          .HasJobLogFilePath(jobLogFilePath));
+
+      return String.Join(" ", commandLineArgumentsBuilder.Build());
+    }
+  }
+
+  public static class ApplicationPathCreator
+  {
+    public static String GetApplicationPath(String applicationName)
+    {
+      const String ApplicationPathTemplate = @"C:\C#\Siftan\{0}\bin\{1}\{0}.exe";
+
+      var applicationPath = String.Format(ApplicationPathTemplate,
+        applicationName,
+        (TestContext.CurrentContext.TestDirectory.Contains("Release") ? "Release" : "Debug"));
+
+      VerifyApplicationExists(applicationPath);
+
+      return applicationPath;
+    }
+
+    private static void VerifyApplicationExists(String applicationPath)
     {
       if (!File.Exists(applicationPath))
       {
