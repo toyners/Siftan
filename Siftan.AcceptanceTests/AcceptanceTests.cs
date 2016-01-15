@@ -73,7 +73,6 @@ namespace Siftan.AcceptanceTests
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
-        outputWriter.Categories = RecordCategory.Matched | RecordCategory.Unmatched;
 
         // Act
         new Engine().Execute(
@@ -126,7 +125,6 @@ namespace Siftan.AcceptanceTests
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
-        outputWriter.Categories = RecordCategory.Matched | RecordCategory.Unmatched;
 
         // Act
         new Engine().Execute(
@@ -179,7 +177,6 @@ namespace Siftan.AcceptanceTests
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
-        outputWriter.Categories = RecordCategory.Matched;
 
         // Act
         new Engine().Execute(
@@ -224,7 +221,6 @@ namespace Siftan.AcceptanceTests
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
-        outputWriter.Categories = RecordCategory.Matched;
 
         // Act
         new Engine().Execute(
@@ -269,7 +265,6 @@ namespace Siftan.AcceptanceTests
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, null);
-        outputWriter.Categories = RecordCategory.Matched;
 
         // Act
         new Engine().Execute(
@@ -307,7 +302,6 @@ namespace Siftan.AcceptanceTests
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, null);
-        outputWriter.Categories = RecordCategory.Matched;
 
         // Act
         new Engine().Execute(
@@ -345,7 +339,6 @@ namespace Siftan.AcceptanceTests
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
-        outputWriter.Categories = RecordCategory.Unmatched;
 
         // Act
         new Engine().Execute(
@@ -391,7 +384,6 @@ namespace Siftan.AcceptanceTests
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
         OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath);
-        outputWriter.Categories = RecordCategory.Unmatched;
 
         // Act
         new Engine().Execute(
@@ -418,40 +410,6 @@ namespace Siftan.AcceptanceTests
       finally
       {
         DeleteDirectoryContainingFile(inputFilePath);
-      }
-    }
-
-    [Test]
-    [TestCase(0, "IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was 0.")]
-    [TestCase(4, "IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was 4.")]
-    public void NotSetToWriteMatchedOrUnmatchedRecords(Int32 categoryValue, String expectedExceptionMessage)
-    {
-      // Arrange
-      String logFilePath = null;
-
-      try
-      {
-        logFilePath = CreateLogFilePath();
-        IRecordWriter mockOutputWriter = Substitute.For<IRecordWriter>();
-        mockOutputWriter.Categories.Returns((RecordCategory)categoryValue);
-
-        // Act
-        Action action = () =>
-          new Engine().Execute(
-            null,
-            new LogManager(null, null),
-            Substitute.For<IStreamReaderFactory>(),
-            Substitute.For<IRecordReader>(),
-            Substitute.For<IRecordMatchExpression>(),
-            mockOutputWriter);
-
-        // Assert
-        action.ShouldThrow<Exception>().WithMessage(expectedExceptionMessage);
-        this.AssertLogfileContainsExpectedException(logFilePath, "EXCEPTION: " + expectedExceptionMessage);
-      }
-      finally
-      {
-        DeleteDirectoryContainingFile(logFilePath);
       }
     }
 

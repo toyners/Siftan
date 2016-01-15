@@ -19,22 +19,17 @@ namespace Siftan
     {
       try
       {
-        if (recordWriter.Categories < RecordCategory.Matched || recordWriter.Categories >= (RecordCategory)((Int32)RecordCategory.Unmatched << (Int32)RecordCategory.Matched))
-        {
-          throw new Exception(String.Format("IRecordWriter.Categories must return a valid value from RecordCategory enum. Value returned was {0}.", recordWriter.Categories));
-        }
-
         logManager.WriteMessage(LogEntryTypes.Application, "Starting...");
 
-        if ((recordWriter.Categories & (RecordCategory.Matched | RecordCategory.Unmatched)) == (RecordCategory.Matched | RecordCategory.Unmatched))
+        if (recordWriter.DoWriteMatchedRecords && recordWriter.DoWriteUnmatchedRecords)
         {
           this.SelectMatchedAndUnmatchedRecords(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
         }
-        else if ((recordWriter.Categories & RecordCategory.Matched) == RecordCategory.Matched)
+        else if (recordWriter.DoWriteMatchedRecords)
         {
           this.SelectMatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord);
         }
-        else if ((recordWriter.Categories & RecordCategory.Unmatched) == RecordCategory.Unmatched)
+        else if (recordWriter.DoWriteUnmatchedRecords)
         {
           this.SelectUnmatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteUnmatchedRecord);
         }

@@ -16,9 +16,14 @@ namespace Siftan
 
     private StreamWriter unmatchedWriter;
 
-    public RecordCategory Categories
+    public Boolean DoWriteMatchedRecords
     {
-      get; set;
+      get; private set;
+    }
+
+    public Boolean DoWriteUnmatchedRecords
+    {
+      get; private set;
     }
     #endregion
 
@@ -30,12 +35,12 @@ namespace Siftan
 
       if (!String.IsNullOrEmpty(this.matchedFilePath))
       {
-        this.Categories |= RecordCategory.Matched;
+        this.DoWriteMatchedRecords = true;
       }
 
       if (!String.IsNullOrEmpty(this.unmatchedFilePath))
       {
-        this.Categories |= RecordCategory.Unmatched;
+        this.DoWriteUnmatchedRecords = true;
       }
 
       // TODO: Should check that the paths are legal.

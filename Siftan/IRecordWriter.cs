@@ -1,11 +1,14 @@
 ﻿
 namespace Siftan
 {
+  using System;
   using Jabberwocky.Toolkit.IO;
 
   public interface IRecordWriter
   {
-    RecordCategory Categories { get; }
+    Boolean DoWriteMatchedRecords { get; }
+
+    Boolean DoWriteUnmatchedRecords { get; }
 
     void WriteMatchedRecord(IStreamReader reader, Record record);
 
