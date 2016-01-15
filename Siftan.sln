@@ -21,6 +21,11 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Siftan.TestSupport.UnitTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.TestSupport", "Siftan.TestSupport\Siftan.TestSupport.csproj", "{94A7A486-163B-4F81-BDB5-0174DEBC68AD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EE2E6010-0D00-4947-9EA3-AACA9919B4D9}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
