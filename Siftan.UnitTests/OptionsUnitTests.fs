@@ -5,6 +5,7 @@ open Siftan
 open Siftan.TestSupport
 open FsUnit
 open System
+open Jabberwocky.Toolkit.Path
 
 [<TestFixture>]
 type OptionsUnitTests() =
@@ -115,7 +116,9 @@ type OptionsUnitTests() =
 
         options.Log |> should not' (equal null)
         options.Log.ApplicationLogFilePath |> should endWith (@"\" + Options.LogOptions.DefaultApplicationLogFileName)
-        options.Log.JobLogFilePath |> should equal (System.IO.Path.GetDirectoryName(options.Output.FileMatched) + Options.LogOptions.DefaultJobLogFileName);
+
+        let expectedJobLogFilePath = PathOperations.CompleteDirectoryPath(System.IO.Path.GetDirectoryName(options.Output.FileMatched)) + Options.LogOptions.DefaultJobLogFileName
+        options.Log.JobLogFilePath |> should equal expectedJobLogFilePath
 
     [<Test>]
     member public this.``Command line containing logging information returns expected logging object``() =
