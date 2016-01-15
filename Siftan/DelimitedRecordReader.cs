@@ -4,7 +4,7 @@ namespace Siftan
   using System;
   using Jabberwocky.Toolkit.IO;
   using Jabberwocky.Toolkit.String;
-  using Jabberwocky.Toolkit.Validation;
+  using Jabberwocky.Toolkit.Object;
 
   public class DelimitedRecordReader : IRecordReader
   {

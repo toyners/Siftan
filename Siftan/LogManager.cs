@@ -3,7 +3,8 @@ namespace Siftan
 {
   using System;
   using System.IO;
-  using Jabberwocky.Toolkit.Validation;
+  using Jabberwocky.Toolkit.Object;
+  using Jabberwocky.Toolkit.String;
 
   public class LogManager : ILogManager, IDisposable
   {

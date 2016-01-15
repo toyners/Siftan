@@ -3,7 +3,7 @@ namespace Siftan
 {
   using System;
   using Jabberwocky.Toolkit.IO;
-  using Jabberwocky.Toolkit.Validation;
+  using Jabberwocky.Toolkit.Object;
 
   public class FixedWidthRecordReader :IRecordReader
   {

@@ -3,7 +3,7 @@ namespace Siftan
 {
   using System;
   using System.Linq;
-  using Jabberwocky.Toolkit.Validation;
+  using Jabberwocky.Toolkit.Array;
 
   public class InListExpression : IRecordMatchExpression
   {
