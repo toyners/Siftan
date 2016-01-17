@@ -8,20 +8,23 @@ namespace Siftan.AcceptanceTests
 
   public static class ConsoleRunner
   {
-    public static void Run(String command, String commandArguments, UInt32 retryCount = 5, UInt32 sleepDuration = 1000)
+    public static void Run(String command, String commandArguments)
     {
-      Int32 duration = (Int32)sleepDuration;
+      const Int32 oneSecond = 1000; // in milliseconds
+      const Int32 thirtySeconds = 30;
+
+      Stopwatch stopWatch = new Stopwatch();
 
       ProcessStartInfo processStartInfo = new ProcessStartInfo(command, commandArguments);
 
+      stopWatch.Start();
       Application application = Application.Launch(processStartInfo);
-      Boolean hasExited = false;
-      while ((hasExited = application.Process.HasExited) == false && (retryCount--) > 0)
+      while (!application.Process.HasExited && stopWatch.Elapsed.Seconds < thirtySeconds)
       {
-        Thread.Sleep(duration);
+        Thread.Sleep(oneSecond);
       }
 
-      if (!hasExited)
+      if (!application.Process.HasExited)
       {
         throw new TimeoutException("Console application has hung.");
       }

@@ -549,6 +549,7 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.applicationLogFilePath).Should().BeTrue();
       File.Exists(this.matchedDelimitedOutputFilePath).Should().BeTrue();
       File.Exists(this.unmatchedDelimitedOutputFilePath).Should().BeTrue();
+      File.Exists(this.jobLogFilePath).Should().BeTrue();
     }
 
     private static void CreateInputFileForDelimitedTests(String resourceFilePath, String inputFilePath)
