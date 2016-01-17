@@ -40,7 +40,7 @@ type OptionsUnitTests() =
                 .HasMatchedOutputFile(@"C:\Output\matched.txt"))
             .Build()
 
-    member private this.``Build Command Line for Run with Logging Information``() =
+    member private this.``Build Command Line for Delimited Run with Logging Information``() =
         CommandLineArgumentsBuilder()
             .WithInput(InputBuilder()
                 .IsSingleFile())
@@ -123,7 +123,7 @@ type OptionsUnitTests() =
     [<Test>]
     member public this.``Command line containing logging information returns expected logging object``() =
         // Act
-        let options = this.``Build Command Line for Run with Logging Information``() |> Options
+        let options = this.``Build Command Line for Delimited Run with Logging Information``() |> Options
 
         options.Log |> should not' (equal null)
         options.Log.ApplicationLogFilePath |> should equal ApplicationLogFilePath
