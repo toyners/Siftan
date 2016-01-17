@@ -31,9 +31,11 @@ namespace Siftan
 
       FileStream applicationLogStream = new FileStream(applicationLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
       this.applicationLog = new StreamWriter(applicationLogStream);
+      this.applicationLog.AutoFlush = true;
 
       FileStream jobLogStream = new FileStream(jobLogFilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
       this.jobLog = new StreamWriter(jobLogStream);
+      this.jobLog.AutoFlush = true;
     }
 
     public void Close()
@@ -41,25 +43,15 @@ namespace Siftan
       this.Dispose(true);
     }
 
-    public void WriteMessage(LogEntryTypes logEntryType, String message, LogEntryFlushTypes flushType = LogEntryFlushTypes.Lazy)
+    public void WriteMessage(LogEntryTypes logEntryType, String message)
     {
       if (logEntryType == LogEntryTypes.Application)
       {
         this.applicationLog.WriteLine(this.dateTimeStamper.Now + " " + message);
-
-        if (flushType == LogEntryFlushTypes.Force)
-        {
-          this.applicationLog.Flush();
-        }
-
         return;
       }
 
       this.jobLog.WriteLine(this.dateTimeStamper.Now + " " + message);
-      if (flushType == LogEntryFlushTypes.Force)
-      {
-        this.jobLog.Flush();
-      }
     }
 
     // This code added to correctly implement the disposable pattern.

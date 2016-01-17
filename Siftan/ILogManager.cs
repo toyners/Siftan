@@ -5,6 +5,6 @@ namespace Siftan
 
   public interface ILogManager
   {
-    void WriteMessage(LogEntryTypes logEntryType, String message, LogEntryFlushTypes flushType = LogEntryFlushTypes.Lazy);
+    void WriteMessage(LogEntryTypes logEntryType, String message);
   }
 }

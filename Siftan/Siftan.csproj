@@ -52,7 +52,6 @@
     <Compile Include="IDateTimeStamper.cs" />
     <Compile Include="ILogManager.cs" />
     <Compile Include="IRecordWriter.cs" />
-    <Compile Include="LogEntryFlushTypes.cs" />
     <Compile Include="LogEntryTypes.cs" />
     <Compile Include="LogManager.cs" />
     <Compile Include="OneFileRecordWriter.cs" />

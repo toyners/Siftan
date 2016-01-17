@@ -62,7 +62,7 @@ namespace Siftan.IntegrationTests
       LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
 
       // Act
-      WriteMessagesToLogManager(logManager, LogEntryTypes.Application, LogEntryFlushTypes.Lazy);
+      WriteMessagesToLogManager(logManager, LogEntryTypes.Application);
       logManager.Close();
 
       // Assert
@@ -81,7 +81,7 @@ namespace Siftan.IntegrationTests
       try
       {
         // Act
-        WriteMessagesToLogManager(logManager, LogEntryTypes.Application, LogEntryFlushTypes.Force);
+        WriteMessagesToLogManager(logManager, LogEntryTypes.Application);
 
         // Assert
         File.Exists(this.applicationLogFilePath).Should().BeTrue();
@@ -97,37 +97,13 @@ namespace Siftan.IntegrationTests
     }
 
     [Test]
-    public void MessagesInOpenApplicationLogNotFlushedIsNotReadByOtherReader()
-    {
-      // Arrange
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
-
-      try
-      {
-        // Act
-        WriteMessagesToLogManager(logManager, LogEntryTypes.Application, LogEntryFlushTypes.Lazy);
-
-        // Assert
-        File.Exists(this.applicationLogFilePath).Should().BeTrue();
-
-        String[] logFileLines = GetOpenLogFileContent(this.applicationLogFilePath);
-        logFileLines.Length.Should().Be(0);
-      }
-      finally
-      {
-        // Teardown
-        logManager.Close();
-      }
-    }
-
-    [Test]
     public void WritingMessagesToJobLogAndClosingCreatesValidLog()
     {
       // Arrange
       LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
 
       // Act
-      WriteMessagesToLogManager(logManager, LogEntryTypes.Job, LogEntryFlushTypes.Lazy);
+      WriteMessagesToLogManager(logManager, LogEntryTypes.Job);
       logManager.Close();
 
       // Assert
@@ -146,7 +122,7 @@ namespace Siftan.IntegrationTests
       try
       {
         // Act
-        WriteMessagesToLogManager(logManager, LogEntryTypes.Job, LogEntryFlushTypes.Force);
+        WriteMessagesToLogManager(logManager, LogEntryTypes.Job);
 
         // Assert
         File.Exists(this.jobLogFilePath).Should().BeTrue();
@@ -161,35 +137,11 @@ namespace Siftan.IntegrationTests
       }
     }
 
-    [Test]
-    public void MessagesInOpenJobLogNotFlushedIsNotReadByOtherReader()
+    private static void WriteMessagesToLogManager(LogManager logManager, LogEntryTypes entryType)
     {
-      // Arrange
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
-
-      try
-      {
-        // Act
-        WriteMessagesToLogManager(logManager, LogEntryTypes.Job, LogEntryFlushTypes.Lazy);
-
-        // Assert
-        File.Exists(this.jobLogFilePath).Should().BeTrue();
-
-        String[] logFileLines = GetOpenLogFileContent(this.jobLogFilePath);
-        logFileLines.Length.Should().Be(0);
-      }
-      finally
-      {
-        // Teardown
-        logManager.Close();
-      }
-    }
-
-    private static void WriteMessagesToLogManager(LogManager logManager, LogEntryTypes entryType, LogEntryFlushTypes flushType)
-    {
-      logManager.WriteMessage(entryType, FirstLogMessage, flushType);
-      logManager.WriteMessage(entryType, SecondLogMessage, flushType);
-      logManager.WriteMessage(entryType, ThirdLogMessage, flushType);
+      logManager.WriteMessage(entryType, FirstLogMessage);
+      logManager.WriteMessage(entryType, SecondLogMessage);
+      logManager.WriteMessage(entryType, ThirdLogMessage);
     }
 
     private static String[] GetOpenLogFileContent(String filePath)
