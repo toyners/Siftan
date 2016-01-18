@@ -85,10 +85,7 @@ namespace Siftan
         throw new Exception("Missing required output descriptor term. Use 'output'.");
       }
 
-      if (this.Log == null)
-      {
-        this.Log = new LogOptions(this.Output.FileMatched);
-      }
+      this.EnsureLoggingOptionsAreSet();
     }
     #endregion
 
@@ -105,6 +102,18 @@ namespace Siftan
 
     public LogOptions Log { get; private set; }
     #endregion
+
+    private void EnsureLoggingOptionsAreSet()
+    {
+      if (this.Log == null)
+      {
+        this.Log = new LogOptions(this.Output.FileMatched);
+      }
+      else if (this.Log.JobLogFilePath == null)
+      {
+        this.Log.JobLogFilePath = LogOptions.CreateDefaultJobLogFilePath(this.Output.FileMatched);
+      }
+    }
 
     #region Classes
     public class InputOptions
@@ -452,12 +461,9 @@ namespace Siftan
 
       internal LogOptions(String matchOutputFilePath)
       {
-        String assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        this.ApplicationLogFilePath = PathOperations.CompleteDirectoryPath(assemblyDirectory) +
-                                      LogOptions.DefaultApplicationLogFileName;
-        String matchedOutputDirectory = Path.GetDirectoryName(matchOutputFilePath);
-        this.JobLogFilePath = PathOperations.CompleteDirectoryPath(matchedOutputDirectory) + 
-                              LogOptions.DefaultJobLogFileName;
+        this.ApplicationLogFilePath = CreateDefaultApplicationLogFilePath();
+
+        this.JobLogFilePath = CreateDefaultJobLogFilePath(matchOutputFilePath);
       }
 
       internal LogOptions(Queue queue)
@@ -489,11 +495,30 @@ namespace Siftan
             }
           }
         }
+
+        if (this.ApplicationLogFilePath == null)
+        {
+          this.ApplicationLogFilePath = CreateDefaultApplicationLogFilePath();
+        }
       }
 
       public String ApplicationLogFilePath { get; private set; }
 
-      public String JobLogFilePath { get; private set; }
+      public String JobLogFilePath { get; internal set; }
+
+      internal static String CreateDefaultJobLogFilePath(String outputPath)
+      {
+        String outputDirectory = Path.GetDirectoryName(outputPath);
+        return PathOperations.CompleteDirectoryPath(outputDirectory) +
+               DefaultJobLogFileName;
+      }
+
+      private static String CreateDefaultApplicationLogFilePath()
+      {
+        String assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        return PathOperations.CompleteDirectoryPath(assemblyDirectory) +
+               DefaultApplicationLogFileName;
+      }
     }
     #endregion
   }

@@ -40,25 +40,43 @@ type OptionsUnitTests() =
                 .HasMatchedOutputFile(@"C:\Output\matched.txt"))
             .Build()
 
-    member private this.``Build Command Line for Delimited Run with Logging Information``() =
-        CommandLineArgumentsBuilder()
-            .WithInput(InputBuilder()
-                .IsSingleFile())
-            .WithDelim(DelimBuilder()
-                .HasDelimiter("|")
-                .HasQualifier('\'')
-                .HasHeaderLineID("01")
-                .HasLineIDIndex(0u)
-                .HasTermLineID("02")
-                .HasTermIndex(3u))
-            .WithInList(InListBuilder()
-                .HasValuesFile(@"C:\Values.txt"))
-            .WithOutput(OutputBuilder()
-                .HasMatchedOutputFile(@"C:\Output\matched.txt"))
-            .WithLog(LogBuilder()
-                .HasApplicationLogFilePath(ApplicationLogFilePath)
-                .HasJobLogFilePath(JobLogFilePath))
-            .Build()
+    member private this.``Create LogBuilder``(applicationLogFilePath, jobLogFilePath) =
+        
+        let mutable logBuilder = null
+
+        if applicationLogFilePath <> null || jobLogFilePath <> null then
+            logBuilder <- LogBuilder()
+
+            if applicationLogFilePath <> null then
+                logBuilder <- logBuilder.HasApplicationLogFilePath(applicationLogFilePath)
+
+            if jobLogFilePath <> null then
+                logBuilder <- logBuilder.HasJobLogFilePath(jobLogFilePath)
+
+        logBuilder
+
+    member private this.``Build Command Line for Delimited Run with Logging Information``(logBuilder) =
+        
+        let mutable commandLineArgumentsBuilder = 
+            CommandLineArgumentsBuilder()
+                .WithInput(InputBuilder()
+                    .IsSingleFile())
+                .WithDelim(DelimBuilder()
+                    .HasDelimiter("|")
+                    .HasQualifier('\'')
+                    .HasHeaderLineID("01")
+                    .HasLineIDIndex(0u)
+                    .HasTermLineID("02")
+                    .HasTermIndex(3u))
+                .WithInList(InListBuilder()
+                    .HasValuesFile(@"C:\Values.txt"))
+                .WithOutput(OutputBuilder()
+                    .HasMatchedOutputFile(@"C:\Output\matched.txt"))
+
+        if logBuilder <> null then
+            commandLineArgumentsBuilder <- commandLineArgumentsBuilder.WithLog(logBuilder)
+
+        commandLineArgumentsBuilder.Build()
 
     member private this.``Build Command Line with missing delim noun``() =
         let args = 
@@ -121,12 +139,41 @@ type OptionsUnitTests() =
         options.Log.JobLogFilePath |> should equal expectedJobLogFilePath
 
     [<Test>]
-    member public this.``Command line containing logging information returns expected logging object``() =
+    member public this.``Command line containing custom logging information returns expected logging object``() =
         // Act
-        let options = this.``Build Command Line for Delimited Run with Logging Information``() |> Options
+        let options = 
+            this.``Create LogBuilder`` (ApplicationLogFilePath, JobLogFilePath)
+            |> this.``Build Command Line for Delimited Run with Logging Information`` 
+            |> Options
 
         options.Log |> should not' (equal null)
         options.Log.ApplicationLogFilePath |> should equal ApplicationLogFilePath
+        options.Log.JobLogFilePath |> should equal JobLogFilePath
+
+    [<Test>]
+    member public this.``Command line containing custom application logging information returns expected logging object``() =
+        // Act
+        let options = 
+            this.``Create LogBuilder`` (ApplicationLogFilePath, null)
+            |> this.``Build Command Line for Delimited Run with Logging Information`` 
+            |> Options
+
+        options.Log |> should not' (equal null)
+        options.Log.ApplicationLogFilePath |> should equal ApplicationLogFilePath
+
+        let expectedJobLogFilePath = PathOperations.CompleteDirectoryPath(System.IO.Path.GetDirectoryName(options.Output.FileMatched)) + Options.LogOptions.DefaultJobLogFileName
+        options.Log.JobLogFilePath |> should equal expectedJobLogFilePath
+
+    [<Test>]
+    member public this.``Command line containing custom job logging information returns expected logging object``() =
+        // Act
+        let options = 
+            this.``Create LogBuilder`` (null, JobLogFilePath)
+            |> this.``Build Command Line for Delimited Run with Logging Information``
+            |> Options
+
+        options.Log |> should not' (equal null)
+        options.Log.ApplicationLogFilePath |> should endWith (@"\" + Options.LogOptions.DefaultApplicationLogFileName)
         options.Log.JobLogFilePath |> should equal JobLogFilePath
 
     [<Test>]
