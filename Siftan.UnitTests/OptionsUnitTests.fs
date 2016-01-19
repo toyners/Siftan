@@ -19,8 +19,8 @@ type OptionsUnitTests() =
     let CommandLineForDelimitedRunWithDefaults = @"C:\InputFile.txt delim -h 01 -t 02 inlist -f C:\Values.txt output -fm C:\Output\matched.txt"
     let CommandLineForFixedWidthRun = @"C:\InputFile.txt fixed -h 01 -ls 1 -ll 10 -t 02 -ts 12 -tl 11 inlist -f C:\Values.txt output -fm C:\Output\matched.txt"
 
-    let ApplicationLogFilePath = @"C:\Output\siftan.log"
-    let JobLogFilePath = @"C:\Output\job.log"
+    let ApplicationLogFilePath = @"C:\Output\Siftan.log"
+    let JobLogFilePath = @"C:\Output\Job.log"
     let NotACommandLineNoun = "NotACommandLineNoun"
 
     member private this.``Build Command Line for Delimited Run with InList file``() =
