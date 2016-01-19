@@ -144,6 +144,18 @@ namespace Siftan.TestSupport
       return outputBuilder;
     }
 
+    public static DelimBuilder CreateDelimBuilder(String delimiter, Char qualifier, String headerLineID, UInt32 lineIDIndex, String termLineID, UInt32 termIndex)
+    {
+      DelimBuilder delimBuilder = new DelimBuilder();
+
+      return delimBuilder.HasDelimiter(delimiter)
+                         .HasQualifier(qualifier)
+                         .HasHeaderLineID(headerLineID)
+                         .HasLineIDIndex(lineIDIndex)
+                         .HasTermLineID(termLineID)
+                         .HasTermIndex(termIndex);
+    }
+
     private static InputBuilder MayAddSearchSubDirectories(InputBuilder inputBuilder, Boolean searchSubDirectories)
     {
       if (searchSubDirectories)
