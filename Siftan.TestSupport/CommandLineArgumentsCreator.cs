@@ -14,6 +14,27 @@ namespace Siftan.TestSupport
       String unmatchedOutputFilePath,
       LogBuilder logBuilder)
     {
+      var args = CreateArgumentsForDelimitedTests(
+        inputFilePath,
+        headerLineID,
+        termLineID,
+        value,
+        matchedOutputFilePath,
+        unmatchedOutputFilePath,
+        logBuilder);
+
+      return String.Join(" ", args);
+    }
+
+    public static String[] CreateArgumentsForDelimitedTests(
+      String inputFilePath,
+      String headerLineID,
+      String termLineID,
+      String value,
+      String matchedOutputFilePath,
+      String unmatchedOutputFilePath,
+      LogBuilder logBuilder)
+    {
       var commandLineArgumentsBuilder = new CommandLineArgumentsBuilder()
         .WithInput(new InputBuilder()
           .IsSingleFile(inputFilePath))
@@ -31,7 +52,42 @@ namespace Siftan.TestSupport
         commandLineArgumentsBuilder = commandLineArgumentsBuilder.WithLog(logBuilder);
       }
 
-      return String.Join(" ", commandLineArgumentsBuilder.Build());
+      return commandLineArgumentsBuilder.Build();
+    }
+
+    public static String[] CreateArgumentsForDelimitedTests(
+      InputBuilder inputBuilder,
+      String headerLineID,
+      String termLineID,
+      String value,
+      OutputBuilder outputBuilder,
+      LogBuilder logBuilder)
+    {
+      var commandLineArgumentsBuilder = new CommandLineArgumentsBuilder();
+
+      if (inputBuilder != null)
+      {
+        commandLineArgumentsBuilder = commandLineArgumentsBuilder.WithInput(inputBuilder);
+      }
+
+      commandLineArgumentsBuilder.WithDelim(new DelimBuilder()
+                                              .HasHeaderLineID(headerLineID)
+                                              .HasTermLineID(termLineID));
+
+      commandLineArgumentsBuilder.WithInList(new InListBuilder()
+                                              .HasValuesList(value));
+
+      if (outputBuilder != null)
+      {
+        commandLineArgumentsBuilder = commandLineArgumentsBuilder.WithOutput(outputBuilder);
+      }
+
+      if (logBuilder != null)
+      {
+        commandLineArgumentsBuilder = commandLineArgumentsBuilder.WithLog(logBuilder);
+      }
+
+      return commandLineArgumentsBuilder.Build();
     }
 
     public static LogBuilder CreateLogBuilder(String applicationLogFilePath, String jobLogFilePath)
@@ -53,6 +109,49 @@ namespace Siftan.TestSupport
       }
 
       return logBuilder;
+    }
+
+    public static InputBuilder CreateSingleFileInputBuilder(String singleFilePath, Boolean searchSubDirectories = false)
+    {
+      InputBuilder inputBuilder = new InputBuilder();
+      inputBuilder = inputBuilder.IsSingleFile(singleFilePath);
+
+      return MayAddSearchSubDirectories(inputBuilder, searchSubDirectories);
+    }
+
+    public static InputBuilder CreateMultipleFilesInputBuilder(String multipleFilesPattern, Boolean searchSubDirectories = false)
+    {
+      InputBuilder inputBuilder = new InputBuilder();
+      inputBuilder = inputBuilder.IsMultipleFiles(multipleFilesPattern);
+
+      return MayAddSearchSubDirectories(inputBuilder, searchSubDirectories);
+    }
+
+    public static OutputBuilder CreateOutputBuilder(String matchedOutputFilePath, String unmatchedOutputFilePath)
+    {
+      OutputBuilder outputBuilder = new OutputBuilder();
+
+      if (matchedOutputFilePath != null)
+      {
+        outputBuilder = outputBuilder.HasMatchedOutputFile(matchedOutputFilePath);
+      }
+
+      if (unmatchedOutputFilePath != null)
+      {
+        outputBuilder = outputBuilder.HasUnmatchedOutputFile(unmatchedOutputFilePath);
+      }
+
+      return outputBuilder;
+    }
+
+    private static InputBuilder MayAddSearchSubDirectories(InputBuilder inputBuilder, Boolean searchSubDirectories)
+    {
+      if (searchSubDirectories)
+      {
+        inputBuilder = inputBuilder.AndSearchSubDirectories();
+      }
+
+      return inputBuilder;
     }
   }
 }
