@@ -90,6 +90,41 @@ namespace Siftan.TestSupport
       return commandLineArgumentsBuilder.Build();
     }
 
+    public static String[] CreateArgumentsForDelimitedTests(
+      InputBuilder inputBuilder,
+      DelimBuilder delimBuilder,
+      String value,
+      OutputBuilder outputBuilder,
+      LogBuilder logBuilder)
+    {
+      var commandLineArgumentsBuilder = new CommandLineArgumentsBuilder();
+
+      if (inputBuilder != null)
+      {
+        commandLineArgumentsBuilder = commandLineArgumentsBuilder.WithInput(inputBuilder);
+      }
+
+      if (delimBuilder != null)
+      {
+        commandLineArgumentsBuilder = commandLineArgumentsBuilder.WithDelim(delimBuilder);
+      }
+
+      commandLineArgumentsBuilder.WithInList(new InListBuilder()
+                                              .HasValuesList(value));
+
+      if (outputBuilder != null)
+      {
+        commandLineArgumentsBuilder = commandLineArgumentsBuilder.WithOutput(outputBuilder);
+      }
+
+      if (logBuilder != null)
+      {
+        commandLineArgumentsBuilder = commandLineArgumentsBuilder.WithLog(logBuilder);
+      }
+
+      return commandLineArgumentsBuilder.Build();
+    }
+
     public static LogBuilder CreateLogBuilder(String applicationLogFilePath, String jobLogFilePath)
     {
       LogBuilder logBuilder = null;
@@ -146,14 +181,12 @@ namespace Siftan.TestSupport
 
     public static DelimBuilder CreateDelimBuilder(String delimiter, Char qualifier, String headerLineID, UInt32 lineIDIndex, String termLineID, UInt32 termIndex)
     {
-      DelimBuilder delimBuilder = new DelimBuilder();
-
-      return delimBuilder.HasDelimiter(delimiter)
-                         .HasQualifier(qualifier)
-                         .HasHeaderLineID(headerLineID)
-                         .HasLineIDIndex(lineIDIndex)
-                         .HasTermLineID(termLineID)
-                         .HasTermIndex(termIndex);
+      return new DelimBuilder().HasDelimiter(delimiter)
+                               .HasQualifier(qualifier)
+                               .HasHeaderLineID(headerLineID)
+                               .HasLineIDIndex(lineIDIndex)
+                               .HasTermLineID(termLineID)
+                               .HasTermIndex(termIndex);
     }
 
     private static InputBuilder MayAddSearchSubDirectories(InputBuilder inputBuilder, Boolean searchSubDirectories)
