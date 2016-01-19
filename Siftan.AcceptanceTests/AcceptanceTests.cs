@@ -539,8 +539,8 @@ namespace Siftan.AcceptanceTests
         ValuesList,
         this.matchedDelimitedOutputFilePath,
         this.unmatchedDelimitedOutputFilePath,
-        this.applicationLogFilePath,
-        this.jobLogFilePath);
+        CommandLineArgumentsCreator.CreateLogBuilder(this.applicationLogFilePath, this.jobLogFilePath)
+        );
       
       // Act
       ConsoleRunner.Run(applicationPath, commandLineArguments);
@@ -574,37 +574,6 @@ namespace Siftan.AcceptanceTests
       {
         throw new FileNotFoundException(String.Format("File '{0}' not found.", applicationPath));
       }
-    }
-  }
-
-  public static class CommandLineArgumentsCreator
-  {
-    public static String CreateForDelimitedTests(
-      String inputFilePath,
-      String headerLineID,
-      String termLineID,
-      String value,
-      String matchedOutputFilePath,
-      String unmatchedOutputFilePath,
-      String applicationLogFilePath,
-      String jobLogFilePath)
-    {
-      var commandLineArgumentsBuilder = new CommandLineArgumentsBuilder()
-        .WithInput(new InputBuilder()
-          .IsSingleFile(inputFilePath))
-        .WithDelim(new DelimBuilder()
-          .HasHeaderLineID(headerLineID)
-          .HasTermLineID(termLineID))
-        .WithInList(new InListBuilder()
-          .HasValuesList(value))
-        .WithOutput(new OutputBuilder()
-          .HasMatchedOutputFile(matchedOutputFilePath)
-          .HasUnmatchedOutputFile(unmatchedOutputFilePath))
-        .WithLog(new LogBuilder()
-          .HasApplicationLogFilePath(applicationLogFilePath)
-          .HasJobLogFilePath(jobLogFilePath));
-
-      return String.Join(" ", commandLineArgumentsBuilder.Build());
     }
   }
 

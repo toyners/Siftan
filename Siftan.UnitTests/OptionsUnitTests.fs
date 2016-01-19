@@ -40,21 +40,6 @@ type OptionsUnitTests() =
                 .HasMatchedOutputFile(@"C:\Output\matched.txt"))
             .Build()
 
-    member private this.``Create LogBuilder``(applicationLogFilePath, jobLogFilePath) =
-        
-        let mutable logBuilder = null
-
-        if applicationLogFilePath <> null || jobLogFilePath <> null then
-            logBuilder <- LogBuilder()
-
-            if applicationLogFilePath <> null then
-                logBuilder <- logBuilder.HasApplicationLogFilePath(applicationLogFilePath)
-
-            if jobLogFilePath <> null then
-                logBuilder <- logBuilder.HasJobLogFilePath(jobLogFilePath)
-
-        logBuilder
-
     member private this.``Build Command Line for Delimited Run with Logging Information``(logBuilder) =
         
         let mutable commandLineArgumentsBuilder = 
@@ -142,7 +127,7 @@ type OptionsUnitTests() =
     member public this.``Command line containing custom logging information returns expected logging object``() =
         // Act
         let options = 
-            this.``Create LogBuilder`` (ApplicationLogFilePath, JobLogFilePath)
+            CommandLineArgumentsCreator.CreateLogBuilder (ApplicationLogFilePath, JobLogFilePath)
             |> this.``Build Command Line for Delimited Run with Logging Information`` 
             |> Options
 
@@ -154,7 +139,7 @@ type OptionsUnitTests() =
     member public this.``Command line containing custom application logging information returns expected logging object``() =
         // Act
         let options = 
-            this.``Create LogBuilder`` (ApplicationLogFilePath, null)
+            CommandLineArgumentsCreator.CreateLogBuilder (ApplicationLogFilePath, JobLogFilePath)
             |> this.``Build Command Line for Delimited Run with Logging Information`` 
             |> Options
 
@@ -168,7 +153,7 @@ type OptionsUnitTests() =
     member public this.``Command line containing custom job logging information returns expected logging object``() =
         // Act
         let options = 
-            this.``Create LogBuilder`` (null, JobLogFilePath)
+            CommandLineArgumentsCreator.CreateLogBuilder (ApplicationLogFilePath, JobLogFilePath)
             |> this.``Build Command Line for Delimited Run with Logging Information``
             |> Options
 

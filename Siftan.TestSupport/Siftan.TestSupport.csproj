@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLineArgumentsBuilder.cs" />
+    <Compile Include="CommandLineArgumentsCreator.cs" />
     <Compile Include="DelimBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
