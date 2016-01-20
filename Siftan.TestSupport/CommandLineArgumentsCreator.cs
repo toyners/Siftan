@@ -26,6 +26,11 @@ namespace Siftan.TestSupport
       return String.Join(" ", args);
     }
 
+    public static String TranslateArgumentsToString(String[] arguments)
+    {
+      return String.Join(" ", arguments);
+    }
+
     public static String[] CreateArgumentsForDelimitedTests(
       String inputFilePath,
       String headerLineID,

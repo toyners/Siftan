@@ -23,6 +23,22 @@ namespace Siftan.AcceptanceTests
 
     private const String DelimitedInputFileResourcePath = "Siftan.AcceptanceTests.DelimitedRecordFile.csv";
 
+    private const String HeaderLineID = "01";
+
+    private const UInt32 LineIDIndex = 0;
+
+    private const String TermLineID = "02";
+
+    private const UInt32 TermIndex = 0;
+
+    private const String SingleValuesList = "12345";
+
+    private const String WrongDelimiter = ",";
+
+    private const String Delimiter = "|";
+
+    private const Char Qualifier = '\'';
+
     private String workingDirectory = null;
 
     private String delimitedInputFilePath = null;
@@ -521,27 +537,24 @@ namespace Siftan.AcceptanceTests
     }
 
     [Test]
-    public void TestConsoleApplication()
+    public void RunDelimitedRunReturnsExpectedOutputFiles()
     {
       // Arrange
       CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.delimitedInputFilePath);
 
       var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan_Console");
 
-      const String HeaderLineID = "01";
-      const String TermLineID = "02";
-      const String ValuesList = "12345";
-
-      var commandLineArguments = CommandLineArgumentsCreator.CreateForDelimitedTests(
-        this.delimitedInputFilePath,
-        HeaderLineID,
-        TermLineID,
-        ValuesList,
-        this.matchedDelimitedOutputFilePath,
-        this.unmatchedDelimitedOutputFilePath,
-        CommandLineArgumentsCreator.CreateLogBuilder(this.applicationLogFilePath, this.jobLogFilePath)
+      var commandLineArguments =
+        CommandLineArgumentsCreator.TranslateArgumentsToString(
+          CommandLineArgumentsCreator.CreateArgumentsForDelimitedTests(
+            CommandLineArgumentsCreator.CreateSingleFileInputBuilder(this.delimitedInputFilePath),
+            CommandLineArgumentsCreator.CreateDelimBuilder(Delimiter, Qualifier, HeaderLineID, LineIDIndex, TermLineID, TermIndex),
+            SingleValuesList,
+            CommandLineArgumentsCreator.CreateOutputBuilder(this.matchedDelimitedOutputFilePath, this.unmatchedDelimitedOutputFilePath),
+            CommandLineArgumentsCreator.CreateLogBuilder(this.applicationLogFilePath, this.jobLogFilePath)
+          )
         );
-      
+
       // Act
       ConsoleRunner.Run(applicationPath, commandLineArguments);
 
@@ -549,6 +562,35 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.applicationLogFilePath).Should().BeTrue();
       File.Exists(this.matchedDelimitedOutputFilePath).Should().BeTrue();
       File.Exists(this.unmatchedDelimitedOutputFilePath).Should().BeTrue();
+      File.Exists(this.jobLogFilePath).Should().BeTrue();
+    }
+
+    [Test]
+    public void RunDelimitedRunWithWrongDelimiterReturnsNoOutputFiles()
+    {
+      // Arrange
+      CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.delimitedInputFilePath);
+
+      var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan_Console");
+
+      var commandLineArguments =
+        CommandLineArgumentsCreator.TranslateArgumentsToString(
+          CommandLineArgumentsCreator.CreateArgumentsForDelimitedTests(
+            CommandLineArgumentsCreator.CreateSingleFileInputBuilder(this.delimitedInputFilePath),
+            CommandLineArgumentsCreator.CreateDelimBuilder(WrongDelimiter, Qualifier, HeaderLineID, LineIDIndex, TermLineID, TermIndex),
+            SingleValuesList,
+            CommandLineArgumentsCreator.CreateOutputBuilder(this.matchedDelimitedOutputFilePath, this.unmatchedDelimitedOutputFilePath),
+            CommandLineArgumentsCreator.CreateLogBuilder(this.applicationLogFilePath, this.jobLogFilePath)
+          )
+        );
+
+      // Act
+      ConsoleRunner.Run(applicationPath, commandLineArguments);
+
+      // Assert
+      File.Exists(this.applicationLogFilePath).Should().BeTrue();
+      File.Exists(this.matchedDelimitedOutputFilePath).Should().BeFalse();
+      File.Exists(this.unmatchedDelimitedOutputFilePath).Should().BeFalse();
       File.Exists(this.jobLogFilePath).Should().BeTrue();
     }
 
