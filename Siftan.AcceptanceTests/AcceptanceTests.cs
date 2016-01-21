@@ -7,7 +7,6 @@ namespace Siftan.AcceptanceTests
   using Jabberwocky.Toolkit.Assembly;
   using Jabberwocky.Toolkit.IO;
   using Jabberwocky.Toolkit.Path;
-  using NSubstitute;
   using NUnit.Framework;
   using Shouldly;
   using Siftan.TestSupport;
