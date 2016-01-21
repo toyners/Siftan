@@ -23,7 +23,7 @@ namespace Siftan.IntegrationTests
 
     private const String NewYearsDayDateTimeStamp = "[01-01-2016 11:23:45]";
 
-    private String parentDirectory;
+    private String workingDirectory;
 
     private String applicationLogFilePath;
 
@@ -32,27 +32,26 @@ namespace Siftan.IntegrationTests
     private IDateTimeStamper mockDateTimeStamper;
 
     #region Methods
+    [TestFixtureSetUp]
+    public void SetupBeforeAllTests()
+    {
+      this.workingDirectory = Path.GetTempPath() + @"Siftan.IntegrationTests\";
+      this.applicationLogFilePath = this.workingDirectory + @"\ApplicationLogFile.log";
+      this.jobLogFilePath = this.workingDirectory + @"\JobLogFile.log";
+    }
+
     [SetUp]
     public void SetupBeforeEachTest()
     {
-      this.parentDirectory = Path.GetTempPath() + Path.GetRandomFileName();
-      Directory.CreateDirectory(this.parentDirectory);
+      if (Directory.Exists(this.workingDirectory))
+      {
+        Directory.Delete(this.workingDirectory, true);
+      }
 
-      this.applicationLogFilePath = this.parentDirectory + @"\ApplicationLogFile.log";
-
-      this.jobLogFilePath = this.parentDirectory + @"\JobLogFile.log";
+      Directory.CreateDirectory(this.workingDirectory);
 
       this.mockDateTimeStamper = Substitute.For<IDateTimeStamper>();
       this.mockDateTimeStamper.Now.Returns(LateNewYearsEveDateTimeStamp, EarlyNewYearsDayDateTimeStamp, NewYearsDayDateTimeStamp);
-    }
-
-    [TearDown]
-    public void TeardownAfterEachTest()
-    {
-      if (Directory.Exists(this.parentDirectory))
-      {
-        Directory.Delete(this.parentDirectory, true);
-      }
     }
 
     [Test]
