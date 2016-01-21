@@ -4,12 +4,12 @@ namespace Siftan.AcceptanceTests
   using System;
   using System.IO;
   using System.Reflection;
-  using FluentAssertions;
   using Jabberwocky.Toolkit.Assembly;
   using Jabberwocky.Toolkit.IO;
   using Jabberwocky.Toolkit.Path;
   using NSubstitute;
   using NUnit.Framework;
+  using Shouldly;
   using Siftan.TestSupport;
   using TestStack.White;
   using TestStack.White.UIItems;
@@ -102,22 +102,22 @@ namespace Siftan.AcceptanceTests
         // Assert
         this.AssertLogfileIsCorrect(logFilePath);
 
-        File.Exists(matchedOutputFilePath).Should().BeTrue();
+        File.Exists(matchedOutputFilePath).ShouldBeTrue();
         String[] lines = File.ReadAllLines(matchedOutputFilePath);
-        lines.Length.Should().Be(5);
-        lines[0].Should().Be("01|Ben|Toynbee|12345|1.23");
-        lines[1].Should().Be("02|||12345||");
-        lines[2].Should().Be("03|||12345||");
-        lines[3].Should().Be("03|||12345||");
-        lines[4].Should().Be("05|||12345||");
+        lines.Length.ShouldBe(5);
+        lines[0].ShouldBe("01|Ben|Toynbee|12345|1.23");
+        lines[1].ShouldBe("02|||12345||");
+        lines[2].ShouldBe("03|||12345||");
+        lines[3].ShouldBe("03|||12345||");
+        lines[4].ShouldBe("05|||12345||");
 
-        File.Exists(unmatchedOutputFilePath).Should().BeTrue();
+        File.Exists(unmatchedOutputFilePath).ShouldBeTrue();
         lines = File.ReadAllLines(unmatchedOutputFilePath);
-        lines.Length.Should().Be(4);
-        lines[0].Should().Be("01|Sid|Sample|54321|1.23");
-        lines[1].Should().Be("02|||54321||");
-        lines[2].Should().Be("03|||54321||");
-        lines[3].Should().Be("05|||54321||");
+        lines.Length.ShouldBe(4);
+        lines[0].ShouldBe("01|Sid|Sample|54321|1.23");
+        lines[1].ShouldBe("02|||54321||");
+        lines[2].ShouldBe("03|||54321||");
+        lines[3].ShouldBe("05|||54321||");
       }
       finally
       {
@@ -154,22 +154,22 @@ namespace Siftan.AcceptanceTests
         // Assert
         this.AssertLogfileIsCorrect(logFilePath);
 
-        File.Exists(matchedOutputFilePath).Should().BeTrue();
+        File.Exists(matchedOutputFilePath).ShouldBeTrue();
         String[] lines = File.ReadAllLines(matchedOutputFilePath);
-        lines.Length.Should().Be(5);
-        lines[0].Should().Be("01Ben Toynbee123451.23");
-        lines[1].Should().Be("02           12345");
-        lines[2].Should().Be("03           12345");
-        lines[3].Should().Be("03           12345");
-        lines[4].Should().Be("05           12345");
+        lines.Length.ShouldBe(5);
+        lines[0].ShouldBe("01Ben Toynbee123451.23");
+        lines[1].ShouldBe("02           12345");
+        lines[2].ShouldBe("03           12345");
+        lines[3].ShouldBe("03           12345");
+        lines[4].ShouldBe("05           12345");
 
-        File.Exists(unmatchedOutputFilePath).Should().BeTrue();
+        File.Exists(unmatchedOutputFilePath).ShouldBeTrue();
         lines = File.ReadAllLines(unmatchedOutputFilePath);
-        lines.Length.Should().Be(4);
-        lines[0].Should().Be("01Sid Sample 543211.23");
-        lines[1].Should().Be("02           54321");
-        lines[2].Should().Be("03           54321");
-        lines[3].Should().Be("05           54321");
+        lines.Length.ShouldBe(4);
+        lines[0].ShouldBe("01Sid Sample 543211.23");
+        lines[1].ShouldBe("02           54321");
+        lines[2].ShouldBe("03           54321");
+        lines[3].ShouldBe("05           54321");
       }
       finally
       {
@@ -206,14 +206,14 @@ namespace Siftan.AcceptanceTests
         // Assert
         this.AssertLogfileIsCorrect(logFilePath);
 
-        File.Exists(matchedOutputFilePath).Should().BeTrue();
+        File.Exists(matchedOutputFilePath).ShouldBeTrue();
         String[] lines = File.ReadAllLines(matchedOutputFilePath);
-        lines.Length.Should().Be(5);
-        lines[0].Should().Be("01|Ben|Toynbee|12345|1.23");
-        lines[1].Should().Be("02|||12345||");
-        lines[2].Should().Be("03|||12345||");
-        lines[3].Should().Be("03|||12345||");
-        lines[4].Should().Be("05|||12345||");
+        lines.Length.ShouldBe(5);
+        lines[0].ShouldBe("01|Ben|Toynbee|12345|1.23");
+        lines[1].ShouldBe("02|||12345||");
+        lines[2].ShouldBe("03|||12345||");
+        lines[3].ShouldBe("03|||12345||");
+        lines[4].ShouldBe("05|||12345||");
       }
       finally
       {
@@ -250,14 +250,14 @@ namespace Siftan.AcceptanceTests
         // Assert
         this.AssertLogfileIsCorrect(logFilePath);
 
-        File.Exists(matchedOutputFilePath).Should().BeTrue();
+        File.Exists(matchedOutputFilePath).ShouldBeTrue();
         String[] lines = File.ReadAllLines(matchedOutputFilePath);
-        lines.Length.Should().Be(5);
-        lines[0].Should().Be("01Ben Toynbee123451.23");
-        lines[1].Should().Be("02           12345");
-        lines[2].Should().Be("03           12345");
-        lines[3].Should().Be("03           12345");
-        lines[4].Should().Be("05           12345");
+        lines.Length.ShouldBe(5);
+        lines[0].ShouldBe("01Ben Toynbee123451.23");
+        lines[1].ShouldBe("02           12345");
+        lines[2].ShouldBe("03           12345");
+        lines[3].ShouldBe("03           12345");
+        lines[4].ShouldBe("05           12345");
       }
       finally
       {
@@ -294,7 +294,7 @@ namespace Siftan.AcceptanceTests
         // Assert
         this.AssertLogfileIsCorrect(logFilePath);
 
-        File.Exists(matchedOutputFilePath).Should().BeFalse();
+        File.Exists(matchedOutputFilePath).ShouldBeFalse();
       }
       finally
       {
@@ -331,7 +331,7 @@ namespace Siftan.AcceptanceTests
         // Assert
         this.AssertLogfileIsCorrect(logFilePath);
 
-        File.Exists(matchedOutputFilePath).Should().BeFalse();
+        File.Exists(matchedOutputFilePath).ShouldBeFalse();
       }
       finally
       {
@@ -368,15 +368,15 @@ namespace Siftan.AcceptanceTests
         // Assert
         this.AssertLogfileIsCorrect(logFilePath);
 
-        File.Exists(matchedOutputFilePath).Should().BeFalse();
+        File.Exists(matchedOutputFilePath).ShouldBeFalse();
 
-        File.Exists(unmatchedOutputFilePath).Should().BeTrue();
+        File.Exists(unmatchedOutputFilePath).ShouldBeTrue();
         String[] lines = File.ReadAllLines(unmatchedOutputFilePath);
-        lines.Length.Should().Be(4);
-        lines[0].Should().Be("01|Sid|Sample|54321|1.23");
-        lines[1].Should().Be("02|||54321||");
-        lines[2].Should().Be("03|||54321||");
-        lines[3].Should().Be("05|||54321||");
+        lines.Length.ShouldBe(4);
+        lines[0].ShouldBe("01|Sid|Sample|54321|1.23");
+        lines[1].ShouldBe("02|||54321||");
+        lines[2].ShouldBe("03|||54321||");
+        lines[3].ShouldBe("05|||54321||");
       }
       finally
       {
@@ -413,15 +413,15 @@ namespace Siftan.AcceptanceTests
         // Assert
         this.AssertLogfileIsCorrect(logFilePath);
 
-        File.Exists(matchedOutputFilePath).Should().BeFalse();
+        File.Exists(matchedOutputFilePath).ShouldBeFalse();
 
-        File.Exists(unmatchedOutputFilePath).Should().BeTrue();
+        File.Exists(unmatchedOutputFilePath).ShouldBeTrue();
         String[] lines = File.ReadAllLines(unmatchedOutputFilePath);
-        lines.Length.Should().Be(4);
-        lines[0].Should().Be("01Sid Sample 543211.23");
-        lines[1].Should().Be("02           54321");
-        lines[2].Should().Be("03           54321");
-        lines[3].Should().Be("05           54321");
+        lines.Length.ShouldBe(4);
+        lines[0].ShouldBe("01Sid Sample 543211.23");
+        lines[1].ShouldBe("02           54321");
+        lines[2].ShouldBe("03           54321");
+        lines[3].ShouldBe("05           54321");
       }
       finally
       {
@@ -487,21 +487,21 @@ namespace Siftan.AcceptanceTests
 
     private void AssertLogfileIsCorrect(String logFilePath)
     {
-      File.Exists(logFilePath).Should().BeTrue();
+      File.Exists(logFilePath).ShouldBeTrue();
       String[] logLines = File.ReadAllLines(logFilePath);
-      logLines.Length.Should().Be(2);
+      logLines.Length.ShouldBe(2);
 
-      logLines[0].Should().MatchRegex(DateTimeStampRegex + "Starting...");
-      logLines[1].Should().MatchRegex(DateTimeStampRegex + "Finished.");
+      logLines[0].ShouldMatch(DateTimeStampRegex + "Starting...");
+      logLines[1].ShouldMatch(DateTimeStampRegex + "Finished.");
     }
 
     private void AssertLogfileContainsExpectedException(String logFilePath, String exceptionMessage)
     {
-      File.Exists(logFilePath).Should().BeTrue();
+      File.Exists(logFilePath).ShouldBeTrue();
       String[] logLines = File.ReadAllLines(logFilePath);
-      logLines.Length.Should().Be(1);
+      logLines.Length.ShouldBe(1);
 
-      logLines[0].Should().MatchRegex(DateTimeStampRegex + exceptionMessage);
+      logLines[0].ShouldMatch(DateTimeStampRegex + exceptionMessage);
     }
 
     [Test]
@@ -528,7 +528,7 @@ namespace Siftan.AcceptanceTests
 
         Button button = (Button)window.Get(searchCriteria);
 
-        button.Should().NotBeNull();
+        button.ShouldNotBeNull();
       }
       finally
       {
@@ -559,14 +559,14 @@ namespace Siftan.AcceptanceTests
       ConsoleRunner.Run(applicationPath, commandLineArguments);
 
       // Assert
-      File.Exists(this.applicationLogFilePath).Should().BeTrue();
-      File.Exists(this.matchedDelimitedOutputFilePath).Should().BeTrue();
-      File.Exists(this.unmatchedDelimitedOutputFilePath).Should().BeTrue();
-      File.Exists(this.jobLogFilePath).Should().BeTrue();
+      File.Exists(this.applicationLogFilePath).ShouldBeTrue();
+      File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeTrue();
+      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
+      File.Exists(this.jobLogFilePath).ShouldBeTrue();
     }
 
     [Test]
-    public void RunDelimitedRunWithWrongDelimiterReturnsNoOutputFiles()
+    public void RunDelimitedJobWithWrongDelimiterCreatesNoOutputFiles()
     {
       // Arrange
       CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.delimitedInputFilePath);
@@ -588,10 +588,10 @@ namespace Siftan.AcceptanceTests
       ConsoleRunner.Run(applicationPath, commandLineArguments);
 
       // Assert
-      File.Exists(this.applicationLogFilePath).Should().BeTrue();
-      File.Exists(this.matchedDelimitedOutputFilePath).Should().BeFalse();
-      File.Exists(this.unmatchedDelimitedOutputFilePath).Should().BeFalse();
-      File.Exists(this.jobLogFilePath).Should().BeTrue();
+      File.Exists(this.applicationLogFilePath).ShouldBeTrue();
+      File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeFalse();
+      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeFalse();
+      File.Exists(this.jobLogFilePath).ShouldBeTrue();
     }
 
     private static void CreateInputFileForDelimitedTests(String resourceFilePath, String inputFilePath)
