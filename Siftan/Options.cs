@@ -455,8 +455,6 @@ namespace Siftan
 
     public class LogOptions
     {
-      //public const String DefaultApplicationLogFileName = "Siftan.log";
-
       public const String DefaultJobLogFileName = "Job.log";
 
       internal LogOptions(String matchOutputFilePath)
