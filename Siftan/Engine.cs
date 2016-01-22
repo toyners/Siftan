@@ -2,9 +2,7 @@
 namespace Siftan
 {
   using System;
-  using System.IO;
   using Jabberwocky.Toolkit.IO;
-  using Jabberwocky.Toolkit.Validation;
 
   public class Engine
   {
@@ -19,7 +17,7 @@ namespace Siftan
     {
       try
       {
-        logManager.WriteMessage(LogEntryTypes.Application, "Starting...");
+        logManager.WriteMessageToApplicationLog("Starting...");
 
         if (recordWriter.DoWriteMatchedRecords && recordWriter.DoWriteUnmatchedRecords)
         {
@@ -36,11 +34,11 @@ namespace Siftan
 
         recordWriter.Close();
 
-        logManager.WriteMessage(LogEntryTypes.Application, "Finished.");
+        logManager.WriteMessageToApplicationLog("Finished.");
       }
       catch (Exception exception)
       {
-        logManager.WriteMessage(LogEntryTypes.Application, "EXCEPTION: " + exception.Message);
+        logManager.WriteMessageToApplicationLog("EXCEPTION: " + exception.Message);
         throw exception;
       }
     }

@@ -61,7 +61,7 @@ namespace Siftan.IntegrationTests
       LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
 
       // Act
-      WriteMessagesToLogManager(logManager, LogEntryTypes.Application);
+      WriteMessagesToApplicationLog(logManager);
       logManager.Close();
 
       // Assert
@@ -80,7 +80,7 @@ namespace Siftan.IntegrationTests
       try
       {
         // Act
-        WriteMessagesToLogManager(logManager, LogEntryTypes.Application);
+        WriteMessagesToApplicationLog(logManager);
 
         // Assert
         File.Exists(this.applicationLogFilePath).Should().BeTrue();
@@ -102,7 +102,7 @@ namespace Siftan.IntegrationTests
       LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
 
       // Act
-      WriteMessagesToLogManager(logManager, LogEntryTypes.Job);
+      WriteMessagesToJobLog(logManager);
       logManager.Close();
 
       // Assert
@@ -121,7 +121,7 @@ namespace Siftan.IntegrationTests
       try
       {
         // Act
-        WriteMessagesToLogManager(logManager, LogEntryTypes.Job);
+        WriteMessagesToJobLog(logManager);
 
         // Assert
         File.Exists(this.jobLogFilePath).Should().BeTrue();
@@ -136,11 +136,29 @@ namespace Siftan.IntegrationTests
       }
     }
 
-    private static void WriteMessagesToLogManager(LogManager logManager, LogEntryTypes entryType)
+    [Test]
+    public void JobLogFileNotCreatedWhenLogManagerIsInstantiated()
     {
-      logManager.WriteMessage(entryType, FirstLogMessage);
-      logManager.WriteMessage(entryType, SecondLogMessage);
-      logManager.WriteMessage(entryType, ThirdLogMessage);
+      // Act
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
+      logManager.Close();
+
+      // Assert
+      File.Exists(this.jobLogFilePath).Should().BeFalse();
+    }
+
+    private static void WriteMessagesToApplicationLog(LogManager logManager)
+    {
+      logManager.WriteMessageToApplicationLog(FirstLogMessage);
+      logManager.WriteMessageToApplicationLog(SecondLogMessage);
+      logManager.WriteMessageToApplicationLog(ThirdLogMessage);
+    }
+
+    private static void WriteMessagesToJobLog(LogManager logManager)
+    {
+      logManager.WriteMessageToJobLog(FirstLogMessage);
+      logManager.WriteMessageToJobLog(SecondLogMessage);
+      logManager.WriteMessageToJobLog(ThirdLogMessage);
     }
 
     private static String[] GetOpenLogFileContent(String filePath)

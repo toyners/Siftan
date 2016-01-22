@@ -5,6 +5,8 @@ namespace Siftan
 
   public interface ILogManager
   {
-    void WriteMessage(LogEntryTypes logEntryType, String message);
+    void WriteMessageToApplicationLog(String message);
+
+    void WriteMessageToJobLog(String message);
   }
 }

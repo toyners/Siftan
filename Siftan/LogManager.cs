@@ -14,9 +14,13 @@ namespace Siftan
 
     private StreamWriter jobLog;
 
+    private String jobLogFilePath;
+
     private IDateTimeStamper dateTimeStamper;
 
-    public LogManager(String applicationLogFilePath, String jobLogFilePath) 
+    public Boolean JobLogIsClosed { get { return this.jobLog == null; } }
+
+    public LogManager(String applicationLogFilePath, String jobLogFilePath)
       : this(new DateTimeStamper(), applicationLogFilePath, jobLogFilePath)
     {
     }
@@ -33,9 +37,7 @@ namespace Siftan
       this.applicationLog = new StreamWriter(applicationLogStream);
       this.applicationLog.AutoFlush = true;
 
-      FileStream jobLogStream = new FileStream(jobLogFilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
-      this.jobLog = new StreamWriter(jobLogStream);
-      this.jobLog.AutoFlush = true;
+      this.jobLogFilePath = jobLogFilePath;
     }
 
     public void Close()
@@ -43,21 +45,32 @@ namespace Siftan
       this.Dispose(true);
     }
 
-    public void WriteMessage(LogEntryTypes logEntryType, String message)
+    public void WriteMessageToApplicationLog(String message)
     {
-      if (logEntryType == LogEntryTypes.Application)
+      this.applicationLog.WriteLine(this.dateTimeStamper.Now + " " + message);
+    }
+
+    public void WriteMessageToJobLog(String message)
+    {
+      if (this.JobLogIsClosed)
       {
-        this.applicationLog.WriteLine(this.dateTimeStamper.Now + " " + message);
-        return;
+        this.OpenJobLog();
       }
 
       this.jobLog.WriteLine(this.dateTimeStamper.Now + " " + message);
     }
 
+    private void OpenJobLog()
+    {
+      FileStream jobLogStream = new FileStream(this.jobLogFilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
+      this.jobLog = new StreamWriter(jobLogStream);
+      this.jobLog.AutoFlush = true;
+    }
+
     // This code added to correctly implement the disposable pattern.
     public void Dispose()
     {
-      // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+      // Do not change this code. Put cleanup code in Dispose(bool disposing).
       this.Dispose(true);
     }
 
@@ -73,7 +86,7 @@ namespace Siftan
             this.applicationLog = null;
           }
 
-          if (this.jobLog != null)
+          if (!this.JobLogIsClosed)
           {
             this.jobLog.Close();
             this.jobLog = null;
