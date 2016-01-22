@@ -4,6 +4,7 @@ namespace Siftan.AcceptanceTests
   using System;
   using System.IO;
   using System.Reflection;
+  using System.Text.RegularExpressions;
   using Jabberwocky.Toolkit.Assembly;
   using Jabberwocky.Toolkit.IO;
   using Jabberwocky.Toolkit.Path;
@@ -28,7 +29,9 @@ namespace Siftan.AcceptanceTests
 
     private const String TermLineID = "02";
 
-    private const UInt32 TermIndex = 0;
+    private const UInt32 WrongTermIndex = 0;
+
+    private const UInt32 TermIndex = 3;
 
     private const String SingleValuesList = "12345";
 
@@ -562,6 +565,32 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeTrue();
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
+
+      AssertLogFileContentsAreCorrect(
+        File.ReadAllLines(this.jobLogFilePath),
+        new String[]
+        {
+          DateTimeStampRegex + " Input Files: " + this.delimitedInputFilePath,
+          DateTimeStampRegex + " Delimited Record Format",
+          DateTimeStampRegex + " Delimiter: " + Delimiter,
+          DateTimeStampRegex + " Qualifier: " + Qualifier,
+          DateTimeStampRegex + " Line ID Index: " + LineIDIndex,
+          DateTimeStampRegex + " Header Line ID: " + HeaderLineID,
+          DateTimeStampRegex + " Term Line ID: " + TermLineID,
+          DateTimeStampRegex + " Term Index: " + TermIndex,
+          DateTimeStampRegex + " Matched Records Output File: " + this.matchedDelimitedOutputFilePath,
+          DateTimeStampRegex + " Run Started...",
+          DateTimeStampRegex + " Record found at position 0 with Term '12345' matches with List Term '12345'.",
+          DateTimeStampRegex + " Record found at position 80 with Term '54321'.",
+          DateTimeStampRegex + " Run Finished.",
+          DateTimeStampRegex + String.Format(" 2 Record(s) processed."),
+          DateTimeStampRegex + String.Format(" 2 Record(s) processed from input file {0}." + this.delimitedInputFilePath),
+          DateTimeStampRegex + String.Format(" 1 Record(s) matched."),
+          DateTimeStampRegex + String.Format(" 1 Record(s) not matched."),
+          DateTimeStampRegex + String.Format(" 1 Record(s) matched from input file {0}." + this.delimitedInputFilePath),
+          DateTimeStampRegex + String.Format(" 1 Record(s) not matched from input file {0}." + this.delimitedInputFilePath),
+          DateTimeStampRegex + String.Format(" 1 Record(s) written to output file {0}." + this.matchedDelimitedOutputFilePath),
+        });
     }
 
     [Test]
@@ -591,6 +620,44 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeFalse();
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeFalse();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
+    }
+
+    [Test]
+    public void RunDelimitedJobWithWrongTermIndexCreatesNoOutputFiles()
+    {
+      // Arrange
+      CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.delimitedInputFilePath);
+
+      var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan_Console");
+
+      var commandLineArguments =
+        CommandLineArgumentsCreator.TranslateArgumentsToString(
+          CommandLineArgumentsCreator.CreateArgumentsForDelimitedTests(
+            CommandLineArgumentsCreator.CreateSingleFileInputBuilder(this.delimitedInputFilePath),
+            CommandLineArgumentsCreator.CreateDelimBuilder(Delimiter, Qualifier, HeaderLineID, LineIDIndex, TermLineID, WrongTermIndex),
+            SingleValuesList,
+            CommandLineArgumentsCreator.CreateOutputBuilder(this.matchedDelimitedOutputFilePath, this.unmatchedDelimitedOutputFilePath),
+            CommandLineArgumentsCreator.CreateLogBuilder(this.applicationLogFilePath, this.jobLogFilePath)
+          )
+        );
+
+      // Act
+      ConsoleRunner.Run(applicationPath, commandLineArguments);
+
+      // Assert
+      File.Exists(this.applicationLogFilePath).ShouldBeTrue();
+      File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeFalse();
+      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeFalse();
+      File.Exists(this.jobLogFilePath).ShouldBeTrue();
+    }
+
+    private static void AssertLogFileContentsAreCorrect(String[] logFileLines, String[] expectedLogFileLines)
+    {
+      logFileLines.Length.ShouldBe(expectedLogFileLines.Length);
+      for (Int32 index = 0; index < logFileLines.Length; index++)
+      {
+        Regex.IsMatch(logFileLines[index], expectedLogFileLines[index]).ShouldBeTrue();
+      }
     }
 
     private static void CreateInputFileForDelimitedTests(String resourceFilePath, String inputFilePath)
