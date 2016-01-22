@@ -118,7 +118,7 @@ type OptionsUnitTests() =
         let options = this.``Build Command Line for Delimited Run with InList file``() |> Options
 
         options.Log |> should not' (equal null)
-        options.Log.ApplicationLogFilePath |> should endWith (@"\" + Options.LogOptions.DefaultApplicationLogFileName)
+        options.Log.ApplicationLogFilePath |> should endWith (@"\" + DateTime.Today.ToString("dd-MM-yyyy") + ".log")
 
         let expectedJobLogFilePath = PathOperations.CompleteDirectoryPath(System.IO.Path.GetDirectoryName(options.Output.FileMatched)) + Options.LogOptions.DefaultJobLogFileName
         options.Log.JobLogFilePath |> should equal expectedJobLogFilePath
@@ -158,7 +158,7 @@ type OptionsUnitTests() =
             |> Options
 
         options.Log |> should not' (equal null)
-        options.Log.ApplicationLogFilePath |> should endWith (@"\" + Options.LogOptions.DefaultApplicationLogFileName)
+        options.Log.ApplicationLogFilePath |> should equal ApplicationLogFilePath
         options.Log.JobLogFilePath |> should equal JobLogFilePath
 
     [<Test>]

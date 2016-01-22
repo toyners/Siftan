@@ -71,3 +71,30 @@ type ProgramUnitTests() =
         (fun () -> 
         Program.Main(args) |> ignore)
         |> should (throwWithMessage expectedMessage) typeof<System.IO.FileNotFoundException>
+
+    [<Test>]
+    member public this.``Test``() =
+        
+        System.IO.File.WriteAllLines(
+            delimitedInputFilePath,
+            [|
+                "01|Ben|Toynbee|12345|1.23";
+                "02|||12345||"; 
+                "03|||12345||"; 
+                "03|||12345||"; 
+                "05|||12345||"; 
+                "01|Sid|Sample|54321|1.23"; 
+                "02|||54321||"; 
+                "03|||54321||"; 
+                "05|||54321||"|])
+
+        let args = 
+            CommandLineArgumentsCreator
+                .CreateArgumentsForDelimitedTests(
+                    CommandLineArgumentsCreator.CreateSingleFileInputBuilder(delimitedInputFilePath),
+                    CommandLineArgumentsCreator.CreateDelimBuilder("|", '\'', "01", 0u, "02", 0u),
+                    "12345",
+                    CommandLineArgumentsCreator.CreateOutputBuilder(workingDirectory + "Output.csv", null),
+                    null)
+
+        Program.Main(args)

@@ -455,7 +455,7 @@ namespace Siftan
 
     public class LogOptions
     {
-      public const String DefaultApplicationLogFileName = "Siftan.log";
+      //public const String DefaultApplicationLogFileName = "Siftan.log";
 
       public const String DefaultJobLogFileName = "Job.log";
 
@@ -517,7 +517,7 @@ namespace Siftan
       {
         String assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         return PathOperations.CompleteDirectoryPath(assemblyDirectory) +
-               DefaultApplicationLogFileName;
+               DateTime.Today.ToString("dd-MM-yyyy") + ".log";
       }
     }
     #endregion
