@@ -4,7 +4,6 @@ namespace Siftan.AcceptanceTests
   using System;
   using System.IO;
   using System.Reflection;
-  using System.Text.RegularExpressions;
   using Jabberwocky.Toolkit.Assembly;
   using Jabberwocky.Toolkit.IO;
   using Jabberwocky.Toolkit.Path;
@@ -566,7 +565,7 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
 
-      AssertLogFileContentsAreCorrect(
+      LogFileContentAssertion.IsMatch(
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
@@ -651,15 +650,6 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
     }
 
-    private static void AssertLogFileContentsAreCorrect(String[] logFileLines, String[] expectedLogFileLines)
-    {
-      logFileLines.Length.ShouldBe(expectedLogFileLines.Length);
-      for (Int32 index = 0; index < logFileLines.Length; index++)
-      {
-        Regex.IsMatch(logFileLines[index], expectedLogFileLines[index]).ShouldBeTrue();
-      }
-    }
-
     private static void CreateInputFileForDelimitedTests(String resourceFilePath, String inputFilePath)
     {
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFilePath, inputFilePath);
@@ -677,30 +667,6 @@ namespace Siftan.AcceptanceTests
     }
 
     private static void VerifyApplicationFilePath(String applicationPath)
-    {
-      if (!File.Exists(applicationPath))
-      {
-        throw new FileNotFoundException(String.Format("File '{0}' not found.", applicationPath));
-      }
-    }
-  }
-
-  public static class ApplicationPathCreator
-  {
-    public static String GetApplicationPath(String applicationName)
-    {
-      const String ApplicationPathTemplate = @"C:\C#\Siftan\{0}\bin\{1}\{0}.exe";
-
-      var applicationPath = String.Format(ApplicationPathTemplate,
-        applicationName,
-        (TestContext.CurrentContext.TestDirectory.Contains("Release") ? "Release" : "Debug"));
-
-      VerifyApplicationExists(applicationPath);
-
-      return applicationPath;
-    }
-
-    private static void VerifyApplicationExists(String applicationPath)
     {
       if (!File.Exists(applicationPath))
       {
