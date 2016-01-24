@@ -99,6 +99,10 @@ namespace Siftan
     public LogOptions Log { get; private set; }
 
     public Boolean HasApplicationLogFilePath { get { return this.Log != null && this.Log.ApplicationLogFilePath != null; } }
+
+    public Boolean HasJobLogFilePath { get { return this.Log != null && this.Log.JobLogFilePath != null; } }
+
+    public Boolean HasMatchedOutput { get { return this.Output != null && this.Output.FileMatched != null; } }
     #endregion
 
     #region Classes

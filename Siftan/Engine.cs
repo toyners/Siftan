@@ -3,9 +3,12 @@ namespace Siftan
 {
   using System;
   using Jabberwocky.Toolkit.IO;
+  using Jabberwocky.Toolkit.Object;
 
   public class Engine
   {
+    private ILogManager logManager;
+
     #region Methods
     public void Execute(
       String[] filePaths,
@@ -15,9 +18,11 @@ namespace Siftan
       IRecordMatchExpression expression,
       IRecordWriter recordWriter)
     {
+      logManager.VerifyThatObjectIsNotNull("Parameter 'logManager' is null.");
       try
       {
-        logManager.WriteMessageToApplicationLog("Starting...");
+        this.logManager = logManager;
+        this.logManager.WriteMessagesToLogs("Run Started...");
 
         if (recordWriter.DoWriteMatchedRecords && recordWriter.DoWriteUnmatchedRecords)
         {
@@ -34,7 +39,7 @@ namespace Siftan
 
         recordWriter.Close();
 
-        logManager.WriteMessageToApplicationLog("Finished.");
+        this.logManager.WriteMessagesToLogs("Run Finished.");
       }
       catch (Exception exception)
       {
@@ -71,14 +76,19 @@ namespace Siftan
         Record record;
         while (!expression.HasReachedMatchQuota && (record = recordReader.ReadRecord(fileReader)) != null)
         {
+          String message = "Record found at position " + record.Start + " with Term '" + record.Term + "'";
           if (expression.IsMatch(record))
           {
+            message += " matches with List Term '" + record.Term + "'.";
             writeMatchedRecordMethod(fileReader, record);
           }
           else
           {
             writeUnmatchedRecordMethod(fileReader, record);
           }
+
+          message += ".";
+          this.logManager.WriteMessageToJobLog(message);
         }
 
         fileReader.Close();

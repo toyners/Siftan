@@ -23,6 +23,11 @@ namespace Siftan_Console
           logManager.ApplicationLogFilePath = options.Log.ApplicationLogFilePath;
         }
 
+        if (options.HasJobLogFilePath)
+        {
+          logManager.JobLogFilePath = options.Log.JobLogFilePath;
+        }
+
         String[] inputFilePaths = GetInputFilePaths(options);
 
         IRecordReader recordReader = null;
@@ -61,6 +66,7 @@ namespace Siftan_Console
       catch (Exception exception)
       {
         logManager.WriteMessageToApplicationLog("EXCEPTION: " + exception.Message);
+        logManager.WriteMessageToApplicationLog("STACK: " + exception.StackTrace);
         throw;
       }
       finally

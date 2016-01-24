@@ -19,9 +19,9 @@ namespace Siftan.TestSupport
 
           for (Int32 logIndex = 0; logIndex < logFileLines.Length; logIndex++)
           {
-            if (Regex.IsMatch(logFileLines[logIndex], expectedLogFileLine))
+            String logFileLine = logFileLines[logIndex];
+            if (Regex.IsMatch(logFileLine, expectedLogFileLine))
             {
-              String logFileLine = logFileLines[logIndex];
               if (lastMatchIndex > logIndex)
               {
                 throw new Exception(String.Format("Expected log file content lines '{0}' to follow '{1}' but '{1}' follows '{0}'.",
