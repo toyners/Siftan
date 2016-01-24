@@ -24,7 +24,7 @@ type ProgramUnitTests() =
         delimitedInputFilePattern <- workingDirectory + "*.csv";
         matchedDelimitedOutputFilePath <- workingDirectory + "Matched.csv";
         unmatchedDelimitedOutputFilePath <- workingDirectory + "Unmatched.csv";
-        applicationLogFilePath <- Program.CreateDefaultApplicationLogFilePath();
+        applicationLogFilePath <- workingDirectory + "Application.log";
 
     [<SetUp>]
     member public this.SetupBeforeEachTest() =
@@ -64,11 +64,10 @@ type ProgramUnitTests() =
                 "02",
                 "12345",
                 CommandLineArgumentsCreator.CreateOutputBuilder(matchedDelimitedOutputFilePath, null),
-                null)
+                CommandLineArgumentsCreator.CreateLogBuilder(applicationLogFilePath, null))
         
         (fun () -> Program.Main(args) |> ignore) |> ignore
 
-        let applicationLogFilePath = Program.CreateDefaultApplicationLogFilePath();
         let applicationLogFileContents = File.ReadAllLines(applicationLogFilePath)
         let DateTimeStampRegex = @"\A\[\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}\]"
 

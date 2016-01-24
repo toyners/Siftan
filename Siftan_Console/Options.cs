@@ -3,9 +3,7 @@ namespace Siftan
 {
   using System;
   using System.Collections;
-  using System.IO;
-  using System.Reflection;
-  using Jabberwocky.Toolkit.Path;
+
   public class Options
   {
     public const String UnrecognisedNounMessageTemplate = "'{0}' is not a recognised noun in command line arguments.";
@@ -84,8 +82,6 @@ namespace Siftan
       {
         throw new Exception("Missing required output descriptor term. Use 'output'.");
       }
-
-      this.EnsureLoggingOptionsAreSet();
     }
     #endregion
 
@@ -101,19 +97,9 @@ namespace Siftan
     public OutputOptions Output { get; private set; }
 
     public LogOptions Log { get; private set; }
-    #endregion
 
-    private void EnsureLoggingOptionsAreSet()
-    {
-      if (this.Log == null)
-      {
-        this.Log = new LogOptions(this.Output.FileMatched);
-      }
-      else if (this.Log.JobLogFilePath == null)
-      {
-        this.Log.JobLogFilePath = LogOptions.CreateDefaultJobLogFilePath(this.Output.FileMatched);
-      }
-    }
+    public Boolean HasApplicationLogFilePath { get { return this.Log != null && this.Log.ApplicationLogFilePath != null; } }
+    #endregion
 
     #region Classes
     public class InputOptions
@@ -455,15 +441,6 @@ namespace Siftan
 
     public class LogOptions
     {
-      public const String DefaultJobLogFileName = "Job.log";
-
-      internal LogOptions(String matchOutputFilePath)
-      {
-        this.ApplicationLogFilePath = CreateDefaultApplicationLogFilePath();
-
-        this.JobLogFilePath = CreateDefaultJobLogFilePath(matchOutputFilePath);
-      }
-
       internal LogOptions(Queue queue)
       {
         Boolean parsingComplete = false;
@@ -493,30 +470,11 @@ namespace Siftan
             }
           }
         }
-
-        if (this.ApplicationLogFilePath == null)
-        {
-          this.ApplicationLogFilePath = CreateDefaultApplicationLogFilePath();
-        }
       }
 
       public String ApplicationLogFilePath { get; private set; }
 
       public String JobLogFilePath { get; internal set; }
-
-      internal static String CreateDefaultJobLogFilePath(String outputPath)
-      {
-        String outputDirectory = Path.GetDirectoryName(outputPath);
-        return PathOperations.CompleteDirectoryPath(outputDirectory) +
-               DefaultJobLogFileName;
-      }
-
-      private static String CreateDefaultApplicationLogFilePath()
-      {
-        String assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        return PathOperations.CompleteDirectoryPath(assemblyDirectory) +
-               DateTime.Today.ToString("dd-MM-yyyy") + ".log";
-      }
     }
     #endregion
   }

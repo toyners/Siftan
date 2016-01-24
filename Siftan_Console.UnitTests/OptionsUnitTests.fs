@@ -117,11 +117,7 @@ type OptionsUnitTests() =
         // Act
         let options = this.``Build Command Line for Delimited Run with InList file``() |> Options
 
-        options.Log |> should not' (equal null)
-        options.Log.ApplicationLogFilePath |> should endWith (@"\" + DateTime.Today.ToString("dd-MM-yyyy") + ".log")
-
-        let expectedJobLogFilePath = PathOperations.CompleteDirectoryPath(System.IO.Path.GetDirectoryName(options.Output.FileMatched)) + Options.LogOptions.DefaultJobLogFileName
-        options.Log.JobLogFilePath |> should equal expectedJobLogFilePath
+        options.Log |> should equal null
 
     [<Test>]
     member public this.``Command line containing custom logging information returns expected logging object``() =
@@ -139,26 +135,24 @@ type OptionsUnitTests() =
     member public this.``Command line containing custom application logging information returns expected logging object``() =
         // Act
         let options = 
-            CommandLineArgumentsCreator.CreateLogBuilder (ApplicationLogFilePath, JobLogFilePath)
+            CommandLineArgumentsCreator.CreateLogBuilder (ApplicationLogFilePath, null)
             |> this.``Build Command Line for Delimited Run with Logging Information`` 
             |> Options
 
         options.Log |> should not' (equal null)
         options.Log.ApplicationLogFilePath |> should equal ApplicationLogFilePath
-
-        let expectedJobLogFilePath = PathOperations.CompleteDirectoryPath(System.IO.Path.GetDirectoryName(options.Output.FileMatched)) + Options.LogOptions.DefaultJobLogFileName
-        options.Log.JobLogFilePath |> should equal expectedJobLogFilePath
+        options.Log.JobLogFilePath |> should equal null
 
     [<Test>]
     member public this.``Command line containing custom job logging information returns expected logging object``() =
         // Act
         let options = 
-            CommandLineArgumentsCreator.CreateLogBuilder (ApplicationLogFilePath, JobLogFilePath)
+            CommandLineArgumentsCreator.CreateLogBuilder (null, JobLogFilePath)
             |> this.``Build Command Line for Delimited Run with Logging Information``
             |> Options
 
         options.Log |> should not' (equal null)
-        options.Log.ApplicationLogFilePath |> should equal ApplicationLogFilePath
+        options.Log.ApplicationLogFilePath |> should equal null
         options.Log.JobLogFilePath |> should equal JobLogFilePath
 
     [<Test>]

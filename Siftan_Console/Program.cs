@@ -18,6 +18,11 @@ namespace Siftan_Console
       {
         Options options = new Options(args);
 
+        if (options.HasApplicationLogFilePath)
+        {
+          logManager.ApplicationLogFilePath = options.Log.ApplicationLogFilePath;
+        }
+
         String[] inputFilePaths = GetInputFilePaths(options);
 
         IRecordReader recordReader = null;
