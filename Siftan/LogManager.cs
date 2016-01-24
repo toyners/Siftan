@@ -103,7 +103,6 @@ namespace Siftan
       }
     }
 
-
     private void OpenApplicationLog()
     {
       FileStream applicationLogStream = new FileStream(this.applicationLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
