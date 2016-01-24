@@ -65,6 +65,13 @@ namespace Siftan
       this.Dispose(true);
     }
 
+    public void WriteMessagesToLogs(String message)
+    {
+      message = this.dateTimeStamper.Now + " " + message;
+      this.WriteMessageToApplicationLog(message);
+      this.WriteMessageToJobLog(message);
+    }
+
     public void WriteMessageToApplicationLog(String message)
     {
       if (this.ApplicationLogIsClosed)
