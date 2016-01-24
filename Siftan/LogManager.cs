@@ -100,7 +100,7 @@ namespace Siftan
       {
         if (disposing)
         {
-          if (this.applicationLog != null)
+          if (!this.ApplicationLogIsClosed)
           {
             this.applicationLog.Close();
             this.applicationLog = null;
