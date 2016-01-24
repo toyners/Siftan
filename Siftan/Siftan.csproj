@@ -57,9 +57,7 @@
     <Compile Include="InListExpression.cs" />
     <Compile Include="IRecordMatchExpression.cs" />
     <Compile Include="IRecordReader.cs" />
-    <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueueOperations.cs" />
     <Compile Include="Record.cs" />
     <Compile Include="StreamWriteOperations.cs" />
   </ItemGroup>
