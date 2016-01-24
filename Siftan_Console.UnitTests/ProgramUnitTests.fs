@@ -66,7 +66,10 @@ type ProgramUnitTests() =
                 CommandLineArgumentsCreator.CreateOutputBuilder(matchedDelimitedOutputFilePath, null),
                 CommandLineArgumentsCreator.CreateLogBuilder(applicationLogFilePath, null))
         
-        (fun () -> Program.Main(args) |> ignore) |> ignore
+        try
+            Program.Main(args)
+        with
+            | :? System.Exception -> printfn "Error"
 
         let applicationLogFileContents = File.ReadAllLines(applicationLogFilePath)
         let DateTimeStampRegex = @"\A\[\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}\]"
