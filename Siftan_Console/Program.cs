@@ -3,53 +3,65 @@ namespace Siftan_Console
 {
   using System;
   using System.IO;
+  using System.Reflection;
   using Jabberwocky.Toolkit.IO;
+  using Jabberwocky.Toolkit.Path;
   using Siftan;
 
   public class Program
   {
     public static void Main(String[] args)
     {
-      Options options = new Options(args);
+      LogManager logManager = new LogManager(CreateDefaultApplicationLogFilePath());
 
-      String[] inputFilePaths = GetInputFilePaths(options);
-
-      IRecordReader recordReader = null;
-      if (options.Delimited != null)
+      try
       {
-        DelimitedRecordDescriptor recordDescriptor = CreateDelimitedRecordDescriptor(options.Delimited);
-        recordReader = new DelimitedRecordReader(recordDescriptor);
+        Options options = new Options(args);
+
+        String[] inputFilePaths = GetInputFilePaths(options);
+
+        IRecordReader recordReader = null;
+        if (options.Delimited != null)
+        {
+          DelimitedRecordDescriptor recordDescriptor = CreateDelimitedRecordDescriptor(options.Delimited);
+          recordReader = new DelimitedRecordReader(recordDescriptor);
+        }
+        else
+        {
+          // Set up fixed width record reader.
+        }
+
+        IRecordMatchExpression expression = null;
+        if (options.InList.UseFile)
+        {
+          // Load file contents into in list expression.
+        }
+        else
+        {
+          expression = new InListExpression(options.InList.Values);
+        }
+
+        OneFileRecordWriter recordWriter = new OneFileRecordWriter(options.Output.FileMatched, options.Output.FileUnmatched);
+
+        new Engine().Execute(
+          inputFilePaths,
+          logManager,
+          new FileReaderFactory(),
+          recordReader,
+          expression,
+          recordWriter);
+
+        recordWriter.Close();
       }
-      else
+      catch (Exception exception)
       {
-        // Set up fixed width record reader.
+        logManager.WriteMessageToApplicationLog("EXCEPTION: " + exception.Message);
+        throw;
       }
-
-      IRecordMatchExpression expression = null;
-      if (options.InList.UseFile)
+      finally
       {
-        // Load file contents into in list expression.
+        logManager.Close();
       }
-      else
-      {
-        expression = new InListExpression(options.InList.Values);
-      }
-
-      OneFileRecordWriter recordWriter = new OneFileRecordWriter(options.Output.FileMatched, options.Output.FileUnmatched);
-
-      LogManager logManager = new LogManager(options.Log.ApplicationLogFilePath, options.Log.JobLogFilePath);
-        
-      new Engine().Execute(
-        inputFilePaths, 
-        logManager, 
-        new FileReaderFactory(), 
-        recordReader, 
-        expression, 
-        recordWriter);
-
-      recordWriter.Close();
-
-      logManager.Close();
     }
 
     private static String[] GetInputFilePaths(Options options)
@@ -75,6 +87,13 @@ namespace Siftan_Console
         LineIDIndex = delimitedOptions.LineIDIndex,
         DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition(delimitedOptions.TermLineID, delimitedOptions.TermIndex)
       };
+    }
+
+    public static String CreateDefaultApplicationLogFilePath()
+    {
+      String assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+      return PathOperations.CompleteDirectoryPath(assemblyDirectory) +
+             DateTime.Today.ToString("dd-MM-yyyy") + ".log";
     }
   }
 }

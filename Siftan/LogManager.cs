@@ -18,26 +18,33 @@ namespace Siftan
 
     private IDateTimeStamper dateTimeStamper;
 
+    public String JobLogFilePath
+    {
+      get { return this.jobLogFilePath; }
+      set
+      {
+        value.VerifyThatStringIsNotNullAndNotEmpty("Property 'JobLogFilePath' is being set to null or empty.");
+        this.jobLogFilePath = value;
+      }
+    }
+
     public Boolean JobLogIsClosed { get { return this.jobLog == null; } }
 
-    public LogManager(String applicationLogFilePath, String jobLogFilePath)
-      : this(new DateTimeStamper(), applicationLogFilePath, jobLogFilePath)
+    public LogManager(String applicationLogFilePath)
+      : this(new DateTimeStamper(), applicationLogFilePath)
     {
     }
 
-    public LogManager(IDateTimeStamper dateTimeStamper, String applicationLogFilePath, String jobLogFilePath)
+    public LogManager(IDateTimeStamper dateTimeStamper, String applicationLogFilePath)
     {
       dateTimeStamper.VerifyThatObjectIsNotNull("Parameter 'dateTimeStamper' is null.");
       applicationLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Parameter 'applicationLogFilePath' is null or empty.");
-      jobLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Parameter 'jobLogFilePath' is null or empty.");
 
       this.dateTimeStamper = dateTimeStamper;
 
       FileStream applicationLogStream = new FileStream(applicationLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
       this.applicationLog = new StreamWriter(applicationLogStream);
       this.applicationLog.AutoFlush = true;
-
-      this.jobLogFilePath = jobLogFilePath;
     }
 
     public void Close()

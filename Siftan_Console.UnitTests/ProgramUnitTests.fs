@@ -5,6 +5,7 @@ open Siftan.TestSupport
 open Siftan_Console
 open FsUnit
 open System.IO
+open System.Text.RegularExpressions
 
 [<TestFixture>]
 type ProgramUnitTests() =
@@ -15,7 +16,6 @@ type ProgramUnitTests() =
     let mutable matchedDelimitedOutputFilePath = null;
     let mutable unmatchedDelimitedOutputFilePath = null;
     let mutable applicationLogFilePath = null;
-    let mutable jobLogFilePath = null;
 
     [<TestFixtureSetUp>]
     member public this.SetupBeforeAllTests() =
@@ -24,8 +24,7 @@ type ProgramUnitTests() =
         delimitedInputFilePattern <- workingDirectory + "*.csv";
         matchedDelimitedOutputFilePath <- workingDirectory + "Matched.csv";
         unmatchedDelimitedOutputFilePath <- workingDirectory + "Unmatched.csv";
-        applicationLogFilePath <- workingDirectory + "Application.log";
-        jobLogFilePath <- workingDirectory + "Job.log";
+        applicationLogFilePath <- Program.CreateDefaultApplicationLogFilePath();
 
     [<SetUp>]
     member public this.SetupBeforeEachTest() =
@@ -33,6 +32,9 @@ type ProgramUnitTests() =
             Directory.Delete(workingDirectory, true)
 
         Directory.CreateDirectory(workingDirectory) |> ignore
+
+        if File.Exists(applicationLogFilePath) then
+            File.Delete(applicationLogFilePath)
 
     [<Test>]
     member public this.``Missing single input file causes meaningful exception to be thrown``() =
@@ -45,13 +47,36 @@ type ProgramUnitTests() =
                     "01",
                     "02",
                     "12345",
-                    CommandLineArgumentsCreator.CreateOutputBuilder(workingDirectory + "Output.csv", null),
+                    CommandLineArgumentsCreator.CreateOutputBuilder(matchedDelimitedOutputFilePath, null),
                     null)
-            
         
         (fun () -> 
         Program.Main(args) |> ignore)
         |> should (throwWithMessage expectedMessage) typeof<System.IO.FileNotFoundException>
+
+    [<Test>]
+    member public this.``Missing single input file causes meaningful exception to be written to application log``() =
+
+        let args = 
+            CommandLineArgumentsCreator.CreateArgumentsForDelimitedTests(
+                CommandLineArgumentsCreator.CreateSingleFileInputBuilder(delimitedInputFilePath),
+                "01",
+                "02",
+                "12345",
+                CommandLineArgumentsCreator.CreateOutputBuilder(matchedDelimitedOutputFilePath, null),
+                null)
+        
+        (fun () -> Program.Main(args) |> ignore) |> ignore
+
+        let applicationLogFilePath = Program.CreateDefaultApplicationLogFilePath();
+        let applicationLogFileContents = File.ReadAllLines(applicationLogFilePath)
+        let DateTimeStampRegex = @"\A\[\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}\]"
+
+        LogFileContentAssertion.IsMatching(
+            applicationLogFileContents, 
+            [|
+              DateTimeStampRegex + " EXCEPTION: No files found matching pattern '" + Regex.Escape(delimitedInputFilePath) + "'."
+            |])
 
     [<Test>]
     member public this.``Missing multiple input file pattern causes meaningful exception to be thrown``() =
@@ -64,10 +89,9 @@ type ProgramUnitTests() =
                     "01",
                     "02",
                     "12345",
-                    CommandLineArgumentsCreator.CreateOutputBuilder(workingDirectory + "Output.csv", null),
+                    CommandLineArgumentsCreator.CreateOutputBuilder(matchedDelimitedOutputFilePath, null),
                     null)
             
-        
         (fun () -> 
         Program.Main(args) |> ignore)
         |> should (throwWithMessage expectedMessage) typeof<System.IO.FileNotFoundException>
@@ -94,7 +118,7 @@ type ProgramUnitTests() =
                     CommandLineArgumentsCreator.CreateSingleFileInputBuilder(delimitedInputFilePath),
                     CommandLineArgumentsCreator.CreateDelimBuilder("|", '\'', "01", 0u, "02", 0u),
                     "12345",
-                    CommandLineArgumentsCreator.CreateOutputBuilder(workingDirectory + "Output.csv", null),
+                    CommandLineArgumentsCreator.CreateOutputBuilder(matchedDelimitedOutputFilePath, null),
                     null)
 
         Program.Main(args)

@@ -58,7 +58,7 @@ namespace Siftan.IntegrationTests
     public void WritingMessagesToApplicationLogAndClosingCreatesValidLog()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
 
       // Act
       WriteMessagesToApplicationLog(logManager);
@@ -75,7 +75,7 @@ namespace Siftan.IntegrationTests
     public void MessagesInOpenApplicationLogCanBeReadByOtherReader()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
 
       try
       {
@@ -99,7 +99,8 @@ namespace Siftan.IntegrationTests
     public void WritingMessagesToJobLogAndClosingCreatesValidLog()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      logManager.JobLogFilePath = this.jobLogFilePath;
 
       // Act
       WriteMessagesToJobLog(logManager);
@@ -116,7 +117,8 @@ namespace Siftan.IntegrationTests
     public void MessagesInOpenJobLogCanBeReadByOtherReader()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      logManager.JobLogFilePath = this.jobLogFilePath;
 
       try
       {
@@ -140,7 +142,8 @@ namespace Siftan.IntegrationTests
     public void JobLogFileNotCreatedWhenLogManagerIsInstantiated()
     {
       // Act
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath, this.jobLogFilePath);
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      logManager.JobLogFilePath = this.jobLogFilePath;
       logManager.Close();
 
       // Assert
