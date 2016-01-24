@@ -28,7 +28,7 @@ namespace Siftan
       }
     }
 
-    public Boolean JobLogIsClosed { get { return this.jobLog == null; } }
+    private Boolean JobLogIsClosed { get { return this.jobLog == null; } }
 
     public LogManager(String applicationLogFilePath)
       : this(new DateTimeStamper(), applicationLogFilePath)
