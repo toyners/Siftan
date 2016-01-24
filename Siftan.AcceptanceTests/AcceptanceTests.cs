@@ -565,19 +565,19 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
 
-      LogFileContentAssertion.IsMatch(
+      LogFileContentAssertion.IsMatching(
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
-          DateTimeStampRegex + " Input Files: " + this.delimitedInputFilePath,
-          DateTimeStampRegex + " Delimited Record Format",
-          DateTimeStampRegex + " Delimiter: " + Delimiter,
-          DateTimeStampRegex + " Qualifier: " + Qualifier,
-          DateTimeStampRegex + " Line ID Index: " + LineIDIndex,
-          DateTimeStampRegex + " Header Line ID: " + HeaderLineID,
-          DateTimeStampRegex + " Term Line ID: " + TermLineID,
-          DateTimeStampRegex + " Term Index: " + TermIndex,
-          DateTimeStampRegex + " Matched Records Output File: " + this.matchedDelimitedOutputFilePath,
+          //DateTimeStampRegex + " Input Files: " + this.delimitedInputFilePath,
+          //DateTimeStampRegex + " Delimited Record Format",
+          //DateTimeStampRegex + " Delimiter: " + Delimiter,
+          //DateTimeStampRegex + " Qualifier: " + Qualifier,
+          //DateTimeStampRegex + " Line ID Index: " + LineIDIndex,
+          //DateTimeStampRegex + " Header Line ID: " + HeaderLineID,
+          //DateTimeStampRegex + " Term Line ID: " + TermLineID,
+          //DateTimeStampRegex + " Term Index: " + TermIndex,
+          //DateTimeStampRegex + " Matched Records Output File: " + this.matchedDelimitedOutputFilePath,
           DateTimeStampRegex + " Run Started...",
           DateTimeStampRegex + " Record found at position 0 with Term '12345' matches with List Term '12345'.",
           DateTimeStampRegex + " Record found at position 80 with Term '54321'.",
