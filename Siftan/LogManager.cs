@@ -20,6 +20,17 @@ namespace Siftan
 
     private IDateTimeStamper dateTimeStamper;
 
+    public String ApplicationLogFilePath
+    {
+      get { return this.applicationLogFilePath; }
+      set
+      {
+        value.VerifyThatStringIsNotNullAndNotEmpty("Parameter 'ApplicationLogFilePath' is null or empty.");
+        this.CloseApplicationLog();
+        this.applicationLogFilePath = value;
+      }
+    }
+
     public String JobLogFilePath
     {
       get { return this.jobLogFilePath; }
@@ -73,11 +84,21 @@ namespace Siftan
       this.jobLog.WriteLine(this.dateTimeStamper.Now + " " + message);
     }
 
+    private void CloseApplicationLog()
+    {
+      if (!this.ApplicationLogIsClosed)
+      {
+        this.applicationLog.Close();
+        this.applicationLog = null;
+      }
+    }
+
     private void OpenApplicationLog()
     {
       FileStream applicationLogStream = new FileStream(this.applicationLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
       this.applicationLog = new StreamWriter(applicationLogStream);
       this.applicationLog.AutoFlush = true;
+      this.disposedValue = false;
     }
 
     private void OpenJobLog()
@@ -85,6 +106,7 @@ namespace Siftan
       FileStream jobLogStream = new FileStream(this.jobLogFilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
       this.jobLog = new StreamWriter(jobLogStream);
       this.jobLog.AutoFlush = true;
+      this.disposedValue = false;
     }
 
     // This code added to correctly implement the disposable pattern.

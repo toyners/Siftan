@@ -7,6 +7,7 @@ namespace Siftan.IntegrationTests
   using FluentAssertions;
   using NSubstitute;
   using NUnit.Framework;
+  using Shouldly;
 
   [TestFixture]
   public class LogManager_IntegrationTests
@@ -27,6 +28,8 @@ namespace Siftan.IntegrationTests
 
     private String applicationLogFilePath;
 
+    private String alternativeApplicationLogFilePath;
+
     private String jobLogFilePath;
 
     private IDateTimeStamper mockDateTimeStamper;
@@ -37,6 +40,7 @@ namespace Siftan.IntegrationTests
     {
       this.workingDirectory = Path.GetTempPath() + @"Siftan.IntegrationTests\";
       this.applicationLogFilePath = this.workingDirectory + @"\ApplicationLogFile.log";
+      this.alternativeApplicationLogFilePath = this.workingDirectory + @"\AlternativeApplicationLogFile.log";
       this.jobLogFilePath = this.workingDirectory + @"\JobLogFile.log";
     }
 
@@ -104,6 +108,23 @@ namespace Siftan.IntegrationTests
 
       // Assert
       File.Exists(this.applicationLogFilePath).Should().BeFalse();
+    }
+
+    [Test]
+    public void ChangingApplicationLogFilePathResultsInANewLogBeingCreated()
+    {
+      // Act
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      logManager.WriteMessageToApplicationLog("Application log file.");
+      logManager.Close();
+
+      logManager.ApplicationLogFilePath = this.alternativeApplicationLogFilePath;
+      logManager.WriteMessageToApplicationLog("Alteranative application log file.");
+      logManager.Close();
+
+      // Assert
+      File.Exists(this.applicationLogFilePath).ShouldBeTrue();
+      File.Exists(this.alternativeApplicationLogFilePath).ShouldBeTrue();
     }
 
     [Test]
