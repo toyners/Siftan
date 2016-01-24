@@ -96,6 +96,17 @@ namespace Siftan.IntegrationTests
     }
 
     [Test]
+    public void ApplicationLogFileNotCreatedWhenLogManagerIsInstantiated()
+    {
+      // Act
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      logManager.Close();
+
+      // Assert
+      File.Exists(this.applicationLogFilePath).Should().BeFalse();
+    }
+
+    [Test]
     public void WritingMessagesToJobLogAndClosingCreatesValidLog()
     {
       // Arrange

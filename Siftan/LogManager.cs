@@ -14,6 +14,8 @@ namespace Siftan
 
     private StreamWriter jobLog;
 
+    private String applicationLogFilePath;
+
     private String jobLogFilePath;
 
     private IDateTimeStamper dateTimeStamper;
@@ -28,6 +30,8 @@ namespace Siftan
       }
     }
 
+    private Boolean ApplicationLogIsClosed { get { return this.applicationLog == null; } }
+
     private Boolean JobLogIsClosed { get { return this.jobLog == null; } }
 
     public LogManager(String applicationLogFilePath)
@@ -41,10 +45,7 @@ namespace Siftan
       applicationLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Parameter 'applicationLogFilePath' is null or empty.");
 
       this.dateTimeStamper = dateTimeStamper;
-
-      FileStream applicationLogStream = new FileStream(applicationLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
-      this.applicationLog = new StreamWriter(applicationLogStream);
-      this.applicationLog.AutoFlush = true;
+      this.applicationLogFilePath = applicationLogFilePath;
     }
 
     public void Close()
@@ -54,6 +55,11 @@ namespace Siftan
 
     public void WriteMessageToApplicationLog(String message)
     {
+      if (this.ApplicationLogIsClosed)
+      {
+        this.OpenApplicationLog();
+      }
+
       this.applicationLog.WriteLine(this.dateTimeStamper.Now + " " + message);
     }
 
@@ -65,6 +71,13 @@ namespace Siftan
       }
 
       this.jobLog.WriteLine(this.dateTimeStamper.Now + " " + message);
+    }
+
+    private void OpenApplicationLog()
+    {
+      FileStream applicationLogStream = new FileStream(this.applicationLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
+      this.applicationLog = new StreamWriter(applicationLogStream);
+      this.applicationLog.AutoFlush = true;
     }
 
     private void OpenJobLog()
