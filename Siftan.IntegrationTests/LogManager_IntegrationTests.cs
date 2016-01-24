@@ -32,6 +32,8 @@ namespace Siftan.IntegrationTests
 
     private String jobLogFilePath;
 
+    private String alternativeJobLogFilePath;
+
     private IDateTimeStamper mockDateTimeStamper;
 
     #region Methods
@@ -42,6 +44,7 @@ namespace Siftan.IntegrationTests
       this.applicationLogFilePath = this.workingDirectory + @"\ApplicationLogFile.log";
       this.alternativeApplicationLogFilePath = this.workingDirectory + @"\AlternativeApplicationLogFile.log";
       this.jobLogFilePath = this.workingDirectory + @"\JobLogFile.log";
+      this.alternativeJobLogFilePath = this.workingDirectory + @"\AlternativeJobLogFile.log";
     }
 
     [SetUp]
@@ -180,6 +183,24 @@ namespace Siftan.IntegrationTests
 
       // Assert
       File.Exists(this.jobLogFilePath).Should().BeFalse();
+    }
+
+    [Test]
+    public void ChangingJobLogFilePathResultsInANewLogBeingCreated()
+    {
+      // Act
+      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      logManager.JobLogFilePath = this.jobLogFilePath;
+      logManager.WriteMessageToJobLog("Job log file.");
+      logManager.Close();
+
+      logManager.JobLogFilePath = this.alternativeJobLogFilePath;
+      logManager.WriteMessageToJobLog("Alternative job log file.");
+      logManager.Close();
+
+      // Assert
+      File.Exists(this.jobLogFilePath).ShouldBeTrue();
+      File.Exists(this.alternativeJobLogFilePath).ShouldBeTrue();
     }
 
     private static void WriteMessagesToApplicationLog(LogManager logManager)

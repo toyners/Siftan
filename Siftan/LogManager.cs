@@ -37,6 +37,7 @@ namespace Siftan
       set
       {
         value.VerifyThatStringIsNotNullAndNotEmpty("Property 'JobLogFilePath' is being set to null or empty.");
+        this.CloseJobLog();
         this.jobLogFilePath = value;
       }
     }
@@ -93,6 +94,16 @@ namespace Siftan
       }
     }
 
+    private void CloseJobLog()
+    {
+      if (!this.JobLogIsClosed)
+      {
+        this.jobLog.Close();
+        this.jobLog = null;
+      }
+    }
+
+
     private void OpenApplicationLog()
     {
       FileStream applicationLogStream = new FileStream(this.applicationLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
@@ -122,17 +133,9 @@ namespace Siftan
       {
         if (disposing)
         {
-          if (!this.ApplicationLogIsClosed)
-          {
-            this.applicationLog.Close();
-            this.applicationLog = null;
-          }
+          this.CloseApplicationLog();
 
-          if (!this.JobLogIsClosed)
-          {
-            this.jobLog.Close();
-            this.jobLog = null;
-          }
+          this.CloseJobLog();
         }
 
         disposedValue = true;
