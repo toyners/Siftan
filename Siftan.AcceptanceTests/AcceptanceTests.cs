@@ -6,10 +6,8 @@ namespace Siftan.AcceptanceTests
   using System.Reflection;
   using Jabberwocky.Toolkit.Assembly;
   using Jabberwocky.Toolkit.IO;
-  using Jabberwocky.Toolkit.Path;
   using NUnit.Framework;
   using Shouldly;
-  using Siftan.TestSupport;
   using TestStack.White;
   using TestStack.White.UIItems;
   using TestStack.White.UIItems.Finders;
@@ -450,13 +448,6 @@ namespace Siftan.AcceptanceTests
       logFilePath = workingDirectory + "Siftan.log";
     }
 
-    private static String CreateLogFilePath()
-    {
-      String workingDirectory = PathOperations.CompleteDirectoryPath(Path.GetTempPath() + Path.GetRandomFileName());
-      Directory.CreateDirectory(workingDirectory);
-      return workingDirectory + "Siftan.log";
-    }
-
     private IRecordReader CreateDelimitedRecordReader()
     {
       DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
@@ -496,15 +487,6 @@ namespace Siftan.AcceptanceTests
       logLines[1].ShouldMatch(DateTimeStampRegex + "Finished.");
     }
 
-    private void AssertLogfileContainsExpectedException(String logFilePath, String exceptionMessage)
-    {
-      File.Exists(logFilePath).ShouldBeTrue();
-      String[] logLines = File.ReadAllLines(logFilePath);
-      logLines.Length.ShouldBe(1);
-
-      logLines[0].ShouldMatch(DateTimeStampRegex + exceptionMessage);
-    }
-
     [Test]
     public void TestWPFApplication()
     {
@@ -534,25 +516,6 @@ namespace Siftan.AcceptanceTests
       finally
       {
         window.Close();
-      }
-    }
-
-    private static String GetApplicationPath(String applicationName)
-    {
-      const String ApplicationPathTemplate = @"C:\C#\Siftan\{0}\bin\{1}\{0}.exe";
-
-      var applicationPath = String.Format(ApplicationPathTemplate,
-        applicationName,
-        (TestContext.CurrentContext.TestDirectory.Contains("Release") ? "Release" : "Debug"));
-
-      return applicationPath;
-    }
-
-    private static void VerifyApplicationFilePath(String applicationPath)
-    {
-      if (!File.Exists(applicationPath))
-      {
-        throw new FileNotFoundException(String.Format("File '{0}' not found.", applicationPath));
       }
     }
   }
