@@ -16,15 +16,17 @@ type ProgramUnitTests() =
     let mutable matchedDelimitedOutputFilePath = null;
     let mutable unmatchedDelimitedOutputFilePath = null;
     let mutable applicationLogFilePath = null;
+    let mutable jobLogFilePath = null;
 
     [<TestFixtureSetUp>]
     member public this.SetupBeforeAllTests() =
         workingDirectory <- Path.GetTempPath() + @"Siftan.AcceptanceTests\"
-        delimitedInputFilePath <- workingDirectory + "Input.csv";
-        delimitedInputFilePattern <- workingDirectory + "*.csv";
-        matchedDelimitedOutputFilePath <- workingDirectory + "Matched.csv";
-        unmatchedDelimitedOutputFilePath <- workingDirectory + "Unmatched.csv";
-        applicationLogFilePath <- workingDirectory + "Application.log";
+        delimitedInputFilePath <- workingDirectory + "Input.csv"
+        delimitedInputFilePattern <- workingDirectory + "*.csv"
+        matchedDelimitedOutputFilePath <- workingDirectory + "Matched.csv"
+        unmatchedDelimitedOutputFilePath <- workingDirectory + "Unmatched.csv"
+        applicationLogFilePath <- workingDirectory + "Application.log"
+        jobLogFilePath <- workingDirectory + "Job.log"
 
     [<SetUp>]
     member public this.SetupBeforeEachTest() =
@@ -32,6 +34,12 @@ type ProgramUnitTests() =
             Directory.Delete(workingDirectory, true)
 
         Directory.CreateDirectory(workingDirectory) |> ignore
+
+    member private this.JobLogFilePath = workingDirectory + "Job.log"
+
+    member private this.MatchedJobLogFilePath = workingDirectory + "Job.log"
+
+    member private this.UnmatchedJobLogFilePath = workingDirectory + "Job.log"
 
     [<Test>]
     member public this.``Missing single input file causes meaningful exception to be thrown``() =
@@ -94,6 +102,60 @@ type ProgramUnitTests() =
         (fun () -> 
         Program.Main(args) |> ignore)
         |> should (throwWithMessage expectedMessage) typeof<System.IO.FileNotFoundException>
+
+    [<Test>]
+    member public this.``Job log file is created as dictated by custom job log file path passed in``() =
+        
+        System.IO.File.WriteAllLines(delimitedInputFilePath, [|""|])
+
+        let args = 
+            CommandLineArgumentsCreator
+                .CreateArgumentsForDelimitedTests(
+                    CommandLineArgumentsCreator.CreateSingleFileInputBuilder(delimitedInputFilePath),
+                    CommandLineArgumentsCreator.CreateDelimBuilder("|", '\'', "01", 0u, "02", 0u),
+                    "12345",
+                    CommandLineArgumentsCreator.CreateOutputBuilder(matchedDelimitedOutputFilePath, null),
+                    CommandLineArgumentsCreator.CreateLogBuilder(null, this.JobLogFilePath))
+
+        Program.Main(args)
+
+        File.Exists(this.JobLogFilePath) |> should be True
+
+    [<Test>]
+    member public this.``Job log file is created in same directory as matched output file if no custom job log file path is passed in``() =
+        
+        System.IO.File.WriteAllLines(delimitedInputFilePath, [|""|])
+
+        let args = 
+            CommandLineArgumentsCreator
+                .CreateArgumentsForDelimitedTests(
+                    CommandLineArgumentsCreator.CreateSingleFileInputBuilder(delimitedInputFilePath),
+                    CommandLineArgumentsCreator.CreateDelimBuilder("|", '\'', "01", 0u, "02", 0u),
+                    "12345",
+                    CommandLineArgumentsCreator.CreateOutputBuilder(matchedDelimitedOutputFilePath, null),
+                    null)
+
+        Program.Main(args)
+
+        File.Exists(this.MatchedJobLogFilePath) |> should be True
+
+    [<Test>]
+    member public this.``Job log file is created in same directory as unmatched output file if no matched output and no custom job log file path is passed in``() =
+        
+        System.IO.File.WriteAllLines(delimitedInputFilePath, [|""|])
+
+        let args = 
+            CommandLineArgumentsCreator
+                .CreateArgumentsForDelimitedTests(
+                    CommandLineArgumentsCreator.CreateSingleFileInputBuilder(delimitedInputFilePath),
+                    CommandLineArgumentsCreator.CreateDelimBuilder("|", '\'', "01", 0u, "02", 0u),
+                    "12345",
+                    CommandLineArgumentsCreator.CreateOutputBuilder(null, unmatchedDelimitedOutputFilePath),
+                    null)
+
+        Program.Main(args)
+
+        File.Exists(this.UnmatchedJobLogFilePath) |> should be True
 
     [<Test>]
     member public this.``Test``() =

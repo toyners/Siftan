@@ -27,6 +27,20 @@ namespace Siftan_Console
         {
           logManager.JobLogFilePath = options.Log.JobLogFilePath;
         }
+        else if (options.HasMatchedOutput)
+        {
+          logManager.JobLogFilePath =
+            PathOperations.CompleteDirectoryPath(
+            Path.GetDirectoryName(options.Output.FileMatched)) +
+            "Job.log";
+        }
+        else
+        {
+          logManager.JobLogFilePath =
+            PathOperations.CompleteDirectoryPath(
+            Path.GetDirectoryName(options.Output.FileUnmatched)) +
+            "Job.log";
+        }
 
         String[] inputFilePaths = GetInputFilePaths(options);
 
