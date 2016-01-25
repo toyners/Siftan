@@ -33,9 +33,6 @@ type ProgramUnitTests() =
 
         Directory.CreateDirectory(workingDirectory) |> ignore
 
-        if File.Exists(applicationLogFilePath) then
-            File.Delete(applicationLogFilePath)
-
     [<Test>]
     member public this.``Missing single input file causes meaningful exception to be thrown``() =
 
