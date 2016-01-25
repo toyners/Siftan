@@ -18,29 +18,7 @@ namespace Siftan_Console
       {
         Options options = new Options(args);
 
-        if (options.HasApplicationLogFilePath)
-        {
-          logManager.ApplicationLogFilePath = options.Log.ApplicationLogFilePath;
-        }
-
-        if (options.HasJobLogFilePath)
-        {
-          logManager.JobLogFilePath = options.Log.JobLogFilePath;
-        }
-        else if (options.HasMatchedOutput)
-        {
-          logManager.JobLogFilePath =
-            PathOperations.CompleteDirectoryPath(
-            Path.GetDirectoryName(options.Output.FileMatched)) +
-            "Job.log";
-        }
-        else
-        {
-          logManager.JobLogFilePath =
-            PathOperations.CompleteDirectoryPath(
-            Path.GetDirectoryName(options.Output.FileUnmatched)) +
-            "Job.log";
-        }
+        CompleteLogConfiguring(options, logManager);
 
         String[] inputFilePaths = GetInputFilePaths(options);
 
@@ -86,6 +64,33 @@ namespace Siftan_Console
       finally
       {
         logManager.Close();
+      }
+    }
+
+    private static void CompleteLogConfiguring(Options options, LogManager logManager)
+    {
+      if (options.HasApplicationLogFilePath)
+      {
+        logManager.ApplicationLogFilePath = options.Log.ApplicationLogFilePath;
+      }
+
+      if (options.HasJobLogFilePath)
+      {
+        logManager.JobLogFilePath = options.Log.JobLogFilePath;
+      }
+      else if (options.HasMatchedOutput)
+      {
+        logManager.JobLogFilePath =
+          PathOperations.CompleteDirectoryPath(
+          Path.GetDirectoryName(options.Output.FileMatched)) +
+          "Job.log";
+      }
+      else
+      {
+        logManager.JobLogFilePath =
+          PathOperations.CompleteDirectoryPath(
+          Path.GetDirectoryName(options.Output.FileUnmatched)) +
+          "Job.log";
       }
     }
 
