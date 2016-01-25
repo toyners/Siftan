@@ -92,9 +92,29 @@ namespace Siftan.AcceptanceTests
       // Assert
       File.Exists(this.applicationLogFilePath).ShouldBeTrue();
       File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeTrue();
-      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
-      File.Exists(this.jobLogFilePath).ShouldBeTrue();
+      FileContentAssertion.IsMatching(
+        File.ReadAllLines(this.matchedDelimitedOutputFilePath),
+        new String[]
+        {
+          "01|Ben|Toynbee|12345|1.23",
+          "02|||12345||",
+          "03|||12345||",
+          "03|||12345||",
+          "05|||12345||"
+        });
 
+      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
+      FileContentAssertion.IsMatching(
+        File.ReadAllLines(this.unmatchedDelimitedOutputFilePath),
+        new String[]
+        {
+          "01|Sid|Sample|54321|1.23",
+          "02|||54321||",
+          "03|||54321||",
+          "05|||54321||"
+        });
+
+      File.Exists(this.jobLogFilePath).ShouldBeTrue();
       FileContentAssertion.IsMatching(
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
@@ -184,9 +204,24 @@ namespace Siftan.AcceptanceTests
       // Assert
       File.Exists(this.applicationLogFilePath).ShouldBeTrue();
       File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeFalse();
-      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
-      File.Exists(this.jobLogFilePath).ShouldBeTrue();
 
+      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
+      FileContentAssertion.IsMatching(
+        File.ReadAllLines(this.unmatchedDelimitedOutputFilePath),
+        new String[]
+        {
+          "01|Ben|Toynbee|12345|1.23",
+          "02|||12345||",
+          "03|||12345||",
+          "03|||12345||",
+          "05|||12345||",
+          "01|Sid|Sample|54321|1.23",
+          "02|||54321||",
+          "03|||54321||",
+          "05|||54321||"
+        });
+
+      File.Exists(this.jobLogFilePath).ShouldBeTrue();
       FileContentAssertion.IsMatching(
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
