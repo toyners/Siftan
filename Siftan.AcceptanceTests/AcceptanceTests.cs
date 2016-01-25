@@ -619,10 +619,18 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeFalse();
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeFalse();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
+
+      LogFileContentAssertion.IsMatching(
+        File.ReadAllLines(this.jobLogFilePath),
+        new String[]
+        {
+          DateTimeStampRegex + "Run Started...",
+          DateTimeStampRegex + "Run Finished."
+        });
     }
 
     [Test]
-    public void RunDelimitedJobWithWrongTermIndexCreatesNoOutputFiles()
+    public void RunDelimitedJobWithWrongTermIndexCreatesUnmatchedOutputFileOnly()
     {
       // Arrange
       CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.delimitedInputFilePath);
@@ -646,8 +654,18 @@ namespace Siftan.AcceptanceTests
       // Assert
       File.Exists(this.applicationLogFilePath).ShouldBeTrue();
       File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeFalse();
-      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeFalse();
+      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
+
+      LogFileContentAssertion.IsMatching(
+        File.ReadAllLines(this.jobLogFilePath),
+        new String[]
+        {
+          DateTimeStampRegex + "Run Started...",
+          DateTimeStampRegex + "Record found at position 0 with Term '02'.",
+          DateTimeStampRegex + "Record found at position 86 with Term '02'.",
+          DateTimeStampRegex + "Run Finished."
+        });
     }
 
     private static void CreateInputFileForDelimitedTests(String resourceFilePath, String inputFilePath)
