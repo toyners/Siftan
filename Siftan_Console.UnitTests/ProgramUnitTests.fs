@@ -65,7 +65,7 @@ type ProgramUnitTests() =
         let applicationLogFileContents = File.ReadAllLines(applicationLogFilePath)
         let DateTimeStampRegex = @"\A\[\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}\]"
 
-        LogFileContentAssertion.IsMatching(
+        FileContentAssertion.IsMatching(
             applicationLogFileContents, 
             [|
               DateTimeStampRegex + " EXCEPTION: No files found matching pattern '" + Regex.Escape(delimitedInputFilePath) + "'."

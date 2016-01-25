@@ -95,7 +95,7 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
 
-      LogFileContentAssertion.IsMatching(
+      FileContentAssertion.IsMatching(
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
@@ -150,7 +150,7 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeFalse();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
 
-      LogFileContentAssertion.IsMatching(
+      FileContentAssertion.IsMatching(
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
@@ -187,7 +187,7 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
 
-      LogFileContentAssertion.IsMatching(
+      FileContentAssertion.IsMatching(
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
