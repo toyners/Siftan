@@ -7,31 +7,31 @@ open Siftan.TestSupport
 type FileContentAssertionTests() =
 
     [<Test>]
-    member public this.``Log file lines containing expected lines in correct orders does not throw exception``() =
+    member public this.``File containing expected lines in correct order does not throw exception``() =
         // Assert
-        let logFileLines = [|"AAA"; "BBB"; "CCC"|]
-        let expectedLogFileLines = [|"BBB"; "CCC"|]
+        let actualFileLines = [|"AAA"; "BBB"; "CCC"|]
+        let expectedFileLines = [|"BBB"; "CCC"|]
 
         // Act
-        (fun () -> FileContentAssertion.IsMatching(logFileLines, expectedLogFileLines) |> ignore)
+        (fun () -> FileContentAssertion.IsMatching(actualFileLines, expectedFileLines) |> ignore)
         |> should not' (throw typeof<System.Exception>)
 
     [<Test>]
-    member public this.``Log file lines contain expected lines but in wrong order throws meaningful exception``() =
+    member public this.``File containing expected lines in wrong order does throw meaningful exception``() =
         // Assert
-        let logFileLines = [|"AAA"; "BBB"; "CCC"|]
-        let expectedLogFileLines = [|"CCC"; "BBB"|]
+        let actualFileLines = [|"AAA"; "BBB"; "CCC"|]
+        let expectedFileLines = [|"CCC"; "BBB"|]
         
         // Act
-        (fun () -> FileContentAssertion.IsMatching(logFileLines, expectedLogFileLines) |> ignore)
+        (fun () -> FileContentAssertion.IsMatching(actualFileLines, expectedFileLines) |> ignore)
         |> should (throwWithMessage "Expected file content lines 'BBB' to follow 'CCC' but 'CCC' follows 'BBB'.") typeof<System.Exception>
 
     [<Test>]
-    member public this.``Log file lines does not contain expected line throws meaningful exception``() =
+    member public this.``File does not contain expected line throws meaningful exception``() =
         // Assert
-        let logFileLines = [|"AAA"; "BBB"; "CCC"|]
-        let expectedLogFileLines = [|"DDD"|]
+        let actualFileLines = [|"AAA"; "BBB"; "CCC"|]
+        let expectedFileLines = [|"DDD"|]
         
         // Act
-        (fun () -> FileContentAssertion.IsMatching(logFileLines, expectedLogFileLines) |> ignore)
+        (fun () -> FileContentAssertion.IsMatching(actualFileLines, expectedFileLines) |> ignore)
         |> should (throwWithMessage "Missing line 'DDD' from file content.") typeof<System.Exception>
