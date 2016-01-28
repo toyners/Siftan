@@ -58,7 +58,7 @@
     <Compile Include="LogBuilderTests.fs" />
     <Compile Include="OutputBuilderTests.fs" />
     <Content Include="packages.config" />
-    <Compile Include="FileContentAssertionTests.fs" />
+    <Compile Include="StringArrayComparisonTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Siftan\Siftan.csproj">

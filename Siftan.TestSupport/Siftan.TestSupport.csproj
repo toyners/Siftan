@@ -50,7 +50,7 @@
     <Compile Include="InListBuilder.cs" />
     <Compile Include="InputBuilder.cs" />
     <Compile Include="LogBuilder.cs" />
-    <Compile Include="FileContentAssertion.cs" />
+    <Compile Include="StringArrayComparison.cs" />
     <Compile Include="OutputBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
