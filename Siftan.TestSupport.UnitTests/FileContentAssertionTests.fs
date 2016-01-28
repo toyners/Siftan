@@ -24,7 +24,7 @@ type FileContentAssertionTests() =
         
         // Act
         (fun () -> FileContentAssertion.IsMatching(actualFileLines, expectedFileLines) |> ignore)
-        |> should (throwWithMessage "Expected file content lines 'BBB' to follow 'CCC' but 'CCC' follows 'BBB'.") typeof<System.Exception>
+        |> should (throwWithMessage "Expected line 'BBB' to follow 'CCC' but 'CCC' follows 'BBB'.") typeof<System.Exception>
 
     [<Test>]
     member public this.``File does not contain expected line throws meaningful exception``() =

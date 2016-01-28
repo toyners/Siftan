@@ -6,7 +6,7 @@ namespace Siftan.TestSupport
 
   public static class FileContentAssertion
   {
-    public static void IsMatching(String[] fileLines, String[] expectedFileLines)
+    public static void IsMatching(String[] actualFileLines, String[] expectedFileLines)
     {
       try
       {
@@ -17,16 +17,16 @@ namespace Siftan.TestSupport
         {
           Boolean matched = false;
 
-          for (Int32 logIndex = 0; logIndex < fileLines.Length; logIndex++)
+          for (Int32 logIndex = 0; logIndex < actualFileLines.Length; logIndex++)
           {
-            String logFileLine = fileLines[logIndex];
+            String logFileLine = actualFileLines[logIndex];
             if (Regex.IsMatch(logFileLine, expectedLogFileLine))
             {
               if (lastMatchIndex > logIndex)
               {
-                throw new Exception(String.Format("Expected file content lines '{0}' to follow '{1}' but '{1}' follows '{0}'.",
+                throw new Exception(String.Format("Expected line '{0}' to follow '{1}' but '{1}' follows '{0}'.",
                   logFileLine,
-                  fileLines[lastMatchIndex]));
+                  actualFileLines[lastMatchIndex]));
               }
 
               matched = true;
