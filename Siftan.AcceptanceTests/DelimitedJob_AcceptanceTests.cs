@@ -92,7 +92,7 @@ namespace Siftan.AcceptanceTests
       // Assert
       File.Exists(this.applicationLogFilePath).ShouldBeTrue();
       File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeTrue();
-      FileContentAssertion.IsMatching(
+      StringArrayComparison.IsMatching(
         File.ReadAllLines(this.matchedDelimitedOutputFilePath),
         new String[]
         {
@@ -104,7 +104,7 @@ namespace Siftan.AcceptanceTests
         });
 
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
-      FileContentAssertion.IsMatching(
+      StringArrayComparison.IsMatching(
         File.ReadAllLines(this.unmatchedDelimitedOutputFilePath),
         new String[]
         {
@@ -115,7 +115,7 @@ namespace Siftan.AcceptanceTests
         });
 
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
-      FileContentAssertion.IsMatching(
+      StringArrayComparison.IsMatching(
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
@@ -131,14 +131,15 @@ namespace Siftan.AcceptanceTests
           DateTimeStampRegex + "Run Started...",
           DateTimeStampRegex + "Record found at position 0 with Term '12345' matches with List Term '12345'.",
           DateTimeStampRegex + "Record found at position 86 with Term '54321'.",
-          DateTimeStampRegex + "Run Finished."
-          //DateTimeStampRegex + String.Format(" 2 Record(s) processed."),
-          //DateTimeStampRegex + String.Format(" 2 Record(s) processed from input file {0}." + this.delimitedInputFilePath),
-          //DateTimeStampRegex + String.Format(" 1 Record(s) matched."),
-          //DateTimeStampRegex + String.Format(" 1 Record(s) not matched."),
-          //DateTimeStampRegex + String.Format(" 1 Record(s) matched from input file {0}." + this.delimitedInputFilePath),
-          //DateTimeStampRegex + String.Format(" 1 Record(s) not matched from input file {0}." + this.delimitedInputFilePath),
-          //DateTimeStampRegex + String.Format(" 1 Record(s) written to output file {0}." + this.matchedDelimitedOutputFilePath),
+          DateTimeStampRegex + "Run Finished.",
+          DateTimeStampRegex + "2 Record(s) processed.",
+          DateTimeStampRegex + String.Format("2 Record(s) processed from input file {0}.", this.delimitedInputFilePath),
+          DateTimeStampRegex + "1 Record(s) matched.",
+          DateTimeStampRegex + "1 Record(s) not matched.",
+          DateTimeStampRegex + String.Format("1 Record(s) matched from input file {0}.", this.delimitedInputFilePath),
+          DateTimeStampRegex + String.Format("1 Record(s) not matched from input file {0}.", this.delimitedInputFilePath),
+          DateTimeStampRegex + String.Format("1 Record(s) written to output file {0}.", this.matchedDelimitedOutputFilePath),
+          DateTimeStampRegex + String.Format("1 Record(s) written to output file {0}.", this.unmatchedDelimitedOutputFilePath),
         });
     }
 
@@ -170,7 +171,7 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeFalse();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
 
-      FileContentAssertion.IsMatching(
+      StringArrayComparison.IsMatching(
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
@@ -206,7 +207,7 @@ namespace Siftan.AcceptanceTests
       File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeFalse();
 
       File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
-      FileContentAssertion.IsMatching(
+      StringArrayComparison.IsMatching(
         File.ReadAllLines(this.unmatchedDelimitedOutputFilePath),
         new String[]
         {
@@ -222,7 +223,7 @@ namespace Siftan.AcceptanceTests
         });
 
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
-      FileContentAssertion.IsMatching(
+      StringArrayComparison.IsMatching(
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
