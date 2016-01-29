@@ -91,11 +91,6 @@ namespace Siftan
       this.jobLog.WriteLine(this.dateTimeStamper.Now + " " + message);
     }
 
-    public void WriteStatisticsToJobLog(IStatisticsCollector statisticsCollector)
-    {
-      throw new NotImplementedException();
-    }
-
     private void CloseApplicationLog()
     {
       if (!this.ApplicationLogIsClosed)

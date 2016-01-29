@@ -53,6 +53,7 @@
     <Compile Include="ILogManager.cs" />
     <Compile Include="IRecordWriter.cs" />
     <Compile Include="IStatisticsCollector.cs" />
+    <Compile Include="IStatisticsReporter.cs" />
     <Compile Include="LogManager.cs" />
     <Compile Include="OneFileRecordWriter.cs" />
     <Compile Include="InListExpression.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="IRecordReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Record.cs" />
-    <Compile Include="StatisticsCollector.cs" />
+    <Compile Include="StatisticsManager.cs" />
     <Compile Include="StreamWriteOperations.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -67,6 +67,7 @@
     <Compile Include="DelimitedRecordReader_IntegrationTests.cs" />
     <Compile Include="LogManager_IntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatisticsManager_IntegrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TestFile.csv" />
