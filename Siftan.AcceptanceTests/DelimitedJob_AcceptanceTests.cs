@@ -176,7 +176,9 @@ namespace Siftan.AcceptanceTests
         new String[]
         {
           DateTimeStampRegex + "Run Started...",
-          DateTimeStampRegex + "Run Finished."
+          DateTimeStampRegex + "Run Finished.",
+          DateTimeStampRegex + "0 Record(s) processed.",
+          DateTimeStampRegex + String.Format("0 Record(s) processed from input file {0}.", this.delimitedInputFilePath),
         });
     }
 
@@ -230,7 +232,12 @@ namespace Siftan.AcceptanceTests
           DateTimeStampRegex + "Run Started...",
           DateTimeStampRegex + "Record found at position 0 with Term '02'.",
           DateTimeStampRegex + "Record found at position 86 with Term '02'.",
-          DateTimeStampRegex + "Run Finished."
+          DateTimeStampRegex + "Run Finished.",
+          DateTimeStampRegex + "2 Record(s) processed.",
+          DateTimeStampRegex + String.Format("2 Record(s) processed from input file {0}.", this.delimitedInputFilePath),
+          DateTimeStampRegex + "2 Record(s) not matched.",
+          DateTimeStampRegex + String.Format("2 Record(s) not matched from input file {0}.", this.delimitedInputFilePath),
+          DateTimeStampRegex + String.Format("2 Record(s) written to output file {0}.", this.matchedDelimitedOutputFilePath),
         });
     }
 
