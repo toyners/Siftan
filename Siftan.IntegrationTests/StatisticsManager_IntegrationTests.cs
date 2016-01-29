@@ -10,7 +10,7 @@ namespace Siftan.IntegrationTests
   {
     #region Methods
     [Test]
-    public void StatisticsWrittemToJobLogCorrectly()
+    public void StatisticsWrittenToJobLogCorrectly()
     {
       // Arrange
       ILogManager mockLogManager = Substitute.For<ILogManager>();
@@ -41,6 +41,21 @@ namespace Siftan.IntegrationTests
           mockLogManager.WriteMessageToJobLog(String.Format("1 Record(s) written to output file {0}.", MatchedOutputFilePath));
           mockLogManager.WriteMessageToJobLog(String.Format("1 Record(s) written to output file {0}.", UnmatchedOutputFilePath));
         });
+    }
+
+    [Test]
+    public void EmptyStatisticsWrittenToJobLogCorrectly()
+    {
+      // Arrange
+      ILogManager mockLogManager = Substitute.For<ILogManager>();
+      StatisticsManager statisticsManager = new StatisticsManager();
+
+      // Act
+      statisticsManager.WriteToLog(mockLogManager);
+
+      // Assert
+      mockLogManager.Received(1).WriteMessageToJobLog(Arg.Any<String>());
+      mockLogManager.Received().WriteMessageToJobLog("0 Record(s) processed.");
     }
     #endregion
   }

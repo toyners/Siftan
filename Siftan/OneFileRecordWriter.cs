@@ -17,6 +17,8 @@ namespace Siftan
 
     private StreamWriter unmatchedWriter;
 
+    private IStatisticsCollector statisticsCollector;
+
     public Boolean DoWriteMatchedRecords
     {
       get; private set;
@@ -29,8 +31,12 @@ namespace Siftan
     #endregion
 
     #region Construction
-    public OneFileRecordWriter(String matchedFilePath, String unmatchedFilePath)
+    public OneFileRecordWriter(String matchedFilePath, String unmatchedFilePath, IStatisticsCollector statisticsCollector)
     {
+      statisticsCollector.VerifyThatObjectIsNotNull("Parameter 'statisticsCollector' is null.");
+
+      this.statisticsCollector = statisticsCollector;
+
       if (!String.IsNullOrEmpty(matchedFilePath))
       {
         this.matchedFilePath = matchedFilePath;
@@ -63,6 +69,8 @@ namespace Siftan
         this.matchedWriter = new StreamWriter(this.matchedFilePath);
       }
 
+      this.statisticsCollector.RecordWrittenToOutputFile(this.matchedFilePath);
+
       StreamWriteOperations.WriteRecordToStream(this.matchedWriter, reader, record);
     }
 
@@ -80,6 +88,8 @@ namespace Siftan
       {
         this.unmatchedWriter = new StreamWriter(this.unmatchedFilePath);
       }
+
+      this.statisticsCollector.RecordWrittenToOutputFile(this.unmatchedFilePath);
 
       StreamWriteOperations.WriteRecordToStream(this.unmatchedWriter, reader, record);
     }

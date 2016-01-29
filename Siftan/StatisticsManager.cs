@@ -42,6 +42,13 @@ namespace Siftan
       });
 
       logManager.WriteMessageToJobLog(String.Format("{0} Record(s) processed.", matchedTotal + unmatchedTotal));
+
+      if (matchedTotal + unmatchedTotal == 0)
+      {
+        // No records processed so nothing more to report.
+        return;
+      }
+
       logManager.WriteMessageToJobLog(String.Format("{0} Record(s) matched.", matchedTotal));
       logManager.WriteMessageToJobLog(String.Format("{0} Record(s) not matched.", unmatchedTotal));
 

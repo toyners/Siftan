@@ -43,7 +43,12 @@ namespace Siftan_Console
           expression = new InListExpression(options.InList.Values);
         }
 
-        OneFileRecordWriter recordWriter = new OneFileRecordWriter(options.Output.FileMatched, options.Output.FileUnmatched);
+        StatisticsManager statisticsManager = new StatisticsManager();
+
+        OneFileRecordWriter recordWriter = new OneFileRecordWriter(
+          options.Output.FileMatched,
+          options.Output.FileUnmatched,
+          statisticsManager);
 
         new Engine().Execute(
           inputFilePaths,
@@ -51,7 +56,9 @@ namespace Siftan_Console
           new FileReaderFactory(),
           recordReader,
           expression,
-          recordWriter);
+          recordWriter,
+          statisticsManager,
+          statisticsManager);
 
         recordWriter.Close();
       }

@@ -9,37 +9,37 @@ module ``OneFileRecordWriter Unit Tests`` =
 
     [<Test>]
     let ``Nonempty matched and unmatched file names returns Matched and Unmatched categories``() = 
-        let recordWriter = OneFileRecordWriter(@"C:\matched.txt", @"C:\unmatched.txt")
+        let recordWriter = OneFileRecordWriter(@"C:\matched.txt", @"C:\unmatched.txt", StatisticsManager())
         recordWriter.DoWriteMatchedRecords |> should equal true
         recordWriter.DoWriteUnmatchedRecords |> should equal true
 
     [<Test>]
     let ``Null matched file name returns Unmatched category``() =
-        let recordWriter = OneFileRecordWriter(null, @"C:\unmatched.txt")
+        let recordWriter = OneFileRecordWriter(null, @"C:\unmatched.txt", StatisticsManager())
         recordWriter.DoWriteMatchedRecords |> should equal false
         recordWriter.DoWriteUnmatchedRecords |> should equal true
 
     [<Test>]
     let ``Empty matched file name returns Unmatched category``() =
-        let recordWriter = OneFileRecordWriter("", @"C:\unmatched.txt")
+        let recordWriter = OneFileRecordWriter("", @"C:\unmatched.txt", StatisticsManager())
         recordWriter.DoWriteMatchedRecords |> should equal false
         recordWriter.DoWriteUnmatchedRecords |> should equal true
 
     [<Test>]
     let ``Null unmatched file name returns Matched category``() =
-        let recordWriter = OneFileRecordWriter(@"C:\matched.txt", null)
+        let recordWriter = OneFileRecordWriter(@"C:\matched.txt", null, StatisticsManager())
         recordWriter.DoWriteMatchedRecords |> should equal true
         recordWriter.DoWriteUnmatchedRecords |> should equal false
 
     [<Test>]
     let ``Empty unmatched file name returns Matched category``() =
-        let recordWriter = OneFileRecordWriter(@"C:\matched.txt", "")
+        let recordWriter = OneFileRecordWriter(@"C:\matched.txt", "", StatisticsManager())
         recordWriter.DoWriteMatchedRecords |> should equal true
         recordWriter.DoWriteUnmatchedRecords |> should equal false
 
     [<Test>]
     let ``Writing matched record when no matched file is set throws meaningful exception``() =
-        let recordWriter = OneFileRecordWriter(null, null)
+        let recordWriter = OneFileRecordWriter(null, null, StatisticsManager())
         let emptyRecord = Record();
         let mockStreamReader = CreateMockReader [||]
         
@@ -48,7 +48,7 @@ module ``OneFileRecordWriter Unit Tests`` =
 
     [<Test>]
     let ``Writing unmatched record when no unmatched file is set throws meaningful exception``() =
-        let recordWriter = OneFileRecordWriter(null, null)
+        let recordWriter = OneFileRecordWriter(null, null, StatisticsManager())
         let emptyRecord = Record();
         let mockStreamReader = CreateMockReader [||]
         
@@ -57,14 +57,14 @@ module ``OneFileRecordWriter Unit Tests`` =
 
     [<Test>]
     let ``Writing matched record with no reader throws meaningful exception``() =
-        let recordWriter = OneFileRecordWriter(null, null)
+        let recordWriter = OneFileRecordWriter(null, null, StatisticsManager())
 
         (fun() -> recordWriter.WriteMatchedRecord(null, Record()) |> ignore)
         |> should (throwWithMessage "Cannot write matched record. Parameter 'reader' is null.") typeof<System.Exception>
 
     [<Test>]
     let ``Writing matched record with no record throws meaningful exception``() =
-        let recordWriter = OneFileRecordWriter(null, null)
+        let recordWriter = OneFileRecordWriter(null, null, StatisticsManager())
         let mockStreamReader = CreateMockReader [||]
 
         (fun() -> recordWriter.WriteMatchedRecord(mockStreamReader, null) |> ignore)
@@ -72,14 +72,14 @@ module ``OneFileRecordWriter Unit Tests`` =
         
     [<Test>]
     let ``Writing unmatched record with no reader throws meaningful exception``() =
-        let recordWriter = OneFileRecordWriter(null, null)
+        let recordWriter = OneFileRecordWriter(null, null, StatisticsManager())
 
         (fun() -> recordWriter.WriteUnmatchedRecord(null, Record()) |> ignore)
         |> should (throwWithMessage "Cannot write unmatched record. Parameter 'reader' is null.") typeof<System.Exception>
 
     [<Test>]
     let ``Writing unmatched record with no record throws meaningful exception``() =
-        let recordWriter = OneFileRecordWriter(null, null)
+        let recordWriter = OneFileRecordWriter(null, null, StatisticsManager())
         let mockStreamReader = CreateMockReader [||]
 
         (fun() -> recordWriter.WriteUnmatchedRecord(mockStreamReader, null) |> ignore)

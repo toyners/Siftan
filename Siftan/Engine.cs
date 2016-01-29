@@ -9,6 +9,10 @@ namespace Siftan
   {
     private ILogManager logManager;
 
+    private IStatisticsCollector statisticsCollector;
+
+    private IStatisticsReporter statisticsReporter;
+
     #region Methods
     public void Execute(
       String[] filePaths,
@@ -16,13 +20,22 @@ namespace Siftan
       IStreamReaderFactory streamReaderFactory,
       IRecordReader recordReader,
       IRecordMatchExpression expression,
-      IRecordWriter recordWriter)
+      IRecordWriter recordWriter,
+      IStatisticsCollector statisticsCollector,
+      IStatisticsReporter statisticsReporter)
     {
       logManager.VerifyThatObjectIsNotNull("Parameter 'logManager' is null.");
+
       try
       {
         this.logManager = logManager;
         this.logManager.WriteMessagesToLogs("Run Started...");
+
+        statisticsCollector.VerifyThatObjectIsNotNull("Parameter 'statisticsCollector' is null.");
+        this.statisticsCollector = statisticsCollector;
+
+        statisticsReporter.VerifyThatObjectIsNotNull("Parameter 'statisticsReporter' is null.");
+        this.statisticsReporter = statisticsReporter;
 
         if (recordWriter.DoWriteMatchedRecords && recordWriter.DoWriteUnmatchedRecords)
         {
@@ -38,6 +51,8 @@ namespace Siftan
         }
 
         recordWriter.Close();
+
+        this.statisticsReporter.WriteToLog(this.logManager);
 
         this.logManager.WriteMessagesToLogs("Run Finished.");
       }
@@ -79,11 +94,13 @@ namespace Siftan
           String message = "Record found at position " + record.Start + " with Term '" + record.Term + "'";
           if (expression.IsMatch(record))
           {
-            message += " matches with List Term '" + record.Term + "'.";
+            this.statisticsCollector.RecordIsMatched(filePath);
+            message += " matches with List Term '" + record.Term + "'";
             writeMatchedRecordMethod(fileReader, record);
           }
           else
           {
+            this.statisticsCollector.RecordIsUnmatched(filePath);
             writeUnmatchedRecordMethod(fileReader, record);
           }
 
