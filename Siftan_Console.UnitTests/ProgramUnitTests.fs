@@ -63,12 +63,11 @@ type ProgramUnitTests() =
             | :? System.Exception -> printfn ""
 
         let applicationLogFileContents = File.ReadAllLines(applicationLogFilePath)
-        let DateTimeStampRegex = @"\A\[\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}\]"
 
         StringArrayComparison.IsMatching(
             applicationLogFileContents, 
             [|
-              DateTimeStampRegex + " EXCEPTION: No files found matching pattern '" + Regex.Escape(delimitedInputFilePath) + "'."
+              TestConstants.DateTimeStampRegex + "EXCEPTION: No files found matching pattern '" + Regex.Escape(delimitedInputFilePath) + "'."
             |])
 
     [<Test>]
