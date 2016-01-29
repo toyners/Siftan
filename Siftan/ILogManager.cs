@@ -10,5 +10,7 @@ namespace Siftan
     void WriteMessageToApplicationLog(String message);
 
     void WriteMessageToJobLog(String message);
+
+    void WriteStatisticsToJobLog(IStatisticsCollector statisticsCollector);
   }
 }

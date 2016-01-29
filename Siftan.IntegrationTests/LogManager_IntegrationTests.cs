@@ -4,6 +4,7 @@ namespace Siftan.IntegrationTests
   using System;
   using System.Collections.Generic;
   using System.IO;
+  using System.Text.RegularExpressions;
   using FluentAssertions;
   using NSubstitute;
   using NUnit.Framework;
@@ -25,12 +26,7 @@ namespace Siftan.IntegrationTests
 
     private const String NewYearsDayDateTimeStamp = "[01-01-2016 11:23:45]";
 
-    private static String[] ExpectedLogFileContents = new String[]
-    {
-      LateNewYearsEveDateTimeStamp + " " + FirstLogMessage,
-      EarlyNewYearsDayDateTimeStamp + " " + SecondLogMessage,
-      NewYearsDayDateTimeStamp + " " + ThirdLogMessage,
-    };  
+    private static String[] ExpectedLogFileContents;
 
     private String workingDirectory;
 
@@ -53,6 +49,13 @@ namespace Siftan.IntegrationTests
       this.alternativeApplicationLogFilePath = this.workingDirectory + @"\AlternativeApplicationLogFile.log";
       this.jobLogFilePath = this.workingDirectory + @"\JobLogFile.log";
       this.alternativeJobLogFilePath = this.workingDirectory + @"\AlternativeJobLogFile.log";
+
+      ExpectedLogFileContents = new String[]
+      {
+        Regex.Escape(LateNewYearsEveDateTimeStamp) + " " + FirstLogMessage,
+        Regex.Escape(EarlyNewYearsDayDateTimeStamp) + " " + SecondLogMessage,
+        Regex.Escape(NewYearsDayDateTimeStamp) + " " + ThirdLogMessage,
+      };
     }
 
     [SetUp]
@@ -211,6 +214,44 @@ namespace Siftan.IntegrationTests
       File.Exists(this.alternativeJobLogFilePath).ShouldBeTrue();
     }
 
+    [Test]
+    public void StatisticsWrittemToJobLogCorrectly()
+    {
+      // Arrange
+      const String DelimitedInputFilePath = @"C:\DelimitedInput.csv";
+      const String MatchedOutputFilePath = @"C:\MatchedOutput.csv";
+      const String UnmatchedOutputFilePath = @"C:\UnmatchedOutput.csv";
+
+      LogManager logManager = new LogManager(this.applicationLogFilePath);
+      logManager.JobLogFilePath = this.jobLogFilePath;
+
+      StatisticsCollector statisticsCollector = new StatisticsCollector();
+      statisticsCollector.RecordIsProcessed(DelimitedInputFilePath);
+      statisticsCollector.RecordIsProcessed(DelimitedInputFilePath);
+      statisticsCollector.RecordIsMatched(DelimitedInputFilePath);
+      statisticsCollector.RecordIsUnmatched(DelimitedInputFilePath);
+      statisticsCollector.RecordWrittenToOutputFile(MatchedOutputFilePath);
+      statisticsCollector.RecordWrittenToOutputFile(UnmatchedOutputFilePath);
+      
+      // Act
+      logManager.WriteStatisticsToJobLog(statisticsCollector);
+      logManager.Close();
+
+      // Assert
+      StringArrayComparison.IsMatching(
+        File.ReadAllLines(this.jobLogFilePath),
+        new String[]
+        {
+          TestConstants.DateTimeStampRegex + String.Format("2 Record(s) processed from input file {0}.", DelimitedInputFilePath),
+          TestConstants.DateTimeStampRegex + "1 Record(s) matched.",
+          TestConstants.DateTimeStampRegex + "1 Record(s) not matched.",
+          TestConstants.DateTimeStampRegex + String.Format("1 Record(s) matched from input file {0}.", DelimitedInputFilePath),
+          TestConstants.DateTimeStampRegex + String.Format("1 Record(s) not matched from input file {0}.", DelimitedInputFilePath),
+          TestConstants.DateTimeStampRegex + String.Format("1 Record(s) written to output file {0}.", MatchedOutputFilePath),
+          TestConstants.DateTimeStampRegex + String.Format("1 Record(s) written to output file {0}.", UnmatchedOutputFilePath),
+        });
+    }
+
     private static void WriteMessagesToApplicationLog(LogManager logManager)
     {
       logManager.WriteMessageToApplicationLog(FirstLogMessage);
@@ -253,7 +294,7 @@ namespace Siftan.IntegrationTests
     private static void AssertLogFileContentsAreCorrect(String[] logFileLines)
     {
       logFileLines.Length.Should().Be(3);
-      StringArrayComparison.IsMatching(ExpectedLogFileContents, logFileLines);
+      StringArrayComparison.IsMatching(logFileLines, ExpectedLogFileContents);
     }
     #endregion
   }
