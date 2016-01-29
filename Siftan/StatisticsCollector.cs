@@ -54,12 +54,12 @@ namespace Siftan
 
     public void RecordIsMatched(String inputFilePath)
     {
-      this.GetInputFileCountsStructure(inputFilePath).Matched++;
+      this.GetInputFileCounter(inputFilePath).Matched++;
     }
 
     public void RecordIsUnmatched(String inputFilePath)
     {
-      this.GetInputFileCountsStructure(inputFilePath).Unmatched++;
+      this.GetInputFileCounter(inputFilePath).Unmatched++;
     }
 
     public void RecordWrittenToOutputFile(String filePath)
@@ -81,7 +81,7 @@ namespace Siftan
       }
     }
 
-    private InputFileCounter GetInputFileCountsStructure(String inputFilePath)
+    private InputFileCounter GetInputFileCounter(String inputFilePath)
     {
       InputFileCounter i;
       if (!this.inputFileCounters.ContainsKey(inputFilePath))
