@@ -57,9 +57,9 @@
     <Compile Include="DelimitedRecordReader UnitTests.fs" />
     <Compile Include="FixedWidthRecordReader Unit Tests.fs" />
     <Compile Include="OneFileRecordWriter Unit Tests.fs" />
+    <Compile Include="StatisticsCollectorUnitTests.fs" />
     <None Include="Foq.Usage.fsx" />
     <Content Include="packages.config" />
-    <Compile Include="StatisticsCollectorUnitTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">

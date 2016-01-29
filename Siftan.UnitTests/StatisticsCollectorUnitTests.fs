@@ -59,4 +59,5 @@ type StatisticsCollectorUnitTests() =
             inputFileCounter.Matched |> should equal 1u
             inputFileCounter.Unmatched |> should equal 0u
 
+            // Set the expected file to be the second input file. Not pretty.
             expectedInputFilePath <- this.SecondInputFilePath
