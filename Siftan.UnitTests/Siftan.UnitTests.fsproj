@@ -59,6 +59,7 @@
     <Compile Include="OneFileRecordWriter Unit Tests.fs" />
     <None Include="Foq.Usage.fsx" />
     <Content Include="packages.config" />
+    <Compile Include="StatisticsCollectorUnitTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">
