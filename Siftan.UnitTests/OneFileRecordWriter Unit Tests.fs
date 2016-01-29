@@ -3,6 +3,7 @@
 open NUnit.Framework
 open Siftan
 open FsUnit
+open SupportFunctions
 
 module ``OneFileRecordWriter Unit Tests`` =
 
@@ -35,3 +36,21 @@ module ``OneFileRecordWriter Unit Tests`` =
         let recordWriter = OneFileRecordWriter(@"C:\matched.txt", "")
         recordWriter.DoWriteMatchedRecords |> should equal true
         recordWriter.DoWriteUnmatchedRecords |> should equal false
+
+    [<Test>]
+    let ``Writing matched record when no matched file is set throws meaningful exception``() =
+        let recordWriter = OneFileRecordWriter(null, null)
+        let emptyRecord = Record();
+        let mockStreamReader = CreateMockReader [||]
+        
+        (fun() -> recordWriter.WriteMatchedRecord(mockStreamReader, emptyRecord) |> ignore)
+        |> should (throwWithMessage "Writer not set to write out matched record.") typeof<System.InvalidOperationException>
+
+    [<Test>]
+    let ``Writing unmatched record when no unmatched file is set throws meaningful exception``() =
+        let recordWriter = OneFileRecordWriter(null, null)
+        let emptyRecord = Record();
+        let mockStreamReader = CreateMockReader [||]
+        
+        (fun() -> recordWriter.WriteUnmatchedRecord(mockStreamReader, emptyRecord) |> ignore)
+        |> should (throwWithMessage "Writer not set to write out unmatched record.") typeof<System.InvalidOperationException>

@@ -49,6 +49,11 @@ namespace Siftan
     #region Methods
     public void WriteMatchedRecord(IStreamReader reader, Record record)
     {
+      if (!this.DoWriteMatchedRecords)
+      {
+        throw new InvalidOperationException("Writer not set to write out matched record.");
+      }
+
       if (this.matchedWriter == null)
       {
         this.matchedWriter = new StreamWriter(this.matchedFilePath);
@@ -59,6 +64,11 @@ namespace Siftan
 
     public void WriteUnmatchedRecord(IStreamReader reader, Record record)
     {
+      if (!this.DoWriteUnmatchedRecords)
+      {
+        throw new InvalidOperationException("Writer not set to write out unmatched record.");
+      }
+
       if (this.unmatchedWriter == null)
       {
         this.unmatchedWriter = new StreamWriter(this.unmatchedFilePath);
