@@ -8,7 +8,7 @@ namespace Siftan
   {
     private Dictionary<String, InputFileCounter> inputFileCounters = new Dictionary<String, InputFileCounter>();
 
-    private Dictionary<String, UInt32> outputFileCounts = new Dictionary<String, UInt32>();
+    private Dictionary<String, OutputFileCounter> outputFileCounters = new Dictionary<String, OutputFileCounter>();
 
     public UInt32 TotalProcessedRecords
     {
@@ -52,6 +52,20 @@ namespace Siftan
       }
     }
 
+    public UInt32 TotalWrittenRecords
+    {
+      get
+      {
+        UInt32 result = 0;
+        foreach (var outputFileCounter in this.OutputFileCounters())
+        {
+          result += outputFileCounter.Total;
+        }
+
+        return result;
+      }
+    }
+
     public void RecordIsMatched(String inputFilePath)
     {
       this.GetInputFileCounter(inputFilePath).Matched++;
@@ -64,13 +78,13 @@ namespace Siftan
 
     public void RecordWrittenToOutputFile(String filePath)
     {
-      if (!this.outputFileCounts.ContainsKey(filePath))
+      if (!this.outputFileCounters.ContainsKey(filePath))
       {
-        this.outputFileCounts.Add(filePath, 1);
+        this.outputFileCounters.Add(filePath, new OutputFileCounter { FilePath = filePath, Total = 1 });
         return;
       }
 
-      this.outputFileCounts[filePath]++;
+      this.outputFileCounters[filePath].Total++;
     }
 
     public IEnumerable<InputFileCounter> InputFileCounters()
@@ -78,6 +92,14 @@ namespace Siftan
       foreach (var inputFileCounter in this.inputFileCounters.Values)
       {
         yield return inputFileCounter;
+      }
+    }
+
+    public IEnumerable<OutputFileCounter> OutputFileCounters()
+    {
+      foreach (var outputFileCounter in this.outputFileCounters.Values)
+      {
+        yield return outputFileCounter;
       }
     }
 
@@ -101,6 +123,13 @@ namespace Siftan
       public UInt32 Matched { get; internal set; }
 
       public UInt32 Unmatched { get; internal set; }
+    }
+
+    public class OutputFileCounter
+    {
+      public String FilePath { get; internal set; }
+
+      public UInt32 Total { get; internal set; }
     }
   }
 }

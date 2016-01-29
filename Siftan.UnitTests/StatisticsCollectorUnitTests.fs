@@ -10,6 +10,10 @@ type StatisticsCollectorUnitTests() =
     member private this.FirstInputFilePath = @"C:\InputFile_1.csv"
     
     member private this.SecondInputFilePath = @"C:\InputFile_2.csv"
+
+    member private this.FirstOutputFilePath = @"C:\OutputFile_1.csv"
+    
+    member private this.SecondOutputFilePath = @"C:\OutputFile_2.csv"
     
     [<Test>]
     member public this.``Adding a matched record updates the total counts``() =
@@ -37,7 +41,7 @@ type StatisticsCollectorUnitTests() =
         statisticsCollector.TotalProcessedRecords |> should equal 2u
 
     [<Test>]
-    member public this.``Enumerating over collector returns expected values``() =
+    member public this.``Enumerating over input file object after adding record from one file returns expected values``() =
         let statisticsCollector = StatisticsCollector()
         statisticsCollector.RecordIsMatched(this.FirstInputFilePath)
 
@@ -47,7 +51,7 @@ type StatisticsCollectorUnitTests() =
             inputFileCounter.Unmatched |> should equal 0u
 
     [<Test>]
-    member public this.``Enumerating over collector after adding records from different input files returns expected values``() =
+    member public this.``Enumerating over input file objects after adding records from different input files returns expected values``() =
         let statisticsCollector = StatisticsCollector()
         statisticsCollector.RecordIsMatched(this.FirstInputFilePath)
         statisticsCollector.RecordIsMatched(this.SecondInputFilePath)
@@ -61,3 +65,42 @@ type StatisticsCollectorUnitTests() =
 
             // Set the expected file to be the second input file. Not pretty.
             expectedInputFilePath <- this.SecondInputFilePath
+
+    [<Test>]
+    member public this.``Adding a written record to one file updates the total counts``() =
+        let statisticsCollector = StatisticsCollector()
+        statisticsCollector.RecordWrittenToOutputFile(this.FirstOutputFilePath)
+
+        statisticsCollector.TotalWrittenRecords |> should equal 1u
+
+    [<Test>]
+    member public this.``Adding a written record to multiple files updates the total counts``() =
+        let statisticsCollector = StatisticsCollector()
+        statisticsCollector.RecordWrittenToOutputFile(this.FirstOutputFilePath)
+        statisticsCollector.RecordWrittenToOutputFile(this.SecondOutputFilePath)
+
+        statisticsCollector.TotalWrittenRecords |> should equal 2u
+
+    [<Test>]
+    member public this.``Enumerating over output file object after adding record for one output file returns expected values``() =
+        let statisticsCollector = StatisticsCollector()
+        statisticsCollector.RecordWrittenToOutputFile(this.FirstOutputFilePath)
+
+        for outputFileCounter in statisticsCollector.OutputFileCounters() do
+            outputFileCounter.FilePath |> should equal this.FirstOutputFilePath
+            outputFileCounter.Total |> should equal 1u
+
+    [<Test>]
+    member public this.``Enumerating over output file objects after adding records for multiple output files returns expected values``() =
+        let statisticsCollector = StatisticsCollector()
+        statisticsCollector.RecordWrittenToOutputFile(this.FirstOutputFilePath)
+        statisticsCollector.RecordWrittenToOutputFile(this.SecondOutputFilePath)
+
+        let mutable expectedInputFilePath = this.FirstOutputFilePath
+
+        for outputFileCounter in statisticsCollector.OutputFileCounters() do
+            outputFileCounter.FilePath |> should equal expectedInputFilePath
+            outputFileCounter.Total |> should equal 1u
+
+            // Set the expected file to be the second output file. Not pretty.
+            expectedInputFilePath <- this.SecondOutputFilePath
