@@ -54,3 +54,33 @@ module ``OneFileRecordWriter Unit Tests`` =
         
         (fun() -> recordWriter.WriteUnmatchedRecord(mockStreamReader, emptyRecord) |> ignore)
         |> should (throwWithMessage "Writer not set to write out unmatched record.") typeof<System.InvalidOperationException>
+
+    [<Test>]
+    let ``Writing matched record with no reader throws meaningful exception``() =
+        let recordWriter = OneFileRecordWriter(null, null)
+
+        (fun() -> recordWriter.WriteMatchedRecord(null, Record()) |> ignore)
+        |> should (throwWithMessage "Cannot write matched record. Parameter 'reader' is null.") typeof<System.Exception>
+
+    [<Test>]
+    let ``Writing matched record with no record throws meaningful exception``() =
+        let recordWriter = OneFileRecordWriter(null, null)
+        let mockStreamReader = CreateMockReader [||]
+
+        (fun() -> recordWriter.WriteMatchedRecord(mockStreamReader, null) |> ignore)
+        |> should (throwWithMessage "Cannot write matched record. Parameter 'record' is null.") typeof<System.Exception>
+        
+    [<Test>]
+    let ``Writing unmatched record with no reader throws meaningful exception``() =
+        let recordWriter = OneFileRecordWriter(null, null)
+
+        (fun() -> recordWriter.WriteUnmatchedRecord(null, Record()) |> ignore)
+        |> should (throwWithMessage "Cannot write unmatched record. Parameter 'reader' is null.") typeof<System.Exception>
+
+    [<Test>]
+    let ``Writing unmatched record with no record throws meaningful exception``() =
+        let recordWriter = OneFileRecordWriter(null, null)
+        let mockStreamReader = CreateMockReader [||]
+
+        (fun() -> recordWriter.WriteUnmatchedRecord(mockStreamReader, null) |> ignore)
+        |> should (throwWithMessage "Cannot write unmatched record. Parameter 'record' is null.") typeof<System.Exception>

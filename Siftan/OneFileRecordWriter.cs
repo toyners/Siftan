@@ -4,6 +4,7 @@ namespace Siftan
   using System;
   using System.IO;
   using Jabberwocky.Toolkit.IO;
+  using Jabberwocky.Toolkit.Object;
 
   public class OneFileRecordWriter : IRecordWriter
   {
@@ -49,6 +50,9 @@ namespace Siftan
     #region Methods
     public void WriteMatchedRecord(IStreamReader reader, Record record)
     {
+      reader.VerifyThatObjectIsNotNull("Cannot write matched record. Parameter 'reader' is null.");
+      record.VerifyThatObjectIsNotNull("Cannot write matched record. Parameter 'record' is null.");
+
       if (!this.DoWriteMatchedRecords)
       {
         throw new InvalidOperationException("Writer not set to write out matched record.");
@@ -64,6 +68,9 @@ namespace Siftan
 
     public void WriteUnmatchedRecord(IStreamReader reader, Record record)
     {
+      reader.VerifyThatObjectIsNotNull("Cannot write unmatched record. Parameter 'reader' is null.");
+      record.VerifyThatObjectIsNotNull("Cannot write unmatched record. Parameter 'record' is null.");
+
       if (!this.DoWriteUnmatchedRecords)
       {
         throw new InvalidOperationException("Writer not set to write out unmatched record.");
