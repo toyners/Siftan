@@ -226,8 +226,6 @@ namespace Siftan.IntegrationTests
       logManager.JobLogFilePath = this.jobLogFilePath;
 
       StatisticsCollector statisticsCollector = new StatisticsCollector();
-      statisticsCollector.RecordIsProcessed(DelimitedInputFilePath);
-      statisticsCollector.RecordIsProcessed(DelimitedInputFilePath);
       statisticsCollector.RecordIsMatched(DelimitedInputFilePath);
       statisticsCollector.RecordIsUnmatched(DelimitedInputFilePath);
       statisticsCollector.RecordWrittenToOutputFile(MatchedOutputFilePath);
@@ -242,9 +240,10 @@ namespace Siftan.IntegrationTests
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
-          TestConstants.DateTimeStampRegex + String.Format("2 Record(s) processed from input file {0}.", DelimitedInputFilePath),
+          TestConstants.DateTimeStampRegex + "2 Record(s) processed.",
           TestConstants.DateTimeStampRegex + "1 Record(s) matched.",
           TestConstants.DateTimeStampRegex + "1 Record(s) not matched.",
+          TestConstants.DateTimeStampRegex + String.Format("2 Record(s) processed from input file {0}.", DelimitedInputFilePath),
           TestConstants.DateTimeStampRegex + String.Format("1 Record(s) matched from input file {0}.", DelimitedInputFilePath),
           TestConstants.DateTimeStampRegex + String.Format("1 Record(s) not matched from input file {0}.", DelimitedInputFilePath),
           TestConstants.DateTimeStampRegex + String.Format("1 Record(s) written to output file {0}.", MatchedOutputFilePath),
