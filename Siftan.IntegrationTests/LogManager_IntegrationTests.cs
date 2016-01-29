@@ -8,6 +8,7 @@ namespace Siftan.IntegrationTests
   using NSubstitute;
   using NUnit.Framework;
   using Shouldly;
+  using TestSupport;
 
   [TestFixture]
   public class LogManager_IntegrationTests
@@ -23,6 +24,13 @@ namespace Siftan.IntegrationTests
     private const String EarlyNewYearsDayDateTimeStamp = "[01-01-2016 00:00:01]";
 
     private const String NewYearsDayDateTimeStamp = "[01-01-2016 11:23:45]";
+
+    private static String[] ExpectedLogFileContents = new String[]
+    {
+      LateNewYearsEveDateTimeStamp + " " + FirstLogMessage,
+      EarlyNewYearsDayDateTimeStamp + " " + SecondLogMessage,
+      NewYearsDayDateTimeStamp + " " + ThirdLogMessage,
+    };  
 
     private String workingDirectory;
 
@@ -245,9 +253,7 @@ namespace Siftan.IntegrationTests
     private static void AssertLogFileContentsAreCorrect(String[] logFileLines)
     {
       logFileLines.Length.Should().Be(3);
-      logFileLines[0].Should().Be(LateNewYearsEveDateTimeStamp + " " + FirstLogMessage);
-      logFileLines[1].Should().Be(EarlyNewYearsDayDateTimeStamp + " " + SecondLogMessage);
-      logFileLines[2].Should().Be(NewYearsDayDateTimeStamp + " " + ThirdLogMessage);
+      StringArrayComparison.IsMatching(ExpectedLogFileContents, logFileLines);
     }
     #endregion
   }
