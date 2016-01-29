@@ -11,8 +11,6 @@ namespace Siftan.AcceptanceTests
 
   public class DelimitedJob_AcceptanceTests
   {
-    private const String DateTimeStampRegex = @"\A\[\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}\] ";
-
     private const String DelimitedInputFileResourcePath = "Siftan.AcceptanceTests.DelimitedRecordFile.csv";
 
     private const String HeaderLineID = "01";
@@ -128,18 +126,18 @@ namespace Siftan.AcceptanceTests
           //DateTimeStampRegex + " Term Line ID: " + TermLineID,
           //DateTimeStampRegex + " Term Index: " + TermIndex,
           //DateTimeStampRegex + " Matched Records Output File: " + this.matchedDelimitedOutputFilePath,
-          DateTimeStampRegex + "Run Started...",
-          DateTimeStampRegex + "Record found at position 0 with Term '12345' matches with List Term '12345'.",
-          DateTimeStampRegex + "Record found at position 86 with Term '54321'.",
-          DateTimeStampRegex + "Run Finished.",
-          DateTimeStampRegex + "2 Record(s) processed.",
-          DateTimeStampRegex + String.Format("2 Record(s) processed from input file {0}.", this.delimitedInputFilePath),
-          DateTimeStampRegex + "1 Record(s) matched.",
-          DateTimeStampRegex + "1 Record(s) not matched.",
-          DateTimeStampRegex + String.Format("1 Record(s) matched from input file {0}.", this.delimitedInputFilePath),
-          DateTimeStampRegex + String.Format("1 Record(s) not matched from input file {0}.", this.delimitedInputFilePath),
-          DateTimeStampRegex + String.Format("1 Record(s) written to output file {0}.", this.matchedDelimitedOutputFilePath),
-          DateTimeStampRegex + String.Format("1 Record(s) written to output file {0}.", this.unmatchedDelimitedOutputFilePath),
+          TestConstants.DateTimeStampRegex + "Run Started...",
+          TestConstants.DateTimeStampRegex + "Record found at position 0 with Term '12345' matches with List Term '12345'.",
+          TestConstants.DateTimeStampRegex + "Record found at position 86 with Term '54321'.",
+          TestConstants.DateTimeStampRegex + "Run Finished.",
+          TestConstants.DateTimeStampRegex + "2 Record(s) processed.",
+          TestConstants.DateTimeStampRegex + String.Format("2 Record(s) processed from input file {0}.", this.delimitedInputFilePath),
+          TestConstants.DateTimeStampRegex + "1 Record(s) matched.",
+          TestConstants.DateTimeStampRegex + "1 Record(s) not matched.",
+          TestConstants.DateTimeStampRegex + String.Format("1 Record(s) matched from input file {0}.", this.delimitedInputFilePath),
+          TestConstants.DateTimeStampRegex + String.Format("1 Record(s) not matched from input file {0}.", this.delimitedInputFilePath),
+          TestConstants.DateTimeStampRegex + String.Format("1 Record(s) written to output file {0}.", this.matchedDelimitedOutputFilePath),
+          TestConstants.DateTimeStampRegex + String.Format("1 Record(s) written to output file {0}.", this.unmatchedDelimitedOutputFilePath),
         });
     }
 
@@ -175,10 +173,10 @@ namespace Siftan.AcceptanceTests
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
-          DateTimeStampRegex + "Run Started...",
-          DateTimeStampRegex + "Run Finished.",
-          DateTimeStampRegex + "0 Record(s) processed.",
-          DateTimeStampRegex + String.Format("0 Record(s) processed from input file {0}.", this.delimitedInputFilePath),
+          TestConstants.DateTimeStampRegex + "Run Started...",
+          TestConstants.DateTimeStampRegex + "Run Finished.",
+          TestConstants.DateTimeStampRegex + "0 Record(s) processed.",
+          TestConstants.DateTimeStampRegex + String.Format("0 Record(s) processed from input file {0}.", this.delimitedInputFilePath),
         });
     }
 
@@ -229,15 +227,15 @@ namespace Siftan.AcceptanceTests
         File.ReadAllLines(this.jobLogFilePath),
         new String[]
         {
-          DateTimeStampRegex + "Run Started...",
-          DateTimeStampRegex + "Record found at position 0 with Term '02'.",
-          DateTimeStampRegex + "Record found at position 86 with Term '02'.",
-          DateTimeStampRegex + "Run Finished.",
-          DateTimeStampRegex + "2 Record(s) processed.",
-          DateTimeStampRegex + String.Format("2 Record(s) processed from input file {0}.", this.delimitedInputFilePath),
-          DateTimeStampRegex + "2 Record(s) not matched.",
-          DateTimeStampRegex + String.Format("2 Record(s) not matched from input file {0}.", this.delimitedInputFilePath),
-          DateTimeStampRegex + String.Format("2 Record(s) written to output file {0}.", this.matchedDelimitedOutputFilePath),
+          TestConstants.DateTimeStampRegex + "Run Started...",
+          TestConstants.DateTimeStampRegex + "Record found at position 0 with Term '02'.",
+          TestConstants.DateTimeStampRegex + "Record found at position 86 with Term '02'.",
+          TestConstants.DateTimeStampRegex + "Run Finished.",
+          TestConstants.DateTimeStampRegex + "2 Record(s) processed.",
+          TestConstants.DateTimeStampRegex + String.Format("2 Record(s) processed from input file {0}.", this.delimitedInputFilePath),
+          TestConstants.DateTimeStampRegex + "2 Record(s) not matched.",
+          TestConstants.DateTimeStampRegex + String.Format("2 Record(s) not matched from input file {0}.", this.delimitedInputFilePath),
+          TestConstants.DateTimeStampRegex + String.Format("2 Record(s) written to output file {0}.", this.matchedDelimitedOutputFilePath),
         });
     }
 
