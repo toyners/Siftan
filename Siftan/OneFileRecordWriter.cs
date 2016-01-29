@@ -30,16 +30,15 @@ namespace Siftan
     #region Construction
     public OneFileRecordWriter(String matchedFilePath, String unmatchedFilePath)
     {
-      this.matchedFilePath = matchedFilePath;
-      this.unmatchedFilePath = unmatchedFilePath;
-
-      if (!String.IsNullOrEmpty(this.matchedFilePath))
+      if (!String.IsNullOrEmpty(matchedFilePath))
       {
+        this.matchedFilePath = matchedFilePath;
         this.DoWriteMatchedRecords = true;
       }
 
-      if (!String.IsNullOrEmpty(this.unmatchedFilePath))
+      if (!String.IsNullOrEmpty(unmatchedFilePath))
       {
+        this.unmatchedFilePath = unmatchedFilePath;
         this.DoWriteUnmatchedRecords = true;
       }
 
