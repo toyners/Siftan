@@ -105,12 +105,11 @@ namespace Siftan
 
     private InputFileCounter GetInputFileCounter(String inputFilePath)
     {
-      InputFileCounter i;
       if (!this.inputFileCounters.ContainsKey(inputFilePath))
       {
-        i = new InputFileCounter { FilePath = inputFilePath };
-        this.inputFileCounters.Add(inputFilePath, i);
-        return i;
+        var inputFileCounter = new InputFileCounter { FilePath = inputFilePath };
+        this.inputFileCounters.Add(inputFilePath, inputFileCounter);
+        return inputFileCounter;
       }
 
       return this.inputFileCounters[inputFilePath];
