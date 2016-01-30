@@ -9,7 +9,7 @@ namespace Siftan.AcceptanceTests
   {
     public static String GetApplicationPath(String applicationName)
     {
-      const String ApplicationPathTemplate = @"C:\C#\Siftan\{0}\bin\{1}\{0}.exe";
+      const String ApplicationPathTemplate = @"C:\Projects\Siftan\{0}\bin\{1}\{0}.exe";
 
       var applicationPath = String.Format(ApplicationPathTemplate,
         applicationName,
