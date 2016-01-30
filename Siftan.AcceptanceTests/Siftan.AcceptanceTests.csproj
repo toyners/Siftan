@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceptanceTests.cs" />
-    <Compile Include="ApplicationPathCreator.cs" />
     <Compile Include="ConsoleRunner.cs" />
     <Compile Include="DelimitedJob_AcceptanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
