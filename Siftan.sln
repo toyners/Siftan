@@ -5,17 +5,17 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan", "Siftan\Siftan.csproj", "{4AD46B0C-EDCC-4BE6-94CF-A586A33F50C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan_Console", "Siftan_Console\Siftan_Console.csproj", "{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.Console", "Siftan.Console\Siftan.Console.csproj", "{F4C687D2-8B3F-4A85-B41C-884C53D1FAD3}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Siftan.UnitTests", "Siftan.UnitTests\Siftan.UnitTests.fsproj", "{51FE39EA-EED9-403E-941F-3CAB90B1F26A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.IntegrationTests", "Siftan.IntegrationTests\Siftan.IntegrationTests.csproj", "{4EEDC665-2BAA-4B6D-8857-F0AF9A9E8254}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.AcceptanceTests", "Siftan.AcceptanceTests\Siftan.AcceptanceTests.csproj", "{DD9A9E49-216C-44B5-9412-8EFEA773F1D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.Console.AcceptanceTests", "Siftan.Console.AcceptanceTests\Siftan.Console.AcceptanceTests.csproj", "{DD9A9E49-216C-44B5-9412-8EFEA773F1D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan_WPF", "Siftan_WPF\Siftan_WPF.csproj", "{EB36723A-CB4A-40BD-9541-B7174ECCC7E8}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Siftan_Console.UnitTests", "Siftan_Console.UnitTests\Siftan_Console.UnitTests.fsproj", "{8D7F69D8-C43D-4D1E-8854-ECD2B4DE4EBB}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Siftan.Console.UnitTests", "Siftan.Console.UnitTests\Siftan.Console.UnitTests.fsproj", "{8D7F69D8-C43D-4D1E-8854-ECD2B4DE4EBB}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Siftan.TestSupport.UnitTests", "Siftan.TestSupport.UnitTests\Siftan.TestSupport.UnitTests.fsproj", "{6DD34F70-D325-4C5F-93DC-F7D7F200B61E}"
 EndProject
@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.WinForms", "Siftan.WinForms\Siftan.WinForms.csproj", "{D30E79E9-E77E-461B-9C36-17BEA3D5B54E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.WinForms_AcceptanceTests", "Siftan.WinForms_AcceptanceTests\Siftan.WinForms_AcceptanceTests.csproj", "{DF119F31-34BE-46EB-A504-C75DD396A2E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.WinForms.AcceptanceTests", "Siftan.WinForms.AcceptanceTests\Siftan.WinForms.AcceptanceTests.csproj", "{DF119F31-34BE-46EB-A504-C75DD396A2E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

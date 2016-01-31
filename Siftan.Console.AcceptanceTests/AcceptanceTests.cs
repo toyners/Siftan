@@ -1,5 +1,5 @@
 ﻿
-namespace Siftan.AcceptanceTests
+namespace Siftan.Console.AcceptanceTests
 {
   using System;
   using System.IO;
@@ -13,7 +13,6 @@ namespace Siftan.AcceptanceTests
   using TestStack.White.UIItems.Finders;
   using TestStack.White.UIItems.WindowItems;
 
-  [TestFixture]
   public class AcceptanceTests
   {
     private const String DateTimeStampRegex = @"\A\[\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}\] ";
@@ -50,7 +49,6 @@ namespace Siftan.AcceptanceTests
 
     private String jobLogFilePath = null;
 
-    [TestFixtureSetUp]
     public void SetupBeforeAllTests()
     {
       this.workingDirectory = Path.GetTempPath() + @"Siftan.AcceptanceTests\";
@@ -61,7 +59,6 @@ namespace Siftan.AcceptanceTests
       this.jobLogFilePath = this.workingDirectory + "Job.log";
     }
 
-    [SetUp]
     public void SetupBeforeEachTest()
     {
       if (Directory.Exists(this.workingDirectory))
@@ -72,7 +69,6 @@ namespace Siftan.AcceptanceTests
       Directory.CreateDirectory(this.workingDirectory);
     }
 
-    [Test]
     public void SetToWriteMatchedAndUnmatchedFixedWidthRecordsThatAreInDataFile()
     {
       String inputFilePath = null;
@@ -126,7 +122,6 @@ namespace Siftan.AcceptanceTests
       }
     }
 
-    [Test]
     public void SetToWriteMatchedFixedWidthRecordsThatAreInDataFile()
     {
       String inputFilePath = null;
@@ -172,7 +167,6 @@ namespace Siftan.AcceptanceTests
       }
     }
 
-    [Test]
     public void SetToWriteMatchedDelimitedRecordsThatAreNotInDataFile()
     {
       String inputFilePath = null;
@@ -211,7 +205,6 @@ namespace Siftan.AcceptanceTests
       }
     }
 
-    [Test]
     public void SetToWriteMatchedFixedWidthRecordsThatAreNotInDataFile()
     {
       String inputFilePath = null;
@@ -250,7 +243,7 @@ namespace Siftan.AcceptanceTests
       }
     }
 
-    [Test]
+    
     public void SetToWriteUnmatchedFixedWidthRecordsThatAreInDataFile()
     {
       String inputFilePath = null;
@@ -355,8 +348,7 @@ namespace Siftan.AcceptanceTests
       logLines[0].ShouldMatch(DateTimeStampRegex + "Starting...");
       logLines[1].ShouldMatch(DateTimeStampRegex + "Finished.");
     }
-
-    [Test]
+        
     public void TestWPFApplication()
     {
 

@@ -1,5 +1,5 @@
 ﻿
-namespace Siftan_Console
+namespace Siftan.Console
 {
   using System;
   using System.IO;

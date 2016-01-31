@@ -1,4 +1,4 @@
-﻿namespace Siftan_Console.UnitTests.AssemblyInfo
+﻿namespace Siftan.Console.UnitTests.AssemblyInfo
 
 open System.Reflection
 open System.Runtime.CompilerServices

@@ -1,11 +1,10 @@
 ﻿
-namespace Siftan.WinForm_AcceptanceTests
+namespace Siftan.WinForm.AcceptanceTests
 {
   using System;
   using System.IO;
   using System.Text.RegularExpressions;
   using System.Threading;
-  using AcceptanceTests;
   using NUnit.Framework;
   using Shouldly;
   using TestStack.White;

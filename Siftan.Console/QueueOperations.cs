@@ -1,5 +1,5 @@
 ﻿
-namespace Siftan
+namespace Siftan.Console
 {
   using System;
   using System.Collections;

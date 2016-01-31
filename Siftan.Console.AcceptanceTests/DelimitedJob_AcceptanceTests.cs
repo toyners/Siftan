@@ -1,5 +1,5 @@
 ﻿
-namespace Siftan.AcceptanceTests
+namespace Siftan.Console.AcceptanceTests
 {
   using System;
   using System.IO;

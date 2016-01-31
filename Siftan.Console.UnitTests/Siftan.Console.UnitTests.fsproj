@@ -8,11 +8,11 @@
     <ProjectGuid>8d7f69d8-c43d-4d1e-8854-ecd2b4de4ebb</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Siftan_Console.UnitTests</RootNamespace>
-    <AssemblyName>Siftan_Console.UnitTests</AssemblyName>
+    <AssemblyName>Siftan.Console.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>Siftan_Console.UnitTests</Name>
+    <Name>Siftan.Console.UnitTests</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -55,7 +55,6 @@
     <Compile Include="FilePatternResolverUnitTests.fs" />
     <Compile Include="ProgramUnitTests.fs" />
     <Compile Include="OptionsUnitTests.fs" />
-    <None Include="Script.fsx" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -84,14 +83,14 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Siftan.Console\Siftan.Console.csproj">
+      <Name>Siftan.Console</Name>
+      <Project>{f4c687d2-8b3f-4a85-b41c-884c53d1fad3}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Siftan.TestSupport\Siftan.TestSupport.csproj">
       <Name>Siftan.TestSupport</Name>
       <Project>{94a7a486-163b-4f81-bdb5-0174debc68ad}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Siftan_Console\Siftan_Console.csproj">
-      <Name>Siftan_Console</Name>
-      <Project>{f4c687d2-8b3f-4a85-b41c-884c53d1fad3}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

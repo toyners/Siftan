@@ -1,8 +1,8 @@
-﻿namespace Siftan_Console.UnitTests
+﻿namespace Siftan.Console.UnitTests
 
 open NUnit.Framework
 open Siftan.TestSupport
-open Siftan_Console
+open Siftan.Console
 open FsUnit
 open System.IO
 open System.Text.RegularExpressions

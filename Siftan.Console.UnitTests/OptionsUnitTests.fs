@@ -1,7 +1,7 @@
-﻿namespace Siftan.UnitTests
+﻿namespace Siftan.Console.UnitTests
 
 open NUnit.Framework
-open Siftan
+open Siftan.Console
 open Siftan.TestSupport
 open FsUnit
 open System
