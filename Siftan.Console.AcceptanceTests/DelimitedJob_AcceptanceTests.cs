@@ -12,7 +12,9 @@ namespace Siftan.Console.AcceptanceTests
 
   public class DelimitedJob_AcceptanceTests : AcceptanceTestsBase
   {
-    private const String DelimitedInputFileResourcePath = "Siftan.AcceptanceTests.DelimitedRecordFile.csv";
+    private const String ApplicationName = "Siftan.Console";
+
+    private const String DelimitedInputFileResourcePath = "Siftan.Console.AcceptanceTests.DelimitedRecordFile.csv";
 
     private const String HeaderLineID = "01";
 
@@ -50,7 +52,7 @@ namespace Siftan.Console.AcceptanceTests
       // Arrange
       CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.inputFilePath);
 
-      var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan_Console");
+      var applicationPath = ApplicationPathCreator.GetApplicationPath(ApplicationName);
 
       var commandLineArguments =
         CommandLineArgumentsCreator.TranslateArgumentsToString(
@@ -126,7 +128,7 @@ namespace Siftan.Console.AcceptanceTests
       // Arrange
       CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.inputFilePath);
 
-      var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan_Console");
+      var applicationPath = ApplicationPathCreator.GetApplicationPath(ApplicationName);
 
       var commandLineArguments =
         CommandLineArgumentsCreator.TranslateArgumentsToString(
@@ -165,7 +167,7 @@ namespace Siftan.Console.AcceptanceTests
       // Arrange
       CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.inputFilePath);
 
-      var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan_Console");
+      var applicationPath = ApplicationPathCreator.GetApplicationPath(ApplicationName);
 
       var commandLineArguments =
         CommandLineArgumentsCreator.TranslateArgumentsToString(
