@@ -4,20 +4,23 @@ namespace Siftan.WinForm.AcceptanceTests
   using System;
   using System.Diagnostics;
   using System.IO;
+  using System.Reflection;
   using System.Text.RegularExpressions;
   using System.Threading;
+  using Jabberwocky.Toolkit.Assembly;
   using NUnit.Framework;
   using Shouldly;
   using TestStack.White;
   using TestStack.White.UIItems;
   using TestStack.White.UIItems.Finders;
-  using TestStack.White.UIItems.ListBoxItems;
   using TestStack.White.UIItems.WindowItems;
   using TestSupport;
 
   [TestFixture]
   public class DelimitedJob_WinFormAcceptanceTests : AcceptanceTestsBase
   {
+    private const String InputFileResourcePath = "Siftan.WinForms.AcceptanceTests.DelimitedRecordFile.csv";
+
     private const String Delimiter = "|";
 
     private const Char Qualifier = '\'';
@@ -58,6 +61,8 @@ namespace Siftan.WinForm.AcceptanceTests
     {
       var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan.WinForms");
 
+      CreateInputFileForDelimitedTests(InputFileResourcePath, this.inputFilePath);
+
       Application application = Application.Launch(applicationPath);
 
       try
@@ -86,7 +91,7 @@ namespace Siftan.WinForm.AcceptanceTests
         inputDirectory_TextBox.Text = this.workingDirectory;
 
         var inputFileName_TextBox = GetTextBoxControl(window, "InputFileName_TextBox");
-        inputDirectory_TextBox.Text = this.inputFileName;
+        inputFileName_TextBox.Text = this.inputFileName;
 
         var inlist_TextBox = GetTextBoxControl(window, "InList_TextBox");
         inlist_TextBox.Text = SingleValuesList;
@@ -169,6 +174,11 @@ namespace Siftan.WinForm.AcceptanceTests
           TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.unmatchedOutputFilePath)),
           TestConstants.DateTimeStampRegex + "Run Finished.",
         });
+    }
+
+    private static void CreateInputFileForDelimitedTests(String resourceFilePath, String inputFilePath)
+    {
+      Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFilePath, inputFilePath);
     }
 
     private static TextBox GetTextBoxControl(Window window, String id)
