@@ -49,6 +49,7 @@
     <Compile Include="ApplicationPathCreator.cs" />
     <Compile Include="CommandLineArgumentsBuilder.cs" />
     <Compile Include="CommandLineArgumentsCreator.cs" />
+    <Compile Include="MethodRunner.cs" />
     <Compile Include="TestConstants.cs" />
     <Compile Include="DelimBuilder.cs">
       <SubType>Code</SubType>

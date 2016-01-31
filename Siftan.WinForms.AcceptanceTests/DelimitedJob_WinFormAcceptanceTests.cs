@@ -2,11 +2,9 @@
 namespace Siftan.WinForm.AcceptanceTests
 {
   using System;
-  using System.Diagnostics;
   using System.IO;
   using System.Reflection;
   using System.Text.RegularExpressions;
-  using System.Threading;
   using Jabberwocky.Toolkit.Assembly;
   using NUnit.Framework;
   using Shouldly;
@@ -110,7 +108,7 @@ namespace Siftan.WinForm.AcceptanceTests
 
         var results_TextBox = window.Get<TextBox>("Results_TextBox");
 
-        Runner.Run(() => { return results_TextBox.Text.Contains("Finished."); });
+        MethodRunner.RunForDuration(() => { return results_TextBox.Text.Contains("Finished."); });
 
         // Assert
         this.Assert();
@@ -206,22 +204,6 @@ namespace Siftan.WinForm.AcceptanceTests
       var control = window.Get(searchCriteria);
       window.WaitWhileBusy();
       return control;
-    }
-  }
-
-  public static class Runner
-  {
-    public static void Run(Func<Boolean> action)
-    {
-      const Int32 oneSecond = 1000; // in milliseconds
-      const Int32 thirtySeconds = 30;
-      Stopwatch stopWatch = new Stopwatch();
-      stopWatch.Start();
-
-      while (!action() && stopWatch.Elapsed.Seconds < thirtySeconds)
-      {
-        Thread.Sleep(oneSecond);
-      }
     }
   }
 }
