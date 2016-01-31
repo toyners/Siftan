@@ -2,6 +2,7 @@
 namespace Siftan.WinForm.AcceptanceTests
 {
   using System;
+  using System.Diagnostics;
   using System.IO;
   using System.Text.RegularExpressions;
   using System.Threading;
@@ -33,11 +34,17 @@ namespace Siftan.WinForm.AcceptanceTests
 
     private String inputFileName = null;
 
+    private String matchedOutputFileName = null;
+
+    private String unmatchedOutputFileName = null;
+
     [TestFixtureSetUp]
     public void SetupBeforeAllTests()
     {
       SetFilePathsForDelimitedJob("Siftan.WinForms_AcceptanceTests");
       this.inputFileName = Path.GetFileName(this.inputFilePath);
+      this.matchedOutputFileName = Path.GetFileName(this.matchedOutputFilePath);
+      this.unmatchedOutputFileName = Path.GetFileName(this.unmatchedOutputFilePath);
     }
 
     [SetUp]
@@ -69,6 +76,9 @@ namespace Siftan.WinForm.AcceptanceTests
         var lineIDIndex_Spinner = GetSpinnerControl(window, "LineIDIndex_Spinner");
         lineIDIndex_Spinner.Value = LineIDIndex;
 
+        var termLineID_TextBox = GetTextBoxControl(window, "TermLineID_TextBox");
+        termLineID_TextBox.Text = TermLineID;
+
         var termIndex_Spinner = GetSpinnerControl(window, "TermIndex_Spinner");
         termIndex_Spinner.Value = TermIndex;
 
@@ -78,17 +88,32 @@ namespace Siftan.WinForm.AcceptanceTests
         var inputFileName_TextBox = GetTextBoxControl(window, "InputFileName_TextBox");
         inputDirectory_TextBox.Text = this.inputFileName;
 
-        var inlist_ListBox = GetListBoxControl(window, "InList_ListBox");
-        inlist_ListBox.SetValue(SingleValuesList);
+        var inlist_TextBox = GetTextBoxControl(window, "InList_TextBox");
+        inlist_TextBox.Text = SingleValuesList;
+
+        var outputDirectory_TextBox = GetTextBoxControl(window, "OutputDirectory_TextBox");
+        outputDirectory_TextBox.Text = this.workingDirectory;
+
+        var matchedOutputFileName_TextBox = GetTextBoxControl(window, "MatchedOutputFileName_TextBox");
+        matchedOutputFileName_TextBox.Text = this.matchedOutputFileName;
+
+        var unmatchedOutputFileName_TextBox = GetTextBoxControl(window, "UnmatchedOutputFileName_TextBox");
+        unmatchedOutputFileName_TextBox.Text = this.unmatchedOutputFileName;
 
         var start_Button = GetButtonControl(window, "Start_Button");
         start_Button.Click();
 
         var results_TextBox = window.Get<TextBox>("Results_TextBox");
-        do
+
+        const Int32 oneSecond = 1000; // in milliseconds
+        const Int32 thirtySeconds = 30;
+        Stopwatch stopWatch = new Stopwatch();
+        stopWatch.Start();
+        
+        while (!results_TextBox.Text.Contains("Finished.") && stopWatch.Elapsed.Seconds < thirtySeconds)
         {
-          Thread.Sleep(5000);
-        } while (results_TextBox.Text.Contains("Finished."));
+          Thread.Sleep(oneSecond);
+        }
 
         // Assert
         this.Assert();
