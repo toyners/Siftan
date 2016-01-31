@@ -55,6 +55,7 @@
       this.label13 = new System.Windows.Forms.Label();
       this.UnmatchedOutputFileName_TextBox = new System.Windows.Forms.TextBox();
       this.InList_TextBox = new System.Windows.Forms.TextBox();
+      this.SearchSubdirectories_CheckBox = new System.Windows.Forms.CheckBox();
       ((System.ComponentModel.ISupportInitialize)(this.LineIDIndex_Spinner)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.TermIndex_Spinner)).BeginInit();
       this.SuspendLayout();
@@ -211,22 +212,23 @@
       this.Results_TextBox.Multiline = true;
       this.Results_TextBox.Name = "Results_TextBox";
       this.Results_TextBox.ReadOnly = true;
-      this.Results_TextBox.Size = new System.Drawing.Size(158, 177);
+      this.Results_TextBox.Size = new System.Drawing.Size(158, 199);
       this.Results_TextBox.TabIndex = 11;
       // 
       // Start_Button
       // 
-      this.Start_Button.Location = new System.Drawing.Point(463, 273);
+      this.Start_Button.Location = new System.Drawing.Point(463, 295);
       this.Start_Button.Name = "Start_Button";
       this.Start_Button.Size = new System.Drawing.Size(96, 32);
       this.Start_Button.TabIndex = 13;
       this.Start_Button.Text = "Start";
       this.Start_Button.UseVisualStyleBackColor = true;
+      this.Start_Button.Click += new System.EventHandler(this.Start_Button_Click);
       // 
       // label11
       // 
       this.label11.AutoSize = true;
-      this.label11.Location = new System.Drawing.Point(12, 262);
+      this.label11.Location = new System.Drawing.Point(12, 284);
       this.label11.Name = "label11";
       this.label11.Size = new System.Drawing.Size(132, 13);
       this.label11.TabIndex = 17;
@@ -234,7 +236,7 @@
       // 
       // MatchedOutputFileName_TextBox
       // 
-      this.MatchedOutputFileName_TextBox.Location = new System.Drawing.Point(165, 259);
+      this.MatchedOutputFileName_TextBox.Location = new System.Drawing.Point(165, 281);
       this.MatchedOutputFileName_TextBox.Name = "MatchedOutputFileName_TextBox";
       this.MatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
       this.MatchedOutputFileName_TextBox.TabIndex = 16;
@@ -258,7 +260,7 @@
       // label13
       // 
       this.label13.AutoSize = true;
-      this.label13.Location = new System.Drawing.Point(12, 288);
+      this.label13.Location = new System.Drawing.Point(12, 310);
       this.label13.Name = "label13";
       this.label13.Size = new System.Drawing.Size(145, 13);
       this.label13.TabIndex = 19;
@@ -266,7 +268,7 @@
       // 
       // UnmatchedOutputFileName_TextBox
       // 
-      this.UnmatchedOutputFileName_TextBox.Location = new System.Drawing.Point(165, 285);
+      this.UnmatchedOutputFileName_TextBox.Location = new System.Drawing.Point(165, 307);
       this.UnmatchedOutputFileName_TextBox.Name = "UnmatchedOutputFileName_TextBox";
       this.UnmatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
       this.UnmatchedOutputFileName_TextBox.TabIndex = 18;
@@ -279,11 +281,22 @@
       this.InList_TextBox.Size = new System.Drawing.Size(158, 73);
       this.InList_TextBox.TabIndex = 20;
       // 
+      // SearchSubdirectories_CheckBox
+      // 
+      this.SearchSubdirectories_CheckBox.AutoSize = true;
+      this.SearchSubdirectories_CheckBox.Location = new System.Drawing.Point(165, 258);
+      this.SearchSubdirectories_CheckBox.Name = "SearchSubdirectories_CheckBox";
+      this.SearchSubdirectories_CheckBox.Size = new System.Drawing.Size(133, 17);
+      this.SearchSubdirectories_CheckBox.TabIndex = 21;
+      this.SearchSubdirectories_CheckBox.Text = "Search Sub-directories";
+      this.SearchSubdirectories_CheckBox.UseVisualStyleBackColor = true;
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(567, 314);
+      this.ClientSize = new System.Drawing.Size(567, 336);
+      this.Controls.Add(this.SearchSubdirectories_CheckBox);
       this.Controls.Add(this.InList_TextBox);
       this.Controls.Add(this.label13);
       this.Controls.Add(this.UnmatchedOutputFileName_TextBox);
@@ -351,6 +364,7 @@
     private System.Windows.Forms.Label label13;
     private System.Windows.Forms.TextBox UnmatchedOutputFileName_TextBox;
     private System.Windows.Forms.TextBox InList_TextBox;
+    private System.Windows.Forms.CheckBox SearchSubdirectories_CheckBox;
   }
 }
 

@@ -4,6 +4,7 @@ namespace Siftan.Console
   using System;
   using System.IO;
   using System.Reflection;
+  using Jabberwocky.Toolkit.File;
   using Jabberwocky.Toolkit.IO;
   using Jabberwocky.Toolkit.Path;
   using Siftan;
@@ -104,7 +105,7 @@ namespace Siftan.Console
     private static String[] GetInputFilePaths(Options options)
     {
       FilePatternResolver.SearchDepths searchDepth = options.Input.SearchSubdirectories ? FilePatternResolver.SearchDepths.AllDirectories : FilePatternResolver.SearchDepths.InitialDirectoryOnly;
-      String[] inputFilePaths = new FilePatternResolver().ResolveFilePattern(options.Input.Pattern, searchDepth);
+      String[] inputFilePaths = FilePatternResolver.ResolveFilePattern(options.Input.Pattern, searchDepth);
 
       if (inputFilePaths.Length == 0)
       {
