@@ -16,7 +16,7 @@ namespace Siftan.WinForm_AcceptanceTests
   using TestSupport;
 
   [TestFixture]
-  public class DelimitedJob_WinFormAcceptanceTests
+  public class DelimitedJob_WinFormAcceptanceTests : AcceptanceTestsBase
   {
     private const String Delimiter = "|";
 
@@ -32,19 +32,20 @@ namespace Siftan.WinForm_AcceptanceTests
 
     private const String SingleValuesList = "12345";
 
-    private String workingDirectory = null;
-
     private String inputFileName = null;
 
-    private String inputFilePath = null;
+    [TestFixtureSetUp]
+    public void SetupBeforeAllTests()
+    {
+      SetFilePathsForDelimitedJob("Siftan.WinForms_AcceptanceTests");
+      this.inputFileName = Path.GetFileName(this.inputFilePath);
+    }
 
-    private String matchedOutputFilePath = null;
-
-    private String unmatchedOutputFilePath = null;
-
-    private String applicationLogFilePath = null;
-
-    private String jobLogFilePath = null;
+    [SetUp]
+    public void SetupBeforeEachTest()
+    {
+      CreateEmptyWorkingDirectory();
+    }
 
     [Test]
     public void RunDelimitedJobReturnsExpectedOutputFiles()

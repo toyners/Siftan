@@ -10,7 +10,7 @@ namespace Siftan.AcceptanceTests
   using Shouldly;
   using TestSupport;
 
-  public class DelimitedJob_AcceptanceTests
+  public class DelimitedJob_AcceptanceTests : AcceptanceTestsBase
   {
     private const String DelimitedInputFileResourcePath = "Siftan.AcceptanceTests.DelimitedRecordFile.csv";
 
@@ -32,55 +32,33 @@ namespace Siftan.AcceptanceTests
 
     private const Char Qualifier = '\'';
 
-    private String workingDirectory = null;
-
-    private String delimitedInputFilePath = null;
-
-    private String matchedDelimitedOutputFilePath = null;
-
-    private String unmatchedDelimitedOutputFilePath = null;
-
-    private String applicationLogFilePath = null;
-
-    private String jobLogFilePath = null;
-
     [TestFixtureSetUp]
     public void SetupBeforeAllTests()
     {
-      this.workingDirectory = Path.GetTempPath() + @"Siftan.AcceptanceTests\";
-      this.delimitedInputFilePath = this.workingDirectory + "Input.csv";
-      this.matchedDelimitedOutputFilePath = this.workingDirectory + "Matched.csv";
-      this.unmatchedDelimitedOutputFilePath = this.workingDirectory + "Unmatched.csv";
-      this.applicationLogFilePath = this.workingDirectory + "Application.log";
-      this.jobLogFilePath = this.workingDirectory + "Job.log";
+      SetFilePathsForDelimitedJob("Siftan.AcceptanceTests");
     }
 
     [SetUp]
     public void SetupBeforeEachTest()
     {
-      if (Directory.Exists(this.workingDirectory))
-      {
-        Directory.Delete(this.workingDirectory, true);
-      }
-
-      Directory.CreateDirectory(this.workingDirectory);
+      CreateEmptyWorkingDirectory();
     }
 
     [Test]
     public void RunDelimitedJobReturnsExpectedOutputFiles()
     {
       // Arrange
-      CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.delimitedInputFilePath);
+      CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.inputFilePath);
 
       var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan_Console");
 
       var commandLineArguments =
         CommandLineArgumentsCreator.TranslateArgumentsToString(
           CommandLineArgumentsCreator.CreateArgumentsForDelimitedTests(
-            CommandLineArgumentsCreator.CreateSingleFileInputBuilder(this.delimitedInputFilePath),
+            CommandLineArgumentsCreator.CreateSingleFileInputBuilder(this.inputFilePath),
             CommandLineArgumentsCreator.CreateDelimBuilder(Delimiter, Qualifier, HeaderLineID, LineIDIndex, TermLineID, TermIndex),
             SingleValuesList,
-            CommandLineArgumentsCreator.CreateOutputBuilder(this.matchedDelimitedOutputFilePath, this.unmatchedDelimitedOutputFilePath),
+            CommandLineArgumentsCreator.CreateOutputBuilder(this.matchedOutputFilePath, this.unmatchedOutputFilePath),
             CommandLineArgumentsCreator.CreateLogBuilder(this.applicationLogFilePath, this.jobLogFilePath)
           )
         );
@@ -90,9 +68,9 @@ namespace Siftan.AcceptanceTests
 
       // Assert
       File.Exists(this.applicationLogFilePath).ShouldBeTrue();
-      File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeTrue();
+      File.Exists(this.matchedOutputFilePath).ShouldBeTrue();
       StringArrayComparison.IsMatching(
-        File.ReadAllLines(this.matchedDelimitedOutputFilePath),
+        File.ReadAllLines(this.matchedOutputFilePath),
         new String[]
         {
           "01|Ben|Toynbee|12345|1.23",
@@ -102,9 +80,9 @@ namespace Siftan.AcceptanceTests
           "05|||12345||"
         });
 
-      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
+      File.Exists(this.unmatchedOutputFilePath).ShouldBeTrue();
       StringArrayComparison.IsMatching(
-        File.ReadAllLines(this.unmatchedDelimitedOutputFilePath),
+        File.ReadAllLines(this.unmatchedOutputFilePath),
         new String[]
         {
           "01|Sid|Sample|54321|1.23",
@@ -133,11 +111,11 @@ namespace Siftan.AcceptanceTests
           TestConstants.DateTimeStampRegex + Regex.Escape("2 Record(s) processed."),
           TestConstants.DateTimeStampRegex + Regex.Escape("1 Record(s) matched."),
           TestConstants.DateTimeStampRegex + Regex.Escape("1 Record(s) not matched."),
-          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) processed from input file {0}.", this.delimitedInputFilePath)),
-          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) matched from input file {0}.", this.delimitedInputFilePath)),
-          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) not matched from input file {0}.", this.delimitedInputFilePath)),
-          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.matchedDelimitedOutputFilePath)),
-          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.unmatchedDelimitedOutputFilePath)),
+          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) processed from input file {0}.", this.inputFilePath)),
+          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) matched from input file {0}.", this.inputFilePath)),
+          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) not matched from input file {0}.", this.inputFilePath)),
+          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.matchedOutputFilePath)),
+          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.unmatchedOutputFilePath)),
           TestConstants.DateTimeStampRegex + "Run Finished.",
         });
     }
@@ -146,17 +124,17 @@ namespace Siftan.AcceptanceTests
     public void RunDelimitedJobWithWrongDelimiterCreatesNoOutputFiles()
     {
       // Arrange
-      CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.delimitedInputFilePath);
+      CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.inputFilePath);
 
       var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan_Console");
 
       var commandLineArguments =
         CommandLineArgumentsCreator.TranslateArgumentsToString(
           CommandLineArgumentsCreator.CreateArgumentsForDelimitedTests(
-            CommandLineArgumentsCreator.CreateSingleFileInputBuilder(this.delimitedInputFilePath),
+            CommandLineArgumentsCreator.CreateSingleFileInputBuilder(this.inputFilePath),
             CommandLineArgumentsCreator.CreateDelimBuilder(WrongDelimiter, Qualifier, HeaderLineID, LineIDIndex, TermLineID, TermIndex),
             SingleValuesList,
-            CommandLineArgumentsCreator.CreateOutputBuilder(this.matchedDelimitedOutputFilePath, this.unmatchedDelimitedOutputFilePath),
+            CommandLineArgumentsCreator.CreateOutputBuilder(this.matchedOutputFilePath, this.unmatchedOutputFilePath),
             CommandLineArgumentsCreator.CreateLogBuilder(this.applicationLogFilePath, this.jobLogFilePath)
           )
         );
@@ -166,8 +144,8 @@ namespace Siftan.AcceptanceTests
 
       // Assert
       File.Exists(this.applicationLogFilePath).ShouldBeTrue();
-      File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeFalse();
-      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeFalse();
+      File.Exists(this.matchedOutputFilePath).ShouldBeFalse();
+      File.Exists(this.unmatchedOutputFilePath).ShouldBeFalse();
       File.Exists(this.jobLogFilePath).ShouldBeTrue();
 
       StringArrayComparison.IsMatching(
@@ -185,17 +163,17 @@ namespace Siftan.AcceptanceTests
     public void RunDelimitedJobWithWrongTermIndexCreatesUnmatchedOutputFileOnly()
     {
       // Arrange
-      CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.delimitedInputFilePath);
+      CreateInputFileForDelimitedTests(DelimitedInputFileResourcePath, this.inputFilePath);
 
       var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan_Console");
 
       var commandLineArguments =
         CommandLineArgumentsCreator.TranslateArgumentsToString(
           CommandLineArgumentsCreator.CreateArgumentsForDelimitedTests(
-            CommandLineArgumentsCreator.CreateSingleFileInputBuilder(this.delimitedInputFilePath),
+            CommandLineArgumentsCreator.CreateSingleFileInputBuilder(this.inputFilePath),
             CommandLineArgumentsCreator.CreateDelimBuilder(Delimiter, Qualifier, HeaderLineID, LineIDIndex, TermLineID, WrongTermIndex),
             SingleValuesList,
-            CommandLineArgumentsCreator.CreateOutputBuilder(this.matchedDelimitedOutputFilePath, this.unmatchedDelimitedOutputFilePath),
+            CommandLineArgumentsCreator.CreateOutputBuilder(this.matchedOutputFilePath, this.unmatchedOutputFilePath),
             CommandLineArgumentsCreator.CreateLogBuilder(this.applicationLogFilePath, this.jobLogFilePath)
           )
         );
@@ -205,11 +183,11 @@ namespace Siftan.AcceptanceTests
 
       // Assert
       File.Exists(this.applicationLogFilePath).ShouldBeTrue();
-      File.Exists(this.matchedDelimitedOutputFilePath).ShouldBeFalse();
+      File.Exists(this.matchedOutputFilePath).ShouldBeFalse();
 
-      File.Exists(this.unmatchedDelimitedOutputFilePath).ShouldBeTrue();
+      File.Exists(this.unmatchedOutputFilePath).ShouldBeTrue();
       StringArrayComparison.IsMatching(
-        File.ReadAllLines(this.unmatchedDelimitedOutputFilePath),
+        File.ReadAllLines(this.unmatchedOutputFilePath),
         new String[]
         {
           "01|Ben|Toynbee|12345|1.23",
@@ -234,10 +212,10 @@ namespace Siftan.AcceptanceTests
           TestConstants.DateTimeStampRegex + Regex.Escape("2 Record(s) processed."),
           TestConstants.DateTimeStampRegex + Regex.Escape("0 Record(s) matched."),
           TestConstants.DateTimeStampRegex + Regex.Escape("2 Record(s) not matched."),
-          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) processed from input file {0}.", this.delimitedInputFilePath)),
-          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("0 Record(s) matched from input file {0}.", this.delimitedInputFilePath)),
-          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) not matched from input file {0}.", this.delimitedInputFilePath)),
-          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) written to output file {0}.", this.unmatchedDelimitedOutputFilePath)),
+          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) processed from input file {0}.", this.inputFilePath)),
+          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("0 Record(s) matched from input file {0}.", this.inputFilePath)),
+          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) not matched from input file {0}.", this.inputFilePath)),
+          TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) written to output file {0}.", this.unmatchedOutputFilePath)),
           TestConstants.DateTimeStampRegex + "Run Finished.",
         });
     }

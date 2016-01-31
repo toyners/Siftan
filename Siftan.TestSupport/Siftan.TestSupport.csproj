@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcceptanceTestsBase.cs" />
     <Compile Include="ApplicationPathCreator.cs" />
     <Compile Include="CommandLineArgumentsBuilder.cs" />
     <Compile Include="CommandLineArgumentsCreator.cs" />
