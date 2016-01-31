@@ -105,19 +105,10 @@ namespace Siftan.WinForm.AcceptanceTests
 
         var results_TextBox = window.Get<TextBox>("Results_TextBox");
 
-        const Int32 oneSecond = 1000; // in milliseconds
-        const Int32 thirtySeconds = 30;
-        Stopwatch stopWatch = new Stopwatch();
-        stopWatch.Start();
-        
-        while (!results_TextBox.Text.Contains("Finished.") && stopWatch.Elapsed.Seconds < thirtySeconds)
-        {
-          Thread.Sleep(oneSecond);
-        }
+        Runner.Run(() => { return results_TextBox.Text.Contains("Finished."); });
 
         // Assert
         this.Assert();
-
       }
       finally
       {
@@ -190,11 +181,6 @@ namespace Siftan.WinForm.AcceptanceTests
       return (Spinner)GetControl(window, typeof(Spinner), id);
     }
 
-    private static ListBox GetListBoxControl(Window window, String id)
-    {
-      return (ListBox)GetControl(window, typeof(ListBox), id);
-    }
-
     private static Button GetButtonControl(Window window, String id)
     {
       return (Button)GetControl(window, typeof(Button), id);
@@ -210,6 +196,22 @@ namespace Siftan.WinForm.AcceptanceTests
       var control = window.Get(searchCriteria);
       window.WaitWhileBusy();
       return control;
+    }
+  }
+
+  public static class Runner
+  {
+    public static void Run(Func<Boolean> action)
+    {
+      const Int32 oneSecond = 1000; // in milliseconds
+      const Int32 thirtySeconds = 30;
+      Stopwatch stopWatch = new Stopwatch();
+      stopWatch.Start();
+
+      while (!action() && stopWatch.Elapsed.Seconds < thirtySeconds)
+      {
+        Thread.Sleep(oneSecond);
+      }
     }
   }
 }
