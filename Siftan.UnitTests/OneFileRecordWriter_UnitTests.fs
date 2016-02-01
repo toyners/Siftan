@@ -5,7 +5,7 @@ open Siftan
 open FsUnit
 open SupportFunctions
 
-module ``OneFileRecordWriter Unit Tests`` =
+module ``OneFileRecordWriter_UnitTests`` =
 
     [<Test>]
     let ``Nonempty matched and unmatched file names returns Matched and Unmatched categories``() = 

@@ -5,7 +5,7 @@ open Siftan
 open Jabberwocky.Toolkit.IO
 open FsUnit
 
-module ``InListExpression UnitTests`` =
+module ``InListExpression_UnitTests`` =
 
     [<Test>]
     [<TestCase("A", true)>]

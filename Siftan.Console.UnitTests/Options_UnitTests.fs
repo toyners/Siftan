@@ -8,7 +8,7 @@ open System
 open Jabberwocky.Toolkit.Path
 
 [<TestFixture>]
-type OptionsUnitTests() =
+type Options_UnitTests() =
 
     let InputFileName = @"C:\InputFile.txt"
     let InputFilePattern = "@C:\*.txt"

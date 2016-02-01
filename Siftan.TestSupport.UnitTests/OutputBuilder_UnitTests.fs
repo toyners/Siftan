@@ -4,7 +4,7 @@ open FsUnit
 open NUnit.Framework
 open Siftan.TestSupport
 
-type OutputBuilderTests() =
+type OutputBuilder_UnitTests() =
 
     [<Test>]
     member public this.``Output Builder set with the matched output file name returns correct argument array``() =

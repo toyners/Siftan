@@ -52,11 +52,11 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="DelimBuilderTests.fs" />
-    <Compile Include="InListBuilderTests.fs" />
-    <Compile Include="InputBuilderTests.fs" />
-    <Compile Include="LogBuilderTests.fs" />
-    <Compile Include="OutputBuilderTests.fs" />
+    <Compile Include="DelimBuilder_UnitTests.fs" />
+    <Compile Include="InListBuilder_UnitTests.fs" />
+    <Compile Include="InputBuilder_UnitTests.fs" />
+    <Compile Include="LogBuilder_UnitTests.fs" />
+    <Compile Include="OutputBuilder_UnitTests.fs" />
     <Content Include="packages.config" />
     <Compile Include="StringArrayComparison_UnitTests.fs" />
   </ItemGroup>

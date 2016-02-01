@@ -108,6 +108,8 @@ namespace Siftan.WinForms.AcceptanceTests
         var start_Button = GetButtonControl(window, "Start_Button");
         start_Button.Click();
 
+        var p = (ProgressBar)GetControl(window, typeof(ProgressBar), "progressBar1");
+
         var results_TextBox = window.Get<TextBox>("Results_TextBox");
 
         MethodRunner.RunForDuration(() => { return results_TextBox.Text.Contains("Finished."); });

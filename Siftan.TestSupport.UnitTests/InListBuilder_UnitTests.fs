@@ -5,7 +5,7 @@ open NUnit.Framework
 open Siftan.TestSupport
 open Siftan
 
-type InListBuilderTests() = 
+type InListBuilder_UnitTests() = 
 
     [<Test>]
     member public this.``InList Builder set with value file returns correct argument array``() =

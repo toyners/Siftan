@@ -4,7 +4,7 @@ open FsUnit
 open NUnit.Framework
 open Siftan.TestSupport
 
-type InputBuilderTests() = 
+type InputBuilder_UnitTests() = 
 
     [<Test>]
     member public this.``Input Builder set to return default Single File returns correct argument array``() =

@@ -7,7 +7,7 @@ open FsUnit
 open System
 open SupportFunctions
 
-module public ``DelimitedRecordReader UnitTests`` =
+module public ``DelimitedRecordReader_UnitTests`` =
 
     [<Test>]
     let ``Mock file reader with one line``() =

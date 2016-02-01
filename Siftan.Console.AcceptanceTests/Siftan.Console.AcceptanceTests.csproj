@@ -67,7 +67,7 @@
   <ItemGroup>
     <Compile Include="AcceptanceTests.cs" />
     <Compile Include="ConsoleRunner.cs" />
-    <Compile Include="DelimitedJob_AcceptanceTests.cs" />
+    <Compile Include="DelimitedJob_ConsoleAcceptanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

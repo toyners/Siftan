@@ -53,11 +53,10 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="SupportFunctions.fs" />
-    <Compile Include="InListExpression UnitTests.fs" />
-    <Compile Include="DelimitedRecordReader UnitTests.fs" />
-    <Compile Include="FixedWidthRecordReader Unit Tests.fs" />
-    <Compile Include="OneFileRecordWriter Unit Tests.fs" />
-    <Compile Include="StatisticsCollectorUnitTests.fs" />
+    <Compile Include="InListExpression_UnitTests.fs" />
+    <Compile Include="DelimitedRecordReader_UnitTests.fs" />
+    <Compile Include="FixedWidthRecordReader_UnitTests.fs" />
+    <Compile Include="OneFileRecordWriter_UnitTests.fs" />
     <None Include="Foq.Usage.fsx" />
     <Content Include="packages.config" />
   </ItemGroup>

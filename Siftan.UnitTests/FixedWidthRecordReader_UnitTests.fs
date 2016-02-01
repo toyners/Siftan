@@ -5,7 +5,7 @@ open Siftan
 open FsUnit
 open SupportFunctions
 
-module ``FixedWidthRecordReader Unit Tests`` =
+module ``FixedWidthRecordReader_UnitTests`` =
 
     [<Test>]
     let ``Read a fixed width record with a valid term``() =

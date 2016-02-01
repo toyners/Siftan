@@ -4,7 +4,7 @@ open FsUnit
 open NUnit.Framework
 open Siftan.TestSupport
 
-type DelimBuilderTests() = 
+type DelimBuilder_UnitTests() = 
 
     [<Test>]
     member public this.``Delim Builder set with default Delimiter returns correct argument array``() =

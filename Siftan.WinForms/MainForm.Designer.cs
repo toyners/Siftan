@@ -56,6 +56,7 @@
       this.UnmatchedOutputFileName_TextBox = new System.Windows.Forms.TextBox();
       this.InList_TextBox = new System.Windows.Forms.TextBox();
       this.SearchSubdirectories_CheckBox = new System.Windows.Forms.CheckBox();
+      this.progressBar1 = new System.Windows.Forms.ProgressBar();
       ((System.ComponentModel.ISupportInitialize)(this.LineIDIndex_Spinner)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.TermIndex_Spinner)).BeginInit();
       this.SuspendLayout();
@@ -292,11 +293,19 @@
       this.SearchSubdirectories_CheckBox.Text = "Search Sub-directories";
       this.SearchSubdirectories_CheckBox.UseVisualStyleBackColor = true;
       // 
+      // progressBar1
+      // 
+      this.progressBar1.Location = new System.Drawing.Point(374, 418);
+      this.progressBar1.Name = "progressBar1";
+      this.progressBar1.Size = new System.Drawing.Size(197, 25);
+      this.progressBar1.TabIndex = 20;
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(834, 452);
+      this.Controls.Add(this.progressBar1);
       this.Controls.Add(this.SearchSubdirectories_CheckBox);
       this.Controls.Add(this.InList_TextBox);
       this.Controls.Add(this.label13);
@@ -366,6 +375,7 @@
     private System.Windows.Forms.TextBox UnmatchedOutputFileName_TextBox;
     private System.Windows.Forms.TextBox InList_TextBox;
     private System.Windows.Forms.CheckBox SearchSubdirectories_CheckBox;
+    private System.Windows.Forms.ProgressBar progressBar1;
   }
 }
 

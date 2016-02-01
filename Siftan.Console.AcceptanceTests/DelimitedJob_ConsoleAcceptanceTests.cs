@@ -10,7 +10,7 @@ namespace Siftan.Console.AcceptanceTests
   using Shouldly;
   using TestSupport;
 
-  public class DelimitedJob_AcceptanceTests : AcceptanceTestsBase
+  public class DelimitedJob_ConsoleAcceptanceTests : AcceptanceTestsBase
   {
     private const String ApplicationName = "Siftan.Console";
 

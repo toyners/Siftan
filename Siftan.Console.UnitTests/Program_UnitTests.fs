@@ -8,7 +8,7 @@ open System.IO
 open System.Text.RegularExpressions
 
 [<TestFixture>]
-type ProgramUnitTests() =
+type Program_UnitTests() =
 
     let workingDirectory = Path.GetTempPath() + @"Siftan.AcceptanceTests\"
     let delimitedInputFilePath = workingDirectory + "Input.csv";

@@ -5,7 +5,7 @@ open NUnit.Framework
 open Siftan.TestSupport
 open Siftan
 
-type LogBuilderTests() = 
+type LogBuilder_UnitTests() = 
 
     [<Test>]
     member public this.``Log Builder set with application log file path returns correct argument array``() =
