@@ -20,7 +20,7 @@ namespace Siftan.TestSupport
 
     protected void SetFilePaths(String projectName, String extension)
     {
-      this.workingDirectory = Path.GetTempPath() + projectName + @"\";
+      this.workingDirectory = String.Format(@"C:\Projects\Siftan\Temp\{0}\", projectName);
       this.inputFilePath = this.workingDirectory + "Input." + extension;
       this.matchedOutputFilePath = this.workingDirectory + "Matched." + extension;
       this.unmatchedOutputFilePath = this.workingDirectory + "Unmatched." + extension;
