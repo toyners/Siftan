@@ -111,18 +111,24 @@ namespace Siftan
 
     private void OpenApplicationLog()
     {
-      FileStream applicationLogStream = new FileStream(this.applicationLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
-      this.applicationLog = new StreamWriter(applicationLogStream);
-      this.applicationLog.AutoFlush = true;
+      this.applicationLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Cannot open application log. The application log file path is null or empty.");
+      this.applicationLog = OpenLog(this.applicationLogFilePath, FileMode.Append);
       this.disposedValue = false;
     }
 
     private void OpenJobLog()
     {
-      FileStream jobLogStream = new FileStream(this.jobLogFilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
-      this.jobLog = new StreamWriter(jobLogStream);
-      this.jobLog.AutoFlush = true;
+      this.JobLogFilePath.VerifyThatStringIsNotNullAndNotEmpty("Cannot open job log. The job log file path is null or empty.");
+      this.jobLog = OpenLog(this.jobLogFilePath, FileMode.Create);
       this.disposedValue = false;
+    }
+
+    private static StreamWriter OpenLog(String filePath, FileMode fileMode)
+    {
+      FileStream logStream = new FileStream(filePath, fileMode, FileAccess.Write, FileShare.Read);
+      StreamWriter log = new StreamWriter(logStream);
+      log.AutoFlush = true;
+      return log;
     }
 
     // This code added to correctly implement the disposable pattern.
