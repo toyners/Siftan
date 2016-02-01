@@ -65,14 +65,14 @@
       this.LineIDIndex_Spinner.Location = new System.Drawing.Point(165, 90);
       this.LineIDIndex_Spinner.Name = "LineIDIndex_Spinner";
       this.LineIDIndex_Spinner.Size = new System.Drawing.Size(42, 20);
-      this.LineIDIndex_Spinner.TabIndex = 0;
+      this.LineIDIndex_Spinner.TabIndex = 4;
       // 
       // TermIndex_Spinner
       // 
       this.TermIndex_Spinner.Location = new System.Drawing.Point(165, 142);
       this.TermIndex_Spinner.Name = "TermIndex_Spinner";
       this.TermIndex_Spinner.Size = new System.Drawing.Size(42, 20);
-      this.TermIndex_Spinner.TabIndex = 0;
+      this.TermIndex_Spinner.TabIndex = 6;
       // 
       // Delimiter_TextBox
       // 
@@ -95,7 +95,7 @@
       this.Qualifier_TextBox.Location = new System.Drawing.Point(165, 38);
       this.Qualifier_TextBox.Name = "Qualifier_TextBox";
       this.Qualifier_TextBox.Size = new System.Drawing.Size(42, 20);
-      this.Qualifier_TextBox.TabIndex = 1;
+      this.Qualifier_TextBox.TabIndex = 2;
       // 
       // label2
       // 
@@ -111,14 +111,14 @@
       this.HeaderLineID_TextBox.Location = new System.Drawing.Point(165, 64);
       this.HeaderLineID_TextBox.Name = "HeaderLineID_TextBox";
       this.HeaderLineID_TextBox.Size = new System.Drawing.Size(80, 20);
-      this.HeaderLineID_TextBox.TabIndex = 1;
+      this.HeaderLineID_TextBox.TabIndex = 3;
       // 
       // TermLineID_TextBox
       // 
       this.TermLineID_TextBox.Location = new System.Drawing.Point(165, 116);
       this.TermLineID_TextBox.Name = "TermLineID_TextBox";
       this.TermLineID_TextBox.Size = new System.Drawing.Size(80, 20);
-      this.TermLineID_TextBox.TabIndex = 1;
+      this.TermLineID_TextBox.TabIndex = 5;
       // 
       // label3
       // 
@@ -170,7 +170,7 @@
       this.InputDirectory_TextBox.Location = new System.Drawing.Point(165, 181);
       this.InputDirectory_TextBox.Name = "InputDirectory_TextBox";
       this.InputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
-      this.InputDirectory_TextBox.TabIndex = 5;
+      this.InputDirectory_TextBox.TabIndex = 7;
       // 
       // label8
       // 
@@ -186,12 +186,12 @@
       this.InputFileName_TextBox.Location = new System.Drawing.Point(165, 207);
       this.InputFileName_TextBox.Name = "InputFileName_TextBox";
       this.InputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
-      this.InputFileName_TextBox.TabIndex = 7;
+      this.InputFileName_TextBox.TabIndex = 8;
       // 
       // label9
       // 
       this.label9.AutoSize = true;
-      this.label9.Location = new System.Drawing.Point(345, 15);
+      this.label9.Location = new System.Drawing.Point(12, 336);
       this.label9.Name = "label9";
       this.label9.Size = new System.Drawing.Size(42, 13);
       this.label9.TabIndex = 10;
@@ -200,7 +200,7 @@
       // label10
       // 
       this.label10.AutoSize = true;
-      this.label10.Location = new System.Drawing.Point(350, 92);
+      this.label10.Location = new System.Drawing.Point(349, 15);
       this.label10.Name = "label10";
       this.label10.Size = new System.Drawing.Size(45, 13);
       this.label10.TabIndex = 12;
@@ -208,19 +208,20 @@
       // 
       // Results_TextBox
       // 
-      this.Results_TextBox.Location = new System.Drawing.Point(401, 90);
+      this.Results_TextBox.Location = new System.Drawing.Point(401, 12);
       this.Results_TextBox.Multiline = true;
       this.Results_TextBox.Name = "Results_TextBox";
       this.Results_TextBox.ReadOnly = true;
-      this.Results_TextBox.Size = new System.Drawing.Size(158, 199);
+      this.Results_TextBox.Size = new System.Drawing.Size(421, 394);
       this.Results_TextBox.TabIndex = 11;
+      this.Results_TextBox.TabStop = false;
       // 
       // Start_Button
       // 
-      this.Start_Button.Location = new System.Drawing.Point(463, 295);
+      this.Start_Button.Location = new System.Drawing.Point(726, 412);
       this.Start_Button.Name = "Start_Button";
       this.Start_Button.Size = new System.Drawing.Size(96, 32);
-      this.Start_Button.TabIndex = 13;
+      this.Start_Button.TabIndex = 14;
       this.Start_Button.Text = "Start";
       this.Start_Button.UseVisualStyleBackColor = true;
       this.Start_Button.Click += new System.EventHandler(this.Start_Button_Click);
@@ -239,7 +240,7 @@
       this.MatchedOutputFileName_TextBox.Location = new System.Drawing.Point(165, 281);
       this.MatchedOutputFileName_TextBox.Name = "MatchedOutputFileName_TextBox";
       this.MatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
-      this.MatchedOutputFileName_TextBox.TabIndex = 16;
+      this.MatchedOutputFileName_TextBox.TabIndex = 11;
       // 
       // label12
       // 
@@ -255,7 +256,7 @@
       this.OutputDirectory_TextBox.Location = new System.Drawing.Point(165, 255);
       this.OutputDirectory_TextBox.Name = "OutputDirectory_TextBox";
       this.OutputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
-      this.OutputDirectory_TextBox.TabIndex = 14;
+      this.OutputDirectory_TextBox.TabIndex = 10;
       // 
       // label13
       // 
@@ -271,15 +272,15 @@
       this.UnmatchedOutputFileName_TextBox.Location = new System.Drawing.Point(165, 307);
       this.UnmatchedOutputFileName_TextBox.Name = "UnmatchedOutputFileName_TextBox";
       this.UnmatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
-      this.UnmatchedOutputFileName_TextBox.TabIndex = 18;
+      this.UnmatchedOutputFileName_TextBox.TabIndex = 12;
       // 
       // InList_TextBox
       // 
-      this.InList_TextBox.Location = new System.Drawing.Point(401, 11);
+      this.InList_TextBox.Location = new System.Drawing.Point(165, 333);
       this.InList_TextBox.Multiline = true;
       this.InList_TextBox.Name = "InList_TextBox";
-      this.InList_TextBox.Size = new System.Drawing.Size(158, 73);
-      this.InList_TextBox.TabIndex = 20;
+      this.InList_TextBox.Size = new System.Drawing.Size(178, 73);
+      this.InList_TextBox.TabIndex = 13;
       // 
       // SearchSubdirectories_CheckBox
       // 
@@ -287,7 +288,7 @@
       this.SearchSubdirectories_CheckBox.Location = new System.Drawing.Point(165, 232);
       this.SearchSubdirectories_CheckBox.Name = "SearchSubdirectories_CheckBox";
       this.SearchSubdirectories_CheckBox.Size = new System.Drawing.Size(133, 17);
-      this.SearchSubdirectories_CheckBox.TabIndex = 21;
+      this.SearchSubdirectories_CheckBox.TabIndex = 9;
       this.SearchSubdirectories_CheckBox.Text = "Search Sub-directories";
       this.SearchSubdirectories_CheckBox.UseVisualStyleBackColor = true;
       // 
@@ -295,7 +296,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(567, 358);
+      this.ClientSize = new System.Drawing.Size(834, 452);
       this.Controls.Add(this.SearchSubdirectories_CheckBox);
       this.Controls.Add(this.InList_TextBox);
       this.Controls.Add(this.label13);

@@ -20,6 +20,11 @@ namespace Siftan.WinForms
       set { this.logManager.JobLogFilePath = value; }
     }
 
+    public void Close()
+    {
+      this.logManager.Close();
+    }
+
     public void WriteMessagesToLogs(String message)
     {
       this.WriteMessageToApplicationLog(message);

@@ -22,37 +22,46 @@ namespace Siftan.WinForms
 
     internal void StartProcess(MainForm mainForm)
     {
-      VerifyParameters(mainForm);
+      UILogManager uiLogManager = null;
 
-      String[] inputFiles = FilePatternResolver.ResolveFilePattern(mainForm.InputFilePattern, mainForm.InputFileSearchDepth);
+      try
+      {
+        uiLogManager = new UILogManager(this.logManager);
+        uiLogManager.MessageLogged += MessageLoggedHandler;
 
-      IRecordReader recordReader = this.CreateRecordReader(mainForm);
+        VerifyParameters(mainForm);
 
-      IRecordMatchExpression expression = new InListExpression(mainForm.ValueList);
+        String[] inputFiles = FilePatternResolver.ResolveFilePattern(mainForm.InputFilePattern, mainForm.InputFileSearchDepth);
 
-      StatisticsManager statisticsManager = new StatisticsManager();
+        IRecordReader recordReader = this.CreateRecordReader(mainForm);
 
-      OneFileRecordWriter recordWriter = new OneFileRecordWriter(
-        mainForm.MatchedOutputFilePath,
-        mainForm.UnmatchedOutputFilePath,
-        statisticsManager);
+        IRecordMatchExpression expression = new InListExpression(mainForm.ValueList);
 
-      this.logManager.JobLogFilePath = Path.Combine(mainForm.OutputDirectory, "Job.log");
+        StatisticsManager statisticsManager = new StatisticsManager();
 
-      UILogManager winFormsLogManager = new UILogManager(this.logManager);
-      winFormsLogManager.MessageLogged += MessageLoggedHandler;
+        OneFileRecordWriter recordWriter = new OneFileRecordWriter(
+          mainForm.MatchedOutputFilePath,
+          mainForm.UnmatchedOutputFilePath,
+          statisticsManager);
 
-      new Engine().Execute(
-        inputFiles,
-        winFormsLogManager,
-        new FileReaderFactory(),
-        recordReader,
-        expression,
-        recordWriter,
-        statisticsManager,
-        statisticsManager);
+        this.logManager.JobLogFilePath = Path.Combine(mainForm.OutputDirectory, "Job.log");
 
-      recordWriter.Close();
+        new Engine().Execute(
+          inputFiles,
+          uiLogManager,
+          new FileReaderFactory(),
+          recordReader,
+          expression,
+          recordWriter,
+          statisticsManager,
+          statisticsManager);
+
+        recordWriter.Close();
+      }
+      finally
+      {
+        uiLogManager.Close();
+      }
     }
 
     internal MainForm CreateMainForm()
@@ -73,6 +82,10 @@ namespace Siftan.WinForms
       DelimitedRecordDescriptor descriptor = new DelimitedRecordDescriptor
       {
         Delimiter = mainForm.Delimiter,
+        Qualifier = mainForm.Qualifier,
+        HeaderID = mainForm.HeaderLineID,
+        LineIDIndex = mainForm.LineIDIndex,
+        DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition(mainForm.TermLineID, mainForm.TermIndex)
       };
 
       return new DelimitedRecordReader(descriptor);

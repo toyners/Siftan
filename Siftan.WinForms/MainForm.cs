@@ -50,6 +50,16 @@ namespace Siftan.WinForms
       }
     }
 
+    internal Char Qualifier { get { return this.Qualifier_TextBox.Text[0]; } }
+
+    internal String HeaderLineID { get { return this.HeaderLineID_TextBox.Text; } }
+
+    internal UInt32 LineIDIndex { get { return (UInt32)this.LineIDIndex_Spinner.Value; } }
+
+    internal UInt32 TermIndex { get { return (UInt32)this.TermIndex_Spinner.Value; } }
+
+    internal String TermLineID { get { return this.TermLineID_TextBox.Text; } }
+
     internal void MessageLoggedHandler(Object sender, String message)
     {
       this.Results_TextBox.Text += message + "\r\n";
