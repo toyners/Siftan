@@ -12,6 +12,8 @@ namespace Siftan.WinForms
   {
     private readonly ILogManager logManager;
 
+    public event MessageLoggedEventHandler MessageLogged;
+
     public Controller(ILogManager logManager)
     {
       logManager.VerifyThatObjectIsNotNull("Parameter 'logManager' is null.");
@@ -37,9 +39,12 @@ namespace Siftan.WinForms
 
       this.logManager.JobLogFilePath = Path.Combine(mainForm.OutputDirectory, "Job.log");
 
+      UILogManager winFormsLogManager = new UILogManager(this.logManager);
+      winFormsLogManager.MessageLogged += MessageLoggedHandler;
+
       new Engine().Execute(
         inputFiles,
-        this.logManager,
+        winFormsLogManager,
         new FileReaderFactory(),
         recordReader,
         expression,
@@ -52,7 +57,11 @@ namespace Siftan.WinForms
 
     internal MainForm CreateMainForm()
     {
-      return new MainForm(this);
+      MainForm mainForm = new MainForm(this);
+
+      this.MessageLogged += mainForm.MessageLoggedHandler;
+
+      return mainForm;
     }
 
     private void VerifyParameters(MainForm mainForm)
@@ -67,6 +76,14 @@ namespace Siftan.WinForms
       };
 
       return new DelimitedRecordReader(descriptor);
+    }
+
+    private void MessageLoggedHandler(Object sender, String message)
+    {
+      if (this.MessageLogged != null)
+      {
+        this.MessageLogged(sender, message);
+      }
     }
   }
 }

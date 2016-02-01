@@ -50,6 +50,11 @@ namespace Siftan.WinForms
       }
     }
 
+    internal void MessageLoggedHandler(Object sender, String message)
+    {
+      this.Results_TextBox.Text += message + "\r\n";
+    }
+
     private void Start_Button_Click(Object sender, EventArgs e)
     {
       this.controller.StartProcess(this);
