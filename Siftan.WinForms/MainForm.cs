@@ -62,6 +62,13 @@ namespace Siftan.WinForms
 
     internal void MessageLoggedHandler(Object sender, String message)
     {
+      if (this.InvokeRequired)
+      {
+        Action action = () => MessageLoggedHandler(sender, message);
+        this.Invoke(action);
+        return;
+      }
+
       this.Results_TextBox.Text += message + "\r\n";
     }
 

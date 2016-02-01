@@ -74,6 +74,11 @@
       this.TermIndex_Spinner.Name = "TermIndex_Spinner";
       this.TermIndex_Spinner.Size = new System.Drawing.Size(42, 20);
       this.TermIndex_Spinner.TabIndex = 6;
+      this.TermIndex_Spinner.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
       // 
       // Delimiter_TextBox
       // 
@@ -81,6 +86,7 @@
       this.Delimiter_TextBox.Name = "Delimiter_TextBox";
       this.Delimiter_TextBox.Size = new System.Drawing.Size(42, 20);
       this.Delimiter_TextBox.TabIndex = 1;
+      this.Delimiter_TextBox.Text = "|";
       // 
       // label1
       // 
@@ -97,6 +103,7 @@
       this.Qualifier_TextBox.Name = "Qualifier_TextBox";
       this.Qualifier_TextBox.Size = new System.Drawing.Size(42, 20);
       this.Qualifier_TextBox.TabIndex = 2;
+      this.Qualifier_TextBox.Text = "\'";
       // 
       // label2
       // 
@@ -113,6 +120,7 @@
       this.HeaderLineID_TextBox.Name = "HeaderLineID_TextBox";
       this.HeaderLineID_TextBox.Size = new System.Drawing.Size(80, 20);
       this.HeaderLineID_TextBox.TabIndex = 3;
+      this.HeaderLineID_TextBox.Text = "01";
       // 
       // TermLineID_TextBox
       // 
@@ -120,6 +128,7 @@
       this.TermLineID_TextBox.Name = "TermLineID_TextBox";
       this.TermLineID_TextBox.Size = new System.Drawing.Size(80, 20);
       this.TermLineID_TextBox.TabIndex = 5;
+      this.TermLineID_TextBox.Text = "02";
       // 
       // label3
       // 
@@ -172,6 +181,7 @@
       this.InputDirectory_TextBox.Name = "InputDirectory_TextBox";
       this.InputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
       this.InputDirectory_TextBox.TabIndex = 7;
+      this.InputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.AcceptanceTests\\";
       // 
       // label8
       // 
@@ -188,6 +198,7 @@
       this.InputFileName_TextBox.Name = "InputFileName_TextBox";
       this.InputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
       this.InputFileName_TextBox.TabIndex = 8;
+      this.InputFileName_TextBox.Text = "Input.csv";
       // 
       // label9
       // 
@@ -213,9 +224,11 @@
       this.Results_TextBox.Multiline = true;
       this.Results_TextBox.Name = "Results_TextBox";
       this.Results_TextBox.ReadOnly = true;
+      this.Results_TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
       this.Results_TextBox.Size = new System.Drawing.Size(421, 394);
       this.Results_TextBox.TabIndex = 11;
       this.Results_TextBox.TabStop = false;
+      this.Results_TextBox.WordWrap = false;
       // 
       // Start_Button
       // 
@@ -242,6 +255,7 @@
       this.MatchedOutputFileName_TextBox.Name = "MatchedOutputFileName_TextBox";
       this.MatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
       this.MatchedOutputFileName_TextBox.TabIndex = 11;
+      this.MatchedOutputFileName_TextBox.Text = "matched.csv";
       // 
       // label12
       // 
@@ -258,6 +272,7 @@
       this.OutputDirectory_TextBox.Name = "OutputDirectory_TextBox";
       this.OutputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
       this.OutputDirectory_TextBox.TabIndex = 10;
+      this.OutputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.AcceptanceTests\\";
       // 
       // label13
       // 
@@ -274,6 +289,7 @@
       this.UnmatchedOutputFileName_TextBox.Name = "UnmatchedOutputFileName_TextBox";
       this.UnmatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
       this.UnmatchedOutputFileName_TextBox.TabIndex = 12;
+      this.UnmatchedOutputFileName_TextBox.Text = "unmatched.csv";
       // 
       // InList_TextBox
       // 
@@ -282,6 +298,7 @@
       this.InList_TextBox.Name = "InList_TextBox";
       this.InList_TextBox.Size = new System.Drawing.Size(178, 73);
       this.InList_TextBox.TabIndex = 13;
+      this.InList_TextBox.Text = "12345";
       // 
       // SearchSubdirectories_CheckBox
       // 
