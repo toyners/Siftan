@@ -244,7 +244,7 @@
       // label12
       // 
       this.label12.AutoSize = true;
-      this.label12.Location = new System.Drawing.Point(12, 236);
+      this.label12.Location = new System.Drawing.Point(12, 258);
       this.label12.Name = "label12";
       this.label12.Size = new System.Drawing.Size(87, 13);
       this.label12.TabIndex = 15;
@@ -252,7 +252,7 @@
       // 
       // OutputDirectory_TextBox
       // 
-      this.OutputDirectory_TextBox.Location = new System.Drawing.Point(165, 233);
+      this.OutputDirectory_TextBox.Location = new System.Drawing.Point(165, 255);
       this.OutputDirectory_TextBox.Name = "OutputDirectory_TextBox";
       this.OutputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
       this.OutputDirectory_TextBox.TabIndex = 14;
@@ -284,7 +284,7 @@
       // SearchSubdirectories_CheckBox
       // 
       this.SearchSubdirectories_CheckBox.AutoSize = true;
-      this.SearchSubdirectories_CheckBox.Location = new System.Drawing.Point(165, 258);
+      this.SearchSubdirectories_CheckBox.Location = new System.Drawing.Point(165, 232);
       this.SearchSubdirectories_CheckBox.Name = "SearchSubdirectories_CheckBox";
       this.SearchSubdirectories_CheckBox.Size = new System.Drawing.Size(133, 17);
       this.SearchSubdirectories_CheckBox.TabIndex = 21;
@@ -295,7 +295,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(567, 336);
+      this.ClientSize = new System.Drawing.Size(567, 358);
       this.Controls.Add(this.SearchSubdirectories_CheckBox);
       this.Controls.Add(this.InList_TextBox);
       this.Controls.Add(this.label13);

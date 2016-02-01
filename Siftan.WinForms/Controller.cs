@@ -28,12 +28,14 @@ namespace Siftan.WinForms
 
       IRecordMatchExpression expression = new InListExpression(mainForm.ValueList);
 
+      StatisticsManager statisticsManager = new StatisticsManager();
+
       OneFileRecordWriter recordWriter = new OneFileRecordWriter(
         mainForm.MatchedOutputFilePath,
         mainForm.UnmatchedOutputFilePath,
-        null);
+        statisticsManager);
 
-      StatisticsManager statisticsManager = new StatisticsManager();
+      this.logManager.JobLogFilePath = Path.Combine(mainForm.OutputDirectory, "Job.log");
 
       new Engine().Execute(
         inputFiles,

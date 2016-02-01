@@ -1,7 +1,8 @@
 ﻿
-namespace Siftan.WinForm.AcceptanceTests
+namespace Siftan.WinForms.AcceptanceTests
 {
   using System;
+  using System.Diagnostics;
   using System.IO;
   using System.Reflection;
   using System.Text.RegularExpressions;
@@ -61,7 +62,8 @@ namespace Siftan.WinForm.AcceptanceTests
 
       CreateInputFileForDelimitedTests(InputFileResourcePath, this.inputFilePath);
 
-      Application application = Application.Launch(applicationPath);
+      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, this.applicationLogFilePath);
+      Application application = Application.Launch(processStartInfo);
 
       try
       {
@@ -91,9 +93,6 @@ namespace Siftan.WinForm.AcceptanceTests
         var inputFileName_TextBox = GetTextBoxControl(window, "InputFileName_TextBox");
         inputFileName_TextBox.Text = this.inputFileName;
 
-        var inlist_TextBox = GetTextBoxControl(window, "InList_TextBox");
-        inlist_TextBox.Text = SingleValuesList;
-
         var outputDirectory_TextBox = GetTextBoxControl(window, "OutputDirectory_TextBox");
         outputDirectory_TextBox.Text = this.workingDirectory;
 
@@ -102,6 +101,9 @@ namespace Siftan.WinForm.AcceptanceTests
 
         var unmatchedOutputFileName_TextBox = GetTextBoxControl(window, "UnmatchedOutputFileName_TextBox");
         unmatchedOutputFileName_TextBox.Text = this.unmatchedOutputFileName;
+
+        var inlist_TextBox = GetTextBoxControl(window, "InList_TextBox");
+        inlist_TextBox.Text = SingleValuesList;
 
         var start_Button = GetButtonControl(window, "Start_Button");
         start_Button.Click();

@@ -76,6 +76,14 @@
       <Project>{94a7a486-163b-4f81-bdb5-0174debc68ad}</Project>
       <Name>Siftan.TestSupport</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Siftan.WinForms\Siftan.WinForms.csproj">
+      <Project>{d30e79e9-e77e-461b-9c36-17bea3d5b54e}</Project>
+      <Name>Siftan.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Siftan\Siftan.csproj">
+      <Project>{4ad46b0c-edcc-4be6-94cf-a586a33f50c3}</Project>
+      <Name>Siftan</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

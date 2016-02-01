@@ -19,9 +19,19 @@ namespace Siftan.WinForms
       InitializeComponent();
     }
 
-    public String MatchedOutputFilePath { get; internal set; }
-    public String UnmatchedOutputFilePath { get; internal set; }
-    public String[] ValueList { get; internal set; }
+    internal String OutputDirectory { get { return this.OutputDirectory_TextBox.Text; } }
+
+    internal String MatchedOutputFilePath
+    {
+      get { return Path.Combine(this.OutputDirectory_TextBox.Text, this.MatchedOutputFileName_TextBox.Text); }
+    }
+
+    internal String UnmatchedOutputFilePath
+    {
+      get { return Path.Combine(this.OutputDirectory_TextBox.Text, this.UnmatchedOutputFileName_TextBox.Text); }
+    }
+
+    internal String[] ValueList { get { return this.InList_TextBox.Text.Split(new[] { "\r\n" }, StringSplitOptions.None); } }
 
     internal String Delimiter { get { return this.Delimiter_TextBox.Text; } }
 

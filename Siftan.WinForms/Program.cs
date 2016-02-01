@@ -10,21 +10,31 @@ namespace Siftan.WinForms
   using System.Windows.Forms;
   using Jabberwocky.Toolkit.Path;
 
-  static class Program
+  public static class Program
   {
     /// <summary>
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main()
+    public static void Main(String[] args)
     {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
 
-      var logManager = new LogManager(CreateDefaultApplicationLogFilePath());
+      var logManager = CreateLogManager(args);
       Controller controller = new Controller(logManager);
       MainForm mainForm = controller.CreateMainForm();
       Application.Run(mainForm);
+    }
+
+    public static ILogManager CreateLogManager(String[] args)
+    {
+      if (args.Length == 1)
+      {
+        return new LogManager(args[0]);
+      }
+
+      return new LogManager(CreateDefaultApplicationLogFilePath());
     }
 
     public static String CreateDefaultApplicationLogFilePath()
