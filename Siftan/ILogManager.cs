@@ -5,6 +5,8 @@ namespace Siftan
 
   public interface ILogManager
   {
+    String JobLogFilePath { get; set; }
+
     void WriteMessagesToLogs(String message);
 
     void WriteMessageToApplicationLog(String message);
