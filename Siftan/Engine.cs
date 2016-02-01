@@ -88,6 +88,7 @@ namespace Siftan
     {
       foreach (String filePath in filePaths)
       {
+        this.logManager.WriteMessageToJobLog("Processing '" + filePath + "'.");
         IStreamReader fileReader = streamReaderFactory.CreateStreamReader(filePath);
 
         Record record;
