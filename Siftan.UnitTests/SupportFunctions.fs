@@ -32,6 +32,8 @@ module public SupportFunctions =
                 member this.EndOfStream = 
                     fileLineIndex = fileLines.Length
 
+                member this.Length = 0L
+
                 member this.Name = "file"
 
                 member this.ReadLine() =
