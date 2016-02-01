@@ -29,13 +29,14 @@ namespace Siftan
       try
       {
         this.logManager = logManager;
-        this.logManager.WriteMessagesToLogs("Run Started...");
 
         statisticsCollector.VerifyThatObjectIsNotNull("Parameter 'statisticsCollector' is null.");
         this.statisticsCollector = statisticsCollector;
 
         statisticsReporter.VerifyThatObjectIsNotNull("Parameter 'statisticsReporter' is null.");
         this.statisticsReporter = statisticsReporter;
+
+        this.logManager.WriteMessagesToLogs("Run Started...");
 
         if (recordWriter.DoWriteMatchedRecords && recordWriter.DoWriteUnmatchedRecords)
         {
@@ -59,6 +60,7 @@ namespace Siftan
       catch (Exception exception)
       {
         logManager.WriteMessageToApplicationLog("EXCEPTION: " + exception.Message);
+        logManager.WriteMessageToApplicationLog("STACK: " + exception.StackTrace);
         throw exception;
       }
     }
