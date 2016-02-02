@@ -40,24 +40,24 @@ namespace Siftan.WinForms
       return this.mainForm;
     }
 
-    internal void StartProcess(MainForm mainForm)
+    internal void StartProcess()
     {
-      VerifyParameters(mainForm);
+      VerifyParameters(this.mainForm);
 
-      String[] inputFiles = FilePatternResolver.ResolveFilePattern(mainForm.InputFilePattern, mainForm.InputFileSearchDepth);
+      String[] inputFiles = FilePatternResolver.ResolveFilePattern(this.mainForm.InputFilePattern, this.mainForm.InputFileSearchDepth);
 
-      IRecordReader recordReader = this.CreateRecordReader(mainForm);
+      IRecordReader recordReader = this.CreateRecordReader(this.mainForm);
 
-      IRecordMatchExpression expression = new InListExpression(mainForm.ValueList);
+      IRecordMatchExpression expression = new InListExpression(this.mainForm.ValueList);
 
       StatisticsManager statisticsManager = new StatisticsManager();
 
       this.recordWriter = new OneFileRecordWriter(
-        mainForm.MatchedOutputFilePath,
-        mainForm.UnmatchedOutputFilePath,
+        this.mainForm.MatchedOutputFilePath,
+        this.mainForm.UnmatchedOutputFilePath,
         statisticsManager);
 
-      this.uiLogManager.JobLogFilePath = Path.Combine(mainForm.OutputDirectory, "Job.log");
+      this.uiLogManager.JobLogFilePath = Path.Combine(this.mainForm.OutputDirectory, "Job.log");
 
       Engine engine = new Engine();
       engine.FileOpened += this.FileOpenedHandler;

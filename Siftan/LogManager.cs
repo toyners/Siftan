@@ -81,6 +81,11 @@ namespace Siftan
       this.applicationLog.WriteLine(this.dateTimeStamper.Now + " " + message);
     }
 
+    public void WriteImportantMessageToJobLog(String message)
+    {
+      this.WriteMessageToJobLog(message);
+    }
+
     public void WriteMessageToJobLog(String message)
     {
       if (this.JobLogIsClosed)

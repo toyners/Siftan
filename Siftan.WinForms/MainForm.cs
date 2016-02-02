@@ -109,7 +109,7 @@ namespace Siftan.WinForms
     {
       this.Cancel_Button.Enabled = true;
       this.Start_Button.Enabled = false;
-      this.controller.StartProcess(this);
+      this.controller.StartProcess();
     }
 
     private void Cancel_Button_Click(Object sender, EventArgs e)

@@ -182,7 +182,7 @@
       this.InputDirectory_TextBox.Name = "InputDirectory_TextBox";
       this.InputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
       this.InputDirectory_TextBox.TabIndex = 7;
-      this.InputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.WinForms_AcceptanceTests\\";
+      this.InputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.WinForms.AcceptanceTests\\";
       // 
       // label8
       // 
@@ -273,7 +273,7 @@
       this.OutputDirectory_TextBox.Name = "OutputDirectory_TextBox";
       this.OutputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
       this.OutputDirectory_TextBox.TabIndex = 10;
-      this.OutputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.WinForms_AcceptanceTests\\";
+      this.OutputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.WinForms.AcceptanceTests\\";
       // 
       // label13
       // 

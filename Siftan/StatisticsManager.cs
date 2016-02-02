@@ -41,7 +41,7 @@ namespace Siftan
         unmatchedTotal += i.Unmatched;
       });
 
-      logManager.WriteMessageToJobLog(String.Format("{0} Record(s) processed.", matchedTotal + unmatchedTotal));
+      logManager.WriteImportantMessageToJobLog(String.Format("{0} Record(s) processed.", matchedTotal + unmatchedTotal));
 
       if (matchedTotal + unmatchedTotal == 0)
       {
@@ -49,22 +49,22 @@ namespace Siftan
         return;
       }
 
-      logManager.WriteMessageToJobLog(String.Format("{0} Record(s) matched.", matchedTotal));
-      logManager.WriteMessageToJobLog(String.Format("{0} Record(s) not matched.", unmatchedTotal));
+      logManager.WriteImportantMessageToJobLog(String.Format("{0} Record(s) matched.", matchedTotal));
+      logManager.WriteImportantMessageToJobLog(String.Format("{0} Record(s) not matched.", unmatchedTotal));
 
       // Enumerate over the input file counters and write out the individual totals to the log.
       PerformActionOverInputFileCounters((i) =>
       {
-        logManager.WriteMessageToJobLog(String.Format("{0} Record(s) processed from input file {1}.", i.Matched + i.Unmatched, i.FilePath));
-        logManager.WriteMessageToJobLog(String.Format("{0} Record(s) matched from input file {1}.", i.Matched, i.FilePath));
-        logManager.WriteMessageToJobLog(String.Format("{0} Record(s) not matched from input file {1}.", i.Unmatched, i.FilePath));
+        logManager.WriteImportantMessageToJobLog(String.Format("{0} Record(s) processed from input file {1}.", i.Matched + i.Unmatched, i.FilePath));
+        logManager.WriteImportantMessageToJobLog(String.Format("{0} Record(s) matched from input file {1}.", i.Matched, i.FilePath));
+        logManager.WriteImportantMessageToJobLog(String.Format("{0} Record(s) not matched from input file {1}.", i.Unmatched, i.FilePath));
       });
 
 
       // Enumerate over the output file counters and write out the individual totals to the log.
       foreach (var outputFileCounter in this.outputFileCounters.Values)
       {
-        logManager.WriteMessageToJobLog(String.Format("{0} Record(s) written to output file {1}.", outputFileCounter.Total, outputFileCounter.FilePath));
+        logManager.WriteImportantMessageToJobLog(String.Format("{0} Record(s) written to output file {1}.", outputFileCounter.Total, outputFileCounter.FilePath));
       }
     }
 

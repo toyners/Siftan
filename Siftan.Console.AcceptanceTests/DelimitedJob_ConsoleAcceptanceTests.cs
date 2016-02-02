@@ -37,7 +37,7 @@ namespace Siftan.Console.AcceptanceTests
     [TestFixtureSetUp]
     public void SetupBeforeAllTests()
     {
-      SetFilePathsForDelimitedJob("Siftan.AcceptanceTests");
+      SetFilePathsForDelimitedJob("Siftan.Console.AcceptanceTests");
     }
 
     [SetUp]

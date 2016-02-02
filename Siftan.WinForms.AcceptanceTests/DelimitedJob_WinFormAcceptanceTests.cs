@@ -43,7 +43,7 @@ namespace Siftan.WinForms.AcceptanceTests
     [TestFixtureSetUp]
     public void SetupBeforeAllTests()
     {
-      SetFilePathsForDelimitedJob("Siftan.WinForms_AcceptanceTests");
+      SetFilePathsForDelimitedJob("Siftan.WinForms.AcceptanceTests");
       this.inputFileName = Path.GetFileName(this.inputFilePath);
       this.matchedOutputFileName = Path.GetFileName(this.matchedOutputFilePath);
       this.unmatchedOutputFileName = Path.GetFileName(this.unmatchedOutputFilePath);
