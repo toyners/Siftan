@@ -30,7 +30,15 @@ namespace Siftan.WinForms
 
     internal String UnmatchedOutputFilePath
     {
-      get { return Path.Combine(this.OutputDirectory_TextBox.Text, this.UnmatchedOutputFileName_TextBox.Text); }
+      get
+      {
+        if (this.CreateUnmatchedOutput_CheckBox.Checked)
+        {
+          return Path.Combine(this.OutputDirectory_TextBox.Text, this.UnmatchedOutputFileName_TextBox.Text);
+        }
+
+        return null;
+      }
     }
 
     internal String[] ValueList { get { return this.InList_TextBox.Text.Split(new[] { "\r\n" }, StringSplitOptions.None); } }

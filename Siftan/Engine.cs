@@ -44,18 +44,10 @@ namespace Siftan
 
         this.logManager.WriteMessagesToLogs("Run Started...");
 
-        if (recordWriter.DoWriteMatchedRecords && recordWriter.DoWriteUnmatchedRecords)
-        {
-          this.SelectMatchedAndUnmatchedRecords(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord, recordWriter.WriteUnmatchedRecord);
-        }
-        else if (recordWriter.DoWriteMatchedRecords)
-        {
-          this.SelectMatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteMatchedRecord);
-        }
-        else if (recordWriter.DoWriteUnmatchedRecords)
-        {
-          this.SelectUnmatchedRecordsOnly(filePaths, streamReaderFactory, recordReader, expression, recordWriter.WriteUnmatchedRecord);
-        }
+        Action<IStreamReader, Record> writeMatchedRecordMethod, writeUnmatchedRecordMethod;
+        this.DetermineOutputMethods(recordWriter, out writeMatchedRecordMethod, out writeUnmatchedRecordMethod);
+
+        this.Process(filePaths, streamReaderFactory, recordReader, expression, writeMatchedRecordMethod, writeUnmatchedRecordMethod);
 
         recordWriter.Close();
 
@@ -71,26 +63,26 @@ namespace Siftan
       }
     }
 
-    private void SelectMatchedRecordsOnly(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeRecordMethod)
+    private void DetermineOutputMethods(IRecordWriter recordWriter, out Action<IStreamReader, Record> writeMatchedRecordMethod, out Action<IStreamReader, Record> writeUnmatchedRecordMethod)
     {
-      foreach (String filePath in filePaths)
+      if (recordWriter.DoWriteMatchedRecords && recordWriter.DoWriteUnmatchedRecords)
       {
-        IStreamReader fileReader = streamReaderFactory.CreateStreamReader(filePath);
-
-        Record record;
-        while (!expression.HasReachedMatchQuota && (record = recordReader.ReadRecord(fileReader)) != null)
-        {
-          if (expression.IsMatch(record))
-          {
-            writeRecordMethod(fileReader, record);
-          }
-        }
-
-        fileReader.Close();
+        writeMatchedRecordMethod = recordWriter.WriteMatchedRecord;
+        writeUnmatchedRecordMethod = recordWriter.WriteUnmatchedRecord;
+      }
+      else if (recordWriter.DoWriteMatchedRecords)
+      {
+        writeMatchedRecordMethod = recordWriter.WriteMatchedRecord;
+        writeUnmatchedRecordMethod = this.WriteNothing;
+      }
+      else
+      {
+        writeMatchedRecordMethod = this.WriteNothing;
+        writeUnmatchedRecordMethod = recordWriter.WriteUnmatchedRecord;
       }
     }
 
-    private void SelectMatchedAndUnmatchedRecords(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeMatchedRecordMethod, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
+    private void Process(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeMatchedRecordMethod, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
     {
       foreach (String filePath in filePaths)
       {
@@ -130,25 +122,6 @@ namespace Siftan
       }
     }
 
-    private void SelectUnmatchedRecordsOnly(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
-    {
-      foreach (String filePath in filePaths)
-      {
-        IStreamReader fileReader = streamReaderFactory.CreateStreamReader(filePath);
-
-        Record record;
-        while ((record = recordReader.ReadRecord(fileReader)) != null)
-        {
-          if (!expression.IsMatch(record))
-          {
-            writeUnmatchedRecordMethod(fileReader, record);
-          }
-        }
-
-        fileReader.Close();
-      }
-    }
-
     private void OnFileOpened(Int64 fileSize)
     {
       if (this.FileOpened != null)
@@ -173,6 +146,10 @@ namespace Siftan
       }
 
       return false;
+    }
+
+    private void WriteNothing(IStreamReader reader, Record record)
+    {
     }
     #endregion
   }

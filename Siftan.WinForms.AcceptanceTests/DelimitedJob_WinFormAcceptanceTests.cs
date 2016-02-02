@@ -99,6 +99,9 @@ namespace Siftan.WinForms.AcceptanceTests
         var matchedOutputFileName_TextBox = GetTextBoxControl(window, "MatchedOutputFileName_TextBox");
         matchedOutputFileName_TextBox.Text = this.matchedOutputFileName;
 
+        var createUnmatchedOutput_CheckBox = GetCheckboxControl(window, "CreateUnmatchedOutput_CheckBox");
+        createUnmatchedOutput_CheckBox.Checked = true;
+
         var unmatchedOutputFileName_TextBox = GetTextBoxControl(window, "UnmatchedOutputFileName_TextBox");
         unmatchedOutputFileName_TextBox.Text = this.unmatchedOutputFileName;
 
@@ -107,8 +110,6 @@ namespace Siftan.WinForms.AcceptanceTests
 
         var start_Button = GetButtonControl(window, "Start_Button");
         start_Button.Click();
-
-        var p = (ProgressBar)GetControl(window, typeof(ProgressBar), "progressBar1");
 
         var results_TextBox = window.Get<TextBox>("Results_TextBox");
 
@@ -196,6 +197,11 @@ namespace Siftan.WinForms.AcceptanceTests
     private static Button GetButtonControl(Window window, String id)
     {
       return (Button)GetControl(window, typeof(Button), id);
+    }
+
+    private static CheckBox GetCheckboxControl(Window window, String id)
+    {
+      return (CheckBox)GetControl(window, typeof(CheckBox), id);
     }
 
     private static IUIItem GetControl(Window window, Type controlType, String id)

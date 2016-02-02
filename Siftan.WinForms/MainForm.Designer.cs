@@ -58,6 +58,7 @@
       this.SearchSubdirectories_CheckBox = new System.Windows.Forms.CheckBox();
       this.progressBar1 = new System.Windows.Forms.ProgressBar();
       this.Cancel_Button = new System.Windows.Forms.Button();
+      this.CreateUnmatchedOutput_CheckBox = new System.Windows.Forms.CheckBox();
       ((System.ComponentModel.ISupportInitialize)(this.LineIDIndex_Spinner)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.TermIndex_Spinner)).BeginInit();
       this.SuspendLayout();
@@ -180,7 +181,7 @@
       // 
       this.InputDirectory_TextBox.Location = new System.Drawing.Point(165, 181);
       this.InputDirectory_TextBox.Name = "InputDirectory_TextBox";
-      this.InputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
+      this.InputDirectory_TextBox.Size = new System.Drawing.Size(269, 20);
       this.InputDirectory_TextBox.TabIndex = 7;
       this.InputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.WinForms.AcceptanceTests\\";
       // 
@@ -204,7 +205,7 @@
       // label9
       // 
       this.label9.AutoSize = true;
-      this.label9.Location = new System.Drawing.Point(12, 336);
+      this.label9.Location = new System.Drawing.Point(12, 359);
       this.label9.Name = "label9";
       this.label9.Size = new System.Drawing.Size(42, 13);
       this.label9.TabIndex = 10;
@@ -221,7 +222,7 @@
       // 
       // Results_TextBox
       // 
-      this.Results_TextBox.Location = new System.Drawing.Point(401, 12);
+      this.Results_TextBox.Location = new System.Drawing.Point(440, 12);
       this.Results_TextBox.Multiline = true;
       this.Results_TextBox.Name = "Results_TextBox";
       this.Results_TextBox.ReadOnly = true;
@@ -233,7 +234,7 @@
       // 
       // Start_Button
       // 
-      this.Start_Button.Location = new System.Drawing.Point(726, 412);
+      this.Start_Button.Location = new System.Drawing.Point(765, 412);
       this.Start_Button.Name = "Start_Button";
       this.Start_Button.Size = new System.Drawing.Size(96, 32);
       this.Start_Button.TabIndex = 14;
@@ -271,14 +272,14 @@
       // 
       this.OutputDirectory_TextBox.Location = new System.Drawing.Point(165, 255);
       this.OutputDirectory_TextBox.Name = "OutputDirectory_TextBox";
-      this.OutputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
+      this.OutputDirectory_TextBox.Size = new System.Drawing.Size(269, 20);
       this.OutputDirectory_TextBox.TabIndex = 10;
       this.OutputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.WinForms.AcceptanceTests\\";
       // 
       // label13
       // 
       this.label13.AutoSize = true;
-      this.label13.Location = new System.Drawing.Point(12, 310);
+      this.label13.Location = new System.Drawing.Point(12, 333);
       this.label13.Name = "label13";
       this.label13.Size = new System.Drawing.Size(145, 13);
       this.label13.TabIndex = 19;
@@ -286,7 +287,7 @@
       // 
       // UnmatchedOutputFileName_TextBox
       // 
-      this.UnmatchedOutputFileName_TextBox.Location = new System.Drawing.Point(165, 307);
+      this.UnmatchedOutputFileName_TextBox.Location = new System.Drawing.Point(165, 330);
       this.UnmatchedOutputFileName_TextBox.Name = "UnmatchedOutputFileName_TextBox";
       this.UnmatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
       this.UnmatchedOutputFileName_TextBox.TabIndex = 12;
@@ -294,7 +295,7 @@
       // 
       // InList_TextBox
       // 
-      this.InList_TextBox.Location = new System.Drawing.Point(165, 333);
+      this.InList_TextBox.Location = new System.Drawing.Point(165, 356);
       this.InList_TextBox.Multiline = true;
       this.InList_TextBox.Name = "InList_TextBox";
       this.InList_TextBox.Size = new System.Drawing.Size(178, 73);
@@ -313,7 +314,7 @@
       // 
       // progressBar1
       // 
-      this.progressBar1.Location = new System.Drawing.Point(401, 381);
+      this.progressBar1.Location = new System.Drawing.Point(440, 381);
       this.progressBar1.Name = "progressBar1";
       this.progressBar1.Size = new System.Drawing.Size(421, 25);
       this.progressBar1.TabIndex = 20;
@@ -321,7 +322,7 @@
       // Cancel_Button
       // 
       this.Cancel_Button.Enabled = false;
-      this.Cancel_Button.Location = new System.Drawing.Point(401, 412);
+      this.Cancel_Button.Location = new System.Drawing.Point(440, 412);
       this.Cancel_Button.Name = "Cancel_Button";
       this.Cancel_Button.Size = new System.Drawing.Size(96, 32);
       this.Cancel_Button.TabIndex = 14;
@@ -329,12 +330,23 @@
       this.Cancel_Button.UseVisualStyleBackColor = true;
       this.Cancel_Button.Click += new System.EventHandler(this.Cancel_Button_Click);
       // 
+      // CreateUnmatchedOutput_CheckBox
+      // 
+      this.CreateUnmatchedOutput_CheckBox.AutoSize = true;
+      this.CreateUnmatchedOutput_CheckBox.Location = new System.Drawing.Point(165, 307);
+      this.CreateUnmatchedOutput_CheckBox.Name = "CreateUnmatchedOutput_CheckBox";
+      this.CreateUnmatchedOutput_CheckBox.Size = new System.Drawing.Size(163, 17);
+      this.CreateUnmatchedOutput_CheckBox.TabIndex = 9;
+      this.CreateUnmatchedOutput_CheckBox.Text = "Write out unmatched records";
+      this.CreateUnmatchedOutput_CheckBox.UseVisualStyleBackColor = true;
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(834, 452);
+      this.ClientSize = new System.Drawing.Size(873, 452);
       this.Controls.Add(this.progressBar1);
+      this.Controls.Add(this.CreateUnmatchedOutput_CheckBox);
       this.Controls.Add(this.SearchSubdirectories_CheckBox);
       this.Controls.Add(this.InList_TextBox);
       this.Controls.Add(this.label13);
@@ -407,6 +419,7 @@
     private System.Windows.Forms.CheckBox SearchSubdirectories_CheckBox;
     private System.Windows.Forms.ProgressBar progressBar1;
     private System.Windows.Forms.Button Cancel_Button;
+    private System.Windows.Forms.CheckBox CreateUnmatchedOutput_CheckBox;
   }
 }
 
