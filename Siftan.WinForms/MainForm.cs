@@ -11,6 +11,8 @@ namespace Siftan.WinForms
   {
     private readonly Controller controller;
 
+    private Int64 currentFileSize;
+
     public MainForm(Controller controller)
     {
       controller.VerifyThatObjectIsNotNull("Parameter 'controller' is null.");
@@ -70,6 +72,30 @@ namespace Siftan.WinForms
       }
 
       this.Results_TextBox.Text += message + "\r\n";
+    }
+
+    internal void FileOpenedHandler(Object sender, Int64 size)
+    {
+      this.currentFileSize = size;
+    }
+
+    internal void FileReadHandler(Object sender, Int64 position)
+    {
+      if (this.InvokeRequired)
+      {
+        Action action = () => FileReadHandler(sender, position);
+        this.Invoke(action);
+        return;
+      }
+
+      if (position >= this.currentFileSize)
+      {
+        this.progressBar1.Value = 100;
+      }
+      else
+      {
+        this.progressBar1.Value = (Int32)((100 * position) / this.currentFileSize);
+      }
     }
 
     private void Start_Button_Click(Object sender, EventArgs e)

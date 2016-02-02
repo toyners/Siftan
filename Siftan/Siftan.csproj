@@ -47,6 +47,8 @@
     <Compile Include="DelimitedRecordDescriptor.cs" />
     <Compile Include="DelimitedRecordReader.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="FileOpenedEventHandler.cs" />
+    <Compile Include="FileReadEventHandler.cs" />
     <Compile Include="FixedWidthRecordDescriptor.cs" />
     <Compile Include="FixedWidthRecordReader.cs" />
     <Compile Include="IDateTimeStamper.cs" />

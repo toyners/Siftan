@@ -15,7 +15,11 @@ namespace Siftan.WinForms
 
     private IRecordWriter recordWriter;
 
-    public event MessageLoggedEventHandler MessageLogged;
+    private event MessageLoggedEventHandler MessageLogged;
+
+    private event FileOpenedEventHandler FileOpened;
+
+    private event FileReadEventHandler FileRead;
 
     public Controller(ILogManager logManager)
     {
@@ -26,8 +30,6 @@ namespace Siftan.WinForms
 
     internal void StartProcess(MainForm mainForm)
     {
-      BackgroundWorker worker;
-
       VerifyParameters(mainForm);
 
       String[] inputFiles = FilePatternResolver.ResolveFilePattern(mainForm.InputFilePattern, mainForm.InputFileSearchDepth);
@@ -45,10 +47,14 @@ namespace Siftan.WinForms
 
       this.uiLogManager.JobLogFilePath = Path.Combine(mainForm.OutputDirectory, "Job.log");
 
-      worker = new BackgroundWorker();
+      Engine engine = new Engine();
+      engine.FileOpened += this.FileOpenedHandler;
+      engine.FileRead += this.FileReadHandler;
+
+      BackgroundWorker worker = new BackgroundWorker();
       worker.DoWork += (sender, e) =>
       {
-        new Engine().Execute(
+        engine.Execute(
           inputFiles,
           uiLogManager,
           new FileReaderFactory(),
@@ -80,6 +86,8 @@ namespace Siftan.WinForms
       MainForm mainForm = new MainForm(this);
 
       this.MessageLogged += mainForm.MessageLoggedHandler;
+      this.FileOpened += mainForm.FileOpenedHandler;
+      this.FileRead += mainForm.FileReadHandler;
 
       return mainForm;
     }
@@ -104,10 +112,17 @@ namespace Siftan.WinForms
 
     private void MessageLoggedHandler(Object sender, String message)
     {
-      if (this.MessageLogged != null)
-      {
-        this.MessageLogged(sender, message);
-      }
+      this.MessageLogged(sender, message);
+    }
+
+    private void FileOpenedHandler(Object sender, Int64 size)
+    {
+      this.FileOpened(sender, size);
+    }
+
+    private void FileReadHandler(Object sender, Int64 position)
+    {
+      this.FileRead(sender, position);
     }
   }
 }

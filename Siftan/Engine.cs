@@ -13,6 +13,10 @@ namespace Siftan
 
     private IStatisticsReporter statisticsReporter;
 
+    public event FileOpenedEventHandler FileOpened;
+
+    public event FileReadEventHandler FileRead;
+
     #region Methods
     public void Execute(
       String[] filePaths,
@@ -91,9 +95,13 @@ namespace Siftan
         this.logManager.WriteMessageToJobLog("Processing '" + filePath + "'.");
         IStreamReader fileReader = streamReaderFactory.CreateStreamReader(filePath);
 
+        this.OnFileOpened(fileReader.Length);
+
         Record record;
         while (!expression.HasReachedMatchQuota && (record = recordReader.ReadRecord(fileReader)) != null)
         {
+          this.OnFileRead(fileReader.Position);
+
           String message = "Record found at position " + record.Start + " with Term '" + record.Term + "'";
           if (expression.IsMatch(record))
           {
@@ -131,6 +139,22 @@ namespace Siftan
         }
 
         fileReader.Close();
+      }
+    }
+
+    private void OnFileOpened(Int64 fileSize)
+    {
+      if (this.FileOpened != null)
+      {
+        this.FileOpened(this, fileSize);
+      }
+    }
+
+    private void OnFileRead(Int64 filePosition)
+    {
+      if (this.FileRead != null)
+      {
+        this.FileRead(this, filePosition);
       }
     }
     #endregion

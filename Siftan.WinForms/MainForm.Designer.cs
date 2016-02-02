@@ -225,7 +225,7 @@
       this.Results_TextBox.Name = "Results_TextBox";
       this.Results_TextBox.ReadOnly = true;
       this.Results_TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-      this.Results_TextBox.Size = new System.Drawing.Size(421, 394);
+      this.Results_TextBox.Size = new System.Drawing.Size(421, 363);
       this.Results_TextBox.TabIndex = 11;
       this.Results_TextBox.TabStop = false;
       this.Results_TextBox.WordWrap = false;
@@ -312,9 +312,9 @@
       // 
       // progressBar1
       // 
-      this.progressBar1.Location = new System.Drawing.Point(374, 418);
+      this.progressBar1.Location = new System.Drawing.Point(401, 381);
       this.progressBar1.Name = "progressBar1";
-      this.progressBar1.Size = new System.Drawing.Size(197, 25);
+      this.progressBar1.Size = new System.Drawing.Size(421, 25);
       this.progressBar1.TabIndex = 20;
       // 
       // MainForm
