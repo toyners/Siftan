@@ -57,6 +57,7 @@
       this.InList_TextBox = new System.Windows.Forms.TextBox();
       this.SearchSubdirectories_CheckBox = new System.Windows.Forms.CheckBox();
       this.progressBar1 = new System.Windows.Forms.ProgressBar();
+      this.Cancel_Button = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.LineIDIndex_Spinner)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.TermIndex_Spinner)).BeginInit();
       this.SuspendLayout();
@@ -181,7 +182,7 @@
       this.InputDirectory_TextBox.Name = "InputDirectory_TextBox";
       this.InputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
       this.InputDirectory_TextBox.TabIndex = 7;
-      this.InputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.AcceptanceTests\\";
+      this.InputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.WinForms_AcceptanceTests\\";
       // 
       // label8
       // 
@@ -272,7 +273,7 @@
       this.OutputDirectory_TextBox.Name = "OutputDirectory_TextBox";
       this.OutputDirectory_TextBox.Size = new System.Drawing.Size(178, 20);
       this.OutputDirectory_TextBox.TabIndex = 10;
-      this.OutputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.AcceptanceTests\\";
+      this.OutputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.WinForms_AcceptanceTests\\";
       // 
       // label13
       // 
@@ -317,6 +318,17 @@
       this.progressBar1.Size = new System.Drawing.Size(421, 25);
       this.progressBar1.TabIndex = 20;
       // 
+      // Cancel_Button
+      // 
+      this.Cancel_Button.Enabled = false;
+      this.Cancel_Button.Location = new System.Drawing.Point(401, 412);
+      this.Cancel_Button.Name = "Cancel_Button";
+      this.Cancel_Button.Size = new System.Drawing.Size(96, 32);
+      this.Cancel_Button.TabIndex = 14;
+      this.Cancel_Button.Text = "Cancel";
+      this.Cancel_Button.UseVisualStyleBackColor = true;
+      this.Cancel_Button.Click += new System.EventHandler(this.Cancel_Button_Click);
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -331,6 +343,7 @@
       this.Controls.Add(this.MatchedOutputFileName_TextBox);
       this.Controls.Add(this.label12);
       this.Controls.Add(this.OutputDirectory_TextBox);
+      this.Controls.Add(this.Cancel_Button);
       this.Controls.Add(this.Start_Button);
       this.Controls.Add(this.label10);
       this.Controls.Add(this.Results_TextBox);
@@ -393,6 +406,7 @@
     private System.Windows.Forms.TextBox InList_TextBox;
     private System.Windows.Forms.CheckBox SearchSubdirectories_CheckBox;
     private System.Windows.Forms.ProgressBar progressBar1;
+    private System.Windows.Forms.Button Cancel_Button;
   }
 }
 

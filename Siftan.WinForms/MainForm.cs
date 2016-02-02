@@ -98,9 +98,25 @@ namespace Siftan.WinForms
       }
     }
 
+    internal void JobFinished()
+    {
+      this.progressBar1.Value = 0;
+      this.Cancel_Button.Text = "Cancel";
+      this.Start_Button.Enabled = true;
+    }
+
     private void Start_Button_Click(Object sender, EventArgs e)
     {
+      this.Cancel_Button.Enabled = true;
+      this.Start_Button.Enabled = false;
       this.controller.StartProcess(this);
+    }
+
+    private void Cancel_Button_Click(Object sender, EventArgs e)
+    {
+      this.Cancel_Button.Enabled = false;
+      this.Cancel_Button.Text = "Cancelling...";
+      this.controller.CancelProcess();
     }
   }
 }

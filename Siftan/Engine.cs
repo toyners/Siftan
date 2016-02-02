@@ -17,6 +17,8 @@ namespace Siftan
 
     public event FileReadEventHandler FileRead;
 
+    public CheckForCancellationDelegate CheckForCancellation;
+
     #region Methods
     public void Execute(
       String[] filePaths,
@@ -117,6 +119,11 @@ namespace Siftan
 
           message += ".";
           this.logManager.WriteMessageToJobLog(message);
+
+          if (this.IsCancelled())
+          {
+            break;
+          }
         }
 
         fileReader.Close();
@@ -156,6 +163,16 @@ namespace Siftan
       {
         this.FileRead(this, filePosition);
       }
+    }
+
+    private Boolean IsCancelled()
+    {
+      if (this.CheckForCancellation != null)
+      {
+        return this.CheckForCancellation();
+      }
+
+      return false;
     }
     #endregion
   }

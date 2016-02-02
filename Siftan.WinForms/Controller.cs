@@ -15,6 +15,10 @@ namespace Siftan.WinForms
 
     private IRecordWriter recordWriter;
 
+    private BackgroundWorker worker;
+
+    private MainForm mainForm;
+
     private event MessageLoggedEventHandler MessageLogged;
 
     private event FileOpenedEventHandler FileOpened;
@@ -25,7 +29,26 @@ namespace Siftan.WinForms
     {
       logManager.VerifyThatObjectIsNotNull("Parameter 'logManager' is null.");
       this.uiLogManager = new UILogManager(logManager);
-      this.uiLogManager.MessageLogged += MessageLoggedHandler;
+      this.uiLogManager.MessageLogged += this.MessageLoggedHandler;
+    }
+
+    internal void CancelProcess()
+    {
+      if (this.worker != null)
+      {
+        this.worker.CancelAsync();
+      }
+    }
+
+    internal MainForm CreateMainForm()
+    {
+      this.mainForm = new MainForm(this);
+
+      this.MessageLogged += this.mainForm.MessageLoggedHandler;
+      this.FileOpened += this.mainForm.FileOpenedHandler;
+      this.FileRead += this.mainForm.FileReadHandler;
+
+      return this.mainForm;
     }
 
     internal void StartProcess(MainForm mainForm)
@@ -50,9 +73,11 @@ namespace Siftan.WinForms
       Engine engine = new Engine();
       engine.FileOpened += this.FileOpenedHandler;
       engine.FileRead += this.FileReadHandler;
+      engine.CheckForCancellation = this.CheckForCancellation;
 
-      BackgroundWorker worker = new BackgroundWorker();
-      worker.DoWork += (sender, e) =>
+      this.worker = new BackgroundWorker();
+      this.worker.WorkerSupportsCancellation = true;
+      this.worker.DoWork += (sender, e) =>
       {
         engine.Execute(
           inputFiles,
@@ -63,33 +88,34 @@ namespace Siftan.WinForms
           recordWriter,
           statisticsManager,
           statisticsManager);
+
+        if (engine.CheckForCancellation())
+        {
+          e.Cancel = true;
+        }
       };
 
-      worker.RunWorkerCompleted += BackgroundWorkCompleted;
-      worker.RunWorkerAsync();
+      this.worker.RunWorkerCompleted += BackgroundWorkCompleted;
+      this.worker.RunWorkerAsync();
     }
 
     private void BackgroundWorkCompleted(Object sender, RunWorkerCompletedEventArgs e)
     {
       if (e.Error != null)
       {
+        this.uiLogManager.WriteMessagesToLogs("Job FAILED.");
         this.uiLogManager.WriteMessagesToLogs("EXCEPTION: " + e.Error.Message);
         this.uiLogManager.WriteMessagesToLogs("STACK: " + e.Error.StackTrace);
+      }
+      else if (e.Cancelled)
+      {
+        this.uiLogManager.WriteMessagesToLogs("CANCELLED.");
       }
 
       this.recordWriter.Close();
       this.uiLogManager.Close();
-    }
-
-    internal MainForm CreateMainForm()
-    {
-      MainForm mainForm = new MainForm(this);
-
-      this.MessageLogged += mainForm.MessageLoggedHandler;
-      this.FileOpened += mainForm.FileOpenedHandler;
-      this.FileRead += mainForm.FileReadHandler;
-
-      return mainForm;
+      this.worker = null;
+      this.mainForm.JobFinished();
     }
 
     private void VerifyParameters(MainForm mainForm)
@@ -123,6 +149,11 @@ namespace Siftan.WinForms
     private void FileReadHandler(Object sender, Int64 position)
     {
       this.FileRead(sender, position);
+    }
+
+    private Boolean CheckForCancellation()
+    {
+      return this.worker.CancellationPending;
     }
   }
 }
