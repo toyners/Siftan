@@ -19,12 +19,6 @@ namespace Siftan.WinForms
 
     private MainForm mainForm;
 
-    private event MessageLoggedEventHandler MessageLogged;
-
-    private event FileOpenedEventHandler FileOpened;
-
-    private event FileReadEventHandler FileRead;
-
     public Controller(ILogManager logManager)
     {
       logManager.VerifyThatObjectIsNotNull("Parameter 'logManager' is null.");
@@ -43,11 +37,6 @@ namespace Siftan.WinForms
     internal MainForm CreateMainForm()
     {
       this.mainForm = new MainForm(this);
-
-      this.MessageLogged += this.mainForm.MessageLoggedHandler;
-      this.FileOpened += this.mainForm.FileOpenedHandler;
-      this.FileRead += this.mainForm.FileReadHandler;
-
       return this.mainForm;
     }
 
@@ -138,17 +127,17 @@ namespace Siftan.WinForms
 
     private void MessageLoggedHandler(Object sender, String message)
     {
-      this.MessageLogged(sender, message);
+      this.mainForm.DisplayLogMessage(message);
     }
 
     private void FileOpenedHandler(Object sender, Int64 size)
     {
-      this.FileOpened(sender, size);
+      this.mainForm.SetCurrentFileSize(size);
     }
 
     private void FileReadHandler(Object sender, Int64 position)
     {
-      this.FileRead(sender, position);
+      this.mainForm.SetCurrentFilePosition(position);
     }
 
     private Boolean CheckForCancellation()

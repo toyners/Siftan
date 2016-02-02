@@ -62,11 +62,11 @@ namespace Siftan.WinForms
 
     internal String TermLineID { get { return this.TermLineID_TextBox.Text; } }
 
-    internal void MessageLoggedHandler(Object sender, String message)
+    internal void DisplayLogMessage(String message)
     {
       if (this.InvokeRequired)
       {
-        Action action = () => MessageLoggedHandler(sender, message);
+        Action action = () => DisplayLogMessage(message);
         this.Invoke(action);
         return;
       }
@@ -74,16 +74,16 @@ namespace Siftan.WinForms
       this.Results_TextBox.Text += message + "\r\n";
     }
 
-    internal void FileOpenedHandler(Object sender, Int64 size)
+    internal void SetCurrentFileSize(Int64 size)
     {
       this.currentFileSize = size;
     }
 
-    internal void FileReadHandler(Object sender, Int64 position)
+    internal void SetCurrentFilePosition(Int64 position)
     {
       if (this.InvokeRequired)
       {
-        Action action = () => FileReadHandler(sender, position);
+        Action action = () => SetCurrentFilePosition(position);
         this.Invoke(action);
         return;
       }
