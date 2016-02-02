@@ -75,10 +75,14 @@ namespace Siftan
         writeMatchedRecordMethod = recordWriter.WriteMatchedRecord;
         writeUnmatchedRecordMethod = this.WriteNothing;
       }
-      else
+      else if (recordWriter.DoWriteUnmatchedRecords)
       {
         writeMatchedRecordMethod = this.WriteNothing;
         writeUnmatchedRecordMethod = recordWriter.WriteUnmatchedRecord;
+      }
+      else
+      {
+        writeMatchedRecordMethod = writeUnmatchedRecordMethod = this.WriteNothing;
       }
     }
 
