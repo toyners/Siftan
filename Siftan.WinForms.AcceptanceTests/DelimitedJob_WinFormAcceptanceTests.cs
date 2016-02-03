@@ -55,7 +55,7 @@ namespace Siftan.WinForms.AcceptanceTests
     }
 
     [Test]
-    public void RunDelimitedJobReturnsExpectedOutputFiles()
+    public void DelimitedJobReturnsExpectedOutputFiles()
     {
       var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan.WinForms");
 
@@ -68,7 +68,6 @@ namespace Siftan.WinForms.AcceptanceTests
       {
         Window window = application.GetWindow("Siftan");
         var results_TextBox = window.Get<TextBox>("Results_TextBox");
-
 
         WindowSetter windowSetter = new WindowSetter(window);
         windowSetter
@@ -109,6 +108,67 @@ namespace Siftan.WinForms.AcceptanceTests
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) not matched from input file {0}.", this.inputFilePath)),
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.matchedOutputFilePath)),
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.unmatchedOutputFilePath)),
+            TestConstants.DateTimeStampRegex + "Run Finished.",
+          });
+      }
+      finally
+      {
+        application.Close();
+      }
+    }
+
+    [Test]
+    public void DelimitedJobReturnsMatchedOutputFileOnly()
+    {
+      var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan.WinForms");
+
+      CreateInputFileForDelimitedTests(InputFileResourcePath, this.inputFilePath);
+
+      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, this.applicationLogFilePath);
+      Application application = Application.Launch(processStartInfo);
+
+      try
+      {
+        Window window = application.GetWindow("Siftan");
+        var results_TextBox = window.Get<TextBox>("Results_TextBox");
+
+        WindowSetter windowSetter = new WindowSetter(window);
+        windowSetter
+          .SetTextBoxValue("Delimiter_TextBox", Delimiter)
+          .SetTextBoxValue("Qualifier_TextBox", Qualifier.ToString())
+          .SetTextBoxValue("HeaderLineID_TextBox", HeaderLineID)
+          .SetSpinnerValue("LineIDIndex_Spinner", LineIDIndex)
+          .SetTextBoxValue("TermLineID_TextBox", TermLineID)
+          .SetSpinnerValue("TermIndex_Spinner", TermIndex)
+          .SetTextBoxValue("InputDirectory_TextBox", this.workingDirectory)
+          .SetTextBoxValue("InputFileName_TextBox", this.inputFileName)
+          .SetTextBoxValue("OutputDirectory_TextBox", this.workingDirectory)
+          .SetTextBoxValue("MatchedOutputFileName_TextBox", this.matchedOutputFileName)
+          .SetCheckBoxChecked("CreateUnmatchedOutput_CheckBox", false)
+          .SetTextBoxValue("UnmatchedOutputFileName_TextBox", String.Empty)
+          .SetTextBoxValue("InList_TextBox", SingleValuesList)
+          .ClickButton("Start_Button");
+
+        MethodRunner.RunForDuration(() => { return results_TextBox.Text.Contains("Finished."); });
+
+        // Assert
+        File.Exists(this.applicationLogFilePath).ShouldBeTrue();
+        this.AssertMatchedOutputFileIsCorrect();
+
+        AssertFileIsCorrect(
+          this.jobLogFilePath,
+          new String[]
+          {
+            TestConstants.DateTimeStampRegex + "Run Started...",
+            TestConstants.DateTimeStampRegex + "Record found at position 0 with Term '12345' matches with List Term '12345'.",
+            TestConstants.DateTimeStampRegex + "Record found at position 86 with Term '54321'.",
+            TestConstants.DateTimeStampRegex + Regex.Escape("2 Record(s) processed."),
+            TestConstants.DateTimeStampRegex + Regex.Escape("1 Record(s) matched."),
+            TestConstants.DateTimeStampRegex + Regex.Escape("1 Record(s) not matched."),
+            TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) processed from input file {0}.", this.inputFilePath)),
+            TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) matched from input file {0}.", this.inputFilePath)),
+            TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) not matched from input file {0}.", this.inputFilePath)),
+            TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.matchedOutputFilePath)),
             TestConstants.DateTimeStampRegex + "Run Finished.",
           });
       }
