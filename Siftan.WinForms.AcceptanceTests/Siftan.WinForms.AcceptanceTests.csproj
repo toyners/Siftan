@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="DelimitedJob_WinFormAcceptanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowSetter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DelimitedRecordFile.csv" />
