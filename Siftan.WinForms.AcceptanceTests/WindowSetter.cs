@@ -52,7 +52,7 @@ namespace Siftan.WinForms.AcceptanceTests
     }
 
     /// <summary>
-    /// 
+    /// Sets the checkbox control to be checked or unchecked.
     /// </summary>
     /// <param name="id">Id of the check box.</param>
     /// <param name="value">True to check the control box; false otherwise.</param>
