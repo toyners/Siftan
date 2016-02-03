@@ -47,19 +47,19 @@
   <ItemGroup>
     <Compile Include="AcceptanceTestsBase.cs" />
     <Compile Include="ApplicationPathCreator.cs" />
-    <Compile Include="CommandLineArgumentsBuilder.cs" />
+    <Compile Include="CommandLineArgumentsBuilder\CommandLineArgumentsBuilder.cs" />
     <Compile Include="CommandLineArgumentsCreator.cs" />
-    <Compile Include="MethodRunner.cs" />
+    <Compile Include="CommandLineArgumentsBuilder\MethodRunner.cs" />
     <Compile Include="TestConstants.cs" />
-    <Compile Include="DelimBuilder.cs">
+    <Compile Include="CommandLineArgumentsBuilder\DelimBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IBuilder.cs" />
-    <Compile Include="InListBuilder.cs" />
-    <Compile Include="InputBuilder.cs" />
-    <Compile Include="LogBuilder.cs" />
+    <Compile Include="CommandLineArgumentsBuilder\IBuilder.cs" />
+    <Compile Include="CommandLineArgumentsBuilder\InListBuilder.cs" />
+    <Compile Include="CommandLineArgumentsBuilder\InputBuilder.cs" />
+    <Compile Include="CommandLineArgumentsBuilder\LogBuilder.cs" />
     <Compile Include="StringArrayComparison.cs" />
-    <Compile Include="OutputBuilder.cs" />
+    <Compile Include="CommandLineArgumentsBuilder\OutputBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
