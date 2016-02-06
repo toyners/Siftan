@@ -4,7 +4,6 @@ namespace Siftan.WinForms.AcceptanceTests
   using System;
   using System.Diagnostics;
   using System.IO;
-  using System.Linq;
   using System.Reflection;
   using System.Text.RegularExpressions;
   using Jabberwocky.Toolkit.Assembly;
@@ -18,7 +17,19 @@ namespace Siftan.WinForms.AcceptanceTests
   [TestFixture]
   public class FixedWidth_WinFormAcceptanceTests : AcceptanceTestsBase
   {
-    private const String InputFileResourcePath = "Siftan.WinForms.AcceptanceTests.FixedWidthRecordFile.csv";
+    private const String InputFileResourcePath = "Siftan.WinForms.AcceptanceTests.FixedWidthRecordFile.txt";
+
+    private const UInt32 LineIDStart = 0;
+
+    private const UInt32 LineIDLength = 2;
+
+    private const String HeaderLineID = "01";
+
+    private const String TermLineID = "02";
+
+    private const UInt32 TermStart = 13;
+
+    private const UInt32 TermLength = 5;
 
     private const String SingleValuesList = "12345";
 
@@ -60,12 +71,13 @@ namespace Siftan.WinForms.AcceptanceTests
 
         WindowSetter windowSetter = new WindowSetter(window);
         windowSetter
-          /*.SetTextBoxValue("Delimiter_TextBox", Delimiter)
-          .SetTextBoxValue("Qualifier_TextBox", Qualifier.ToString())
-          .SetTextBoxValue("HeaderLineID_TextBox", HeaderLineID)
-          .SetSpinnerValue("LineIDIndex_Spinner", LineIDIndex)
-          .SetTextBoxValue("TermLineID_TextBox", TermLineID)
-          .SetSpinnerValue("TermIndex_Spinner", TermIndex)*/
+          .SelectTabPage("RecordDescriptors_TabControl", "Fixed Width")
+          .SetTextBoxValue("LineIDStart_TextBox", LineIDStart.ToString())
+          .SetTextBoxValue("LineIDLength_TextBox", LineIDLength.ToString())
+          .SetTextBoxValue("HeaderLineID_FW_TextBox", HeaderLineID)
+          .SetTextBoxValue("TermLineID_FW_TextBox", TermLineID)
+          .SetTextBoxValue("TermStart_TextBox", TermStart.ToString())
+          .SetTextBoxValue("TermLength_TextBox", TermLength.ToString())
           .SetTextBoxValue("InputDirectory_TextBox", this.workingDirectory)
           .SetTextBoxValue("InputFileName_TextBox", this.inputFileName)
           .SetTextBoxValue("OutputDirectory_TextBox", this.workingDirectory)

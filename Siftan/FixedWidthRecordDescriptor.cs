@@ -6,33 +6,23 @@ namespace Siftan
   public class FixedWidthRecordDescriptor
   {
     #region Fields
-    public readonly UInt32 LineIDStart;
+    public UInt32 LineIDStart;
 
-    public readonly UInt32 LineIDLength;
+    public UInt32 LineIDLength;
 
-    public readonly String HeaderID;
+    public String HeaderID;
 
-    public readonly TermDefinition Term;
-    #endregion
-
-    #region Construction
-    public FixedWidthRecordDescriptor(UInt32 lineIDStart, UInt32 lineIDLength, String headerID, TermDefinition term)
-    {
-      this.LineIDStart = lineIDStart;
-      this.LineIDLength = lineIDLength;
-      this.HeaderID = headerID;
-      this.Term = term;
-    }
+    public TermDefinition Term;
     #endregion
 
     #region Structs
     public struct TermDefinition
     {
-      public readonly String LineID;
+      public String LineID;
 
-      public readonly UInt32 Start;
+      public UInt32 Start;
 
-      public readonly UInt32 Length;
+      public UInt32 Length;
 
       public TermDefinition(String lineID, UInt32 start, UInt32 length)
       {

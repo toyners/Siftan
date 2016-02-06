@@ -64,6 +64,19 @@
       this.Cancel_Button = new System.Windows.Forms.Button();
       this.Start_Button = new System.Windows.Forms.Button();
       this.Results_TextBox = new System.Windows.Forms.TextBox();
+      this.FixedWidth_Tab = new System.Windows.Forms.TabPage();
+      this.label9 = new System.Windows.Forms.Label();
+      this.label10 = new System.Windows.Forms.Label();
+      this.LineIDLength_TextBox = new System.Windows.Forms.TextBox();
+      this.LineIDStart_TextBox = new System.Windows.Forms.TextBox();
+      this.label14 = new System.Windows.Forms.Label();
+      this.HeaderLineID_FW_TextBox = new System.Windows.Forms.TextBox();
+      this.label15 = new System.Windows.Forms.Label();
+      this.TermLength_TextBox = new System.Windows.Forms.TextBox();
+      this.label16 = new System.Windows.Forms.Label();
+      this.label17 = new System.Windows.Forms.Label();
+      this.TermStart_TextBox = new System.Windows.Forms.TextBox();
+      this.TermLineID_FW_TextBox = new System.Windows.Forms.TextBox();
       this.RecordFormat_GroupBox.SuspendLayout();
       this.RecordDescriptors_TabControl.SuspendLayout();
       this.Delimited_Tab.SuspendLayout();
@@ -73,6 +86,7 @@
       this.Output_GroupBox.SuspendLayout();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
+      this.FixedWidth_Tab.SuspendLayout();
       this.SuspendLayout();
       // 
       // RecordFormat_GroupBox
@@ -88,6 +102,7 @@
       // RecordDescriptors_TabControl
       // 
       this.RecordDescriptors_TabControl.Controls.Add(this.Delimited_Tab);
+      this.RecordDescriptors_TabControl.Controls.Add(this.FixedWidth_Tab);
       this.RecordDescriptors_TabControl.Location = new System.Drawing.Point(10, 18);
       this.RecordDescriptors_TabControl.Name = "RecordDescriptors_TabControl";
       this.RecordDescriptors_TabControl.SelectedIndex = 0;
@@ -146,7 +161,7 @@
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(5, 34);
+      this.label2.Location = new System.Drawing.Point(6, 34);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(48, 13);
       this.label2.TabIndex = 21;
@@ -427,6 +442,129 @@
       this.Results_TextBox.TabStop = false;
       this.Results_TextBox.WordWrap = false;
       // 
+      // FixedWidth_Tab
+      // 
+      this.FixedWidth_Tab.Controls.Add(this.label15);
+      this.FixedWidth_Tab.Controls.Add(this.TermLength_TextBox);
+      this.FixedWidth_Tab.Controls.Add(this.label16);
+      this.FixedWidth_Tab.Controls.Add(this.label17);
+      this.FixedWidth_Tab.Controls.Add(this.TermStart_TextBox);
+      this.FixedWidth_Tab.Controls.Add(this.TermLineID_FW_TextBox);
+      this.FixedWidth_Tab.Controls.Add(this.label14);
+      this.FixedWidth_Tab.Controls.Add(this.HeaderLineID_FW_TextBox);
+      this.FixedWidth_Tab.Controls.Add(this.label9);
+      this.FixedWidth_Tab.Controls.Add(this.label10);
+      this.FixedWidth_Tab.Controls.Add(this.LineIDLength_TextBox);
+      this.FixedWidth_Tab.Controls.Add(this.LineIDStart_TextBox);
+      this.FixedWidth_Tab.Location = new System.Drawing.Point(4, 22);
+      this.FixedWidth_Tab.Name = "FixedWidth_Tab";
+      this.FixedWidth_Tab.Size = new System.Drawing.Size(439, 161);
+      this.FixedWidth_Tab.TabIndex = 1;
+      this.FixedWidth_Tab.Text = "Fixed Width";
+      this.FixedWidth_Tab.UseVisualStyleBackColor = true;
+      // 
+      // label9
+      // 
+      this.label9.AutoSize = true;
+      this.label9.Location = new System.Drawing.Point(6, 34);
+      this.label9.Name = "label9";
+      this.label9.Size = new System.Drawing.Size(80, 13);
+      this.label9.TabIndex = 26;
+      this.label9.Text = "Line ID Length:";
+      // 
+      // label10
+      // 
+      this.label10.AutoSize = true;
+      this.label10.Location = new System.Drawing.Point(6, 8);
+      this.label10.Name = "label10";
+      this.label10.Size = new System.Drawing.Size(69, 13);
+      this.label10.TabIndex = 27;
+      this.label10.Text = "Line ID Start:";
+      // 
+      // LineIDLength_TextBox
+      // 
+      this.LineIDLength_TextBox.Location = new System.Drawing.Point(159, 31);
+      this.LineIDLength_TextBox.Name = "LineIDLength_TextBox";
+      this.LineIDLength_TextBox.Size = new System.Drawing.Size(42, 20);
+      this.LineIDLength_TextBox.TabIndex = 28;
+      this.LineIDLength_TextBox.Text = "\'";
+      // 
+      // LineIDStart_TextBox
+      // 
+      this.LineIDStart_TextBox.Location = new System.Drawing.Point(159, 5);
+      this.LineIDStart_TextBox.Name = "LineIDStart_TextBox";
+      this.LineIDStart_TextBox.Size = new System.Drawing.Size(42, 20);
+      this.LineIDStart_TextBox.TabIndex = 25;
+      this.LineIDStart_TextBox.Text = "|";
+      // 
+      // label14
+      // 
+      this.label14.AutoSize = true;
+      this.label14.Location = new System.Drawing.Point(6, 60);
+      this.label14.Name = "label14";
+      this.label14.Size = new System.Drawing.Size(82, 13);
+      this.label14.TabIndex = 29;
+      this.label14.Text = "Header Line ID:";
+      // 
+      // HeaderLineID_FW_TextBox
+      // 
+      this.HeaderLineID_FW_TextBox.Location = new System.Drawing.Point(159, 57);
+      this.HeaderLineID_FW_TextBox.Name = "HeaderLineID_FW_TextBox";
+      this.HeaderLineID_FW_TextBox.Size = new System.Drawing.Size(80, 20);
+      this.HeaderLineID_FW_TextBox.TabIndex = 30;
+      this.HeaderLineID_FW_TextBox.Text = "01";
+      // 
+      // label15
+      // 
+      this.label15.AutoSize = true;
+      this.label15.Location = new System.Drawing.Point(6, 138);
+      this.label15.Name = "label15";
+      this.label15.Size = new System.Drawing.Size(70, 13);
+      this.label15.TabIndex = 35;
+      this.label15.Text = "Term Length:";
+      // 
+      // TermLength_TextBox
+      // 
+      this.TermLength_TextBox.Location = new System.Drawing.Point(159, 135);
+      this.TermLength_TextBox.Name = "TermLength_TextBox";
+      this.TermLength_TextBox.Size = new System.Drawing.Size(42, 20);
+      this.TermLength_TextBox.TabIndex = 36;
+      this.TermLength_TextBox.Text = "01";
+      // 
+      // label16
+      // 
+      this.label16.AutoSize = true;
+      this.label16.Location = new System.Drawing.Point(6, 112);
+      this.label16.Name = "label16";
+      this.label16.Size = new System.Drawing.Size(59, 13);
+      this.label16.TabIndex = 32;
+      this.label16.Text = "Term Start:";
+      // 
+      // label17
+      // 
+      this.label17.AutoSize = true;
+      this.label17.Location = new System.Drawing.Point(6, 86);
+      this.label17.Name = "label17";
+      this.label17.Size = new System.Drawing.Size(71, 13);
+      this.label17.TabIndex = 33;
+      this.label17.Text = "Term Line ID:";
+      // 
+      // TermStart_TextBox
+      // 
+      this.TermStart_TextBox.Location = new System.Drawing.Point(159, 109);
+      this.TermStart_TextBox.Name = "TermStart_TextBox";
+      this.TermStart_TextBox.Size = new System.Drawing.Size(42, 20);
+      this.TermStart_TextBox.TabIndex = 34;
+      this.TermStart_TextBox.Text = "\'";
+      // 
+      // TermLineID_FW_TextBox
+      // 
+      this.TermLineID_FW_TextBox.Location = new System.Drawing.Point(159, 83);
+      this.TermLineID_FW_TextBox.Name = "TermLineID_FW_TextBox";
+      this.TermLineID_FW_TextBox.Size = new System.Drawing.Size(80, 20);
+      this.TermLineID_FW_TextBox.TabIndex = 31;
+      this.TermLineID_FW_TextBox.Text = "|";
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -455,6 +593,8 @@
       this.groupBox1.PerformLayout();
       this.groupBox2.ResumeLayout(false);
       this.groupBox2.PerformLayout();
+      this.FixedWidth_Tab.ResumeLayout(false);
+      this.FixedWidth_Tab.PerformLayout();
       this.ResumeLayout(false);
 
     }
@@ -496,6 +636,19 @@
     private System.Windows.Forms.Button Cancel_Button;
     private System.Windows.Forms.Button Start_Button;
     private System.Windows.Forms.TextBox Results_TextBox;
+    private System.Windows.Forms.TabPage FixedWidth_Tab;
+    private System.Windows.Forms.Label label9;
+    private System.Windows.Forms.Label label10;
+    private System.Windows.Forms.TextBox LineIDLength_TextBox;
+    private System.Windows.Forms.TextBox LineIDStart_TextBox;
+    private System.Windows.Forms.Label label15;
+    private System.Windows.Forms.TextBox TermLength_TextBox;
+    private System.Windows.Forms.Label label16;
+    private System.Windows.Forms.Label label17;
+    private System.Windows.Forms.TextBox TermStart_TextBox;
+    private System.Windows.Forms.TextBox TermLineID_FW_TextBox;
+    private System.Windows.Forms.Label label14;
+    private System.Windows.Forms.TextBox HeaderLineID_FW_TextBox;
   }
 }
 

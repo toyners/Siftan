@@ -318,7 +318,7 @@ namespace Siftan.Console.AcceptanceTests
         Qualifier = '\0',
         LineIDIndex = 0,
         HeaderID = "01",
-        DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition("01", 3)
+        Term = new DelimitedRecordDescriptor.TermDefinition("01", 3)
       };
 
       return new DelimitedRecordReader(recordDescriptor);
@@ -326,7 +326,13 @@ namespace Siftan.Console.AcceptanceTests
 
     private IRecordReader CreateFixedWidthRecordReader()
     {
-      FixedWidthRecordDescriptor recordDescriptor = new FixedWidthRecordDescriptor(0, 2, "01", new FixedWidthRecordDescriptor.TermDefinition("02", 13, 5));
+      FixedWidthRecordDescriptor recordDescriptor = new FixedWidthRecordDescriptor
+      {
+        LineIDStart = 0,
+        LineIDLength = 2,
+        HeaderID = "01",
+        Term = new FixedWidthRecordDescriptor.TermDefinition("02", 13, 5)
+      };
 
       return new FixedWidthRecordReader(recordDescriptor);
     }

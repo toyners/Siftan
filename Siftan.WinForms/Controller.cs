@@ -119,7 +119,7 @@ namespace Siftan.WinForms
         Qualifier = mainForm.Qualifier,
         HeaderID = mainForm.HeaderLineID,
         LineIDIndex = mainForm.LineIDIndex,
-        DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition(mainForm.TermLineID, mainForm.TermIndex)
+        Term = new DelimitedRecordDescriptor.TermDefinition(mainForm.TermLineID, mainForm.TermIndex)
       };
 
       return new DelimitedRecordReader(descriptor);

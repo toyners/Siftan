@@ -32,7 +32,7 @@ namespace Siftan.IntegrationTests
           Qualifier = '\0',
           LineIDIndex = 0,
           HeaderID = "01",
-          DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition("01", 3)
+          Term = new DelimitedRecordDescriptor.TermDefinition("01", 3)
         };
 
         DelimitedRecordReader reader = new DelimitedRecordReader(recordDescriptor);

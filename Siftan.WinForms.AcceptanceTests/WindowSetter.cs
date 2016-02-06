@@ -4,6 +4,7 @@ namespace Siftan.WinForms.AcceptanceTests
   using System;
   using Jabberwocky.Toolkit.Object;
   using TestStack.White.UIItems;
+  using TestStack.White.UIItems.TabItems;
   using TestStack.White.UIItems.WindowItems;
 
   /// <summary>
@@ -65,11 +66,27 @@ namespace Siftan.WinForms.AcceptanceTests
       return this;
     }
 
+    /// <summary>
+    /// Clicks the button control.
+    /// </summary>
+    /// <param name="id">Id of the button.</param>
+    /// <returns>Reference to allow chaining.</returns>
     public WindowSetter ClickButton(String id)
     {
       var button = this.window.Get<Button>(id);
       this.window.WaitWhileBusy();
       button.Click();
+      return this;
+    }
+
+    public WindowSetter SelectTabPage(String tabId, String tabPageTitle)
+    {
+      var tab = this.window.Get<Tab>(tabId);
+      this.window.WaitWhileBusy();
+
+      tab.SelectTabPage(tabPageTitle);
+      this.window.WaitWhileBusy();
+      
       return this;
     }
   }

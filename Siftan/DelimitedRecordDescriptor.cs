@@ -13,7 +13,7 @@ namespace Siftan
 
     public UInt32 LineIDIndex;
 
-    public TermDefinition DelimitedTerm;
+    public TermDefinition Term;
 
     public struct TermDefinition
     {
@@ -23,8 +23,8 @@ namespace Siftan
 
       public TermDefinition(String lineID, UInt32 index)
       {
-        LineID = lineID;
-        Index = index;
+        this.LineID = lineID;
+        this.Index = index;
       }
     }
   }

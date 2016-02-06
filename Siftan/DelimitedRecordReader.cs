@@ -44,12 +44,12 @@ namespace Siftan
           }
         }
 
-        if (lineIDTerm != this.descriptor.DelimitedTerm.LineID)
+        if (lineIDTerm != this.descriptor.Term.LineID)
         {
           continue;
         }
 
-        record.Term = line.ExtractField(this.descriptor.Delimiter, this.descriptor.Qualifier, this.descriptor.DelimitedTerm.Index);
+        record.Term = line.ExtractField(this.descriptor.Delimiter, this.descriptor.Qualifier, this.descriptor.Term.Index);
       }
 
       if (record != null)

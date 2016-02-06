@@ -123,7 +123,7 @@ namespace Siftan.Console
         Qualifier = delimitedOptions.Qualifier,
         HeaderID = delimitedOptions.HeaderLineID,
         LineIDIndex = delimitedOptions.LineIDIndex,
-        DelimitedTerm = new DelimitedRecordDescriptor.TermDefinition(delimitedOptions.TermLineID, delimitedOptions.TermIndex)
+        Term = new DelimitedRecordDescriptor.TermDefinition(delimitedOptions.TermLineID, delimitedOptions.TermIndex)
       };
     }
 
