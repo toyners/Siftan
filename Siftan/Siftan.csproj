@@ -53,6 +53,8 @@
     <Compile Include="FixedWidthRecordDescriptor.cs" />
     <Compile Include="FixedWidthRecordReader.cs" />
     <Compile Include="IDateTimeStamper.cs" />
+    <Compile Include="IDelimitedRecordDescriptorSource.cs" />
+    <Compile Include="IFixedWidthRecordDescriptorSource.cs" />
     <Compile Include="ILogManager.cs" />
     <Compile Include="IRecordWriter.cs" />
     <Compile Include="IStatisticsCollector.cs" />

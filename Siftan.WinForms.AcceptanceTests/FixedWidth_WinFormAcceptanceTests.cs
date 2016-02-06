@@ -100,7 +100,7 @@ namespace Siftan.WinForms.AcceptanceTests
           {
             TestConstants.DateTimeStampRegex + "Run Started...",
             TestConstants.DateTimeStampRegex + "Record found at position 0 with Term '12345' matches with List Term '12345'.",
-            TestConstants.DateTimeStampRegex + "Record found at position 86 with Term '54321'.",
+            TestConstants.DateTimeStampRegex + "Record found at position 104 with Term '54321'.",
             TestConstants.DateTimeStampRegex + Regex.Escape("2 Record(s) processed."),
             TestConstants.DateTimeStampRegex + Regex.Escape("1 Record(s) matched."),
             TestConstants.DateTimeStampRegex + Regex.Escape("1 Record(s) not matched."),

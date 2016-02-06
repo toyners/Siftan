@@ -7,12 +7,15 @@ namespace Siftan.WinForms
   using Jabberwocky.Toolkit.File;
   using Jabberwocky.Toolkit.Object;
 
-  public partial class MainForm : Form
+  public partial class MainForm : Form, IDelimitedRecordDescriptorSource, IFixedWidthRecordDescriptorSource
   {
+    #region Fields
     private readonly Controller controller;
 
     private Int64 currentFileSize;
+    #endregion
 
+    #region Construction
     public MainForm(Controller controller)
     {
       controller.VerifyThatObjectIsNotNull("Parameter 'controller' is null.");
@@ -20,6 +23,12 @@ namespace Siftan.WinForms
 
       InitializeComponent();
     }
+    #endregion
+
+    #region Properties
+    public Boolean HasDelimitedRecord { get { return this.RecordDescriptors_TabControl.SelectedTab == this.Delimited_Tab; } }
+
+    public Boolean HasFixedWidthRecord { get { return this.RecordDescriptors_TabControl.SelectedTab == this.FixedWidth_Tab; } }
 
     internal String OutputDirectory { get { return this.OutputDirectory_TextBox.Text; } }
 
@@ -43,8 +52,6 @@ namespace Siftan.WinForms
 
     internal String[] ValueList { get { return this.InList_TextBox.Text.Split(new[] { "\r\n" }, StringSplitOptions.None); } }
 
-    internal String Delimiter { get { return this.Delimiter_TextBox.Text; } }
-
     internal String InputFilePattern
     {
       get { return Path.Combine(this.InputDirectory_TextBox.Text, this.InputFileName_TextBox.Text); }
@@ -59,16 +66,36 @@ namespace Siftan.WinForms
           FilePatternResolver.SearchDepths.InitialDirectoryOnly;
       }
     }
+    #endregion
 
-    internal Char Qualifier { get { return this.Qualifier_TextBox.Text[0]; } }
+    #region Methods
+    public DelimitedRecordDescriptor GetDelimitedRecord()
+    {
+      return new DelimitedRecordDescriptor
+      {
+        Delimiter = this.Delimiter_TextBox.Text,
+        Qualifier = this.Qualifier_TextBox.Text[0],
+        HeaderID = this.HeaderLineID_TextBox.Text,
+        LineIDIndex = (UInt32)this.LineIDIndex_Spinner.Value,
+        Term = new DelimitedRecordDescriptor.TermDefinition(
+          this.TermLineID_TextBox.Text,
+          (UInt32)this.TermIndex_Spinner.Value)
+      };
+    }
 
-    internal String HeaderLineID { get { return this.HeaderLineID_TextBox.Text; } }
-
-    internal UInt32 LineIDIndex { get { return (UInt32)this.LineIDIndex_Spinner.Value; } }
-
-    internal UInt32 TermIndex { get { return (UInt32)this.TermIndex_Spinner.Value; } }
-
-    internal String TermLineID { get { return this.TermLineID_TextBox.Text; } }
+    public FixedWidthRecordDescriptor GetFixedWidthRecord()
+    {
+      return new FixedWidthRecordDescriptor
+      {
+        LineIDStart = UInt32.Parse(this.LineIDStart_TextBox.Text),
+        LineIDLength = UInt32.Parse(this.LineIDLength_TextBox.Text),
+        HeaderID = this.HeaderLineID_FW_TextBox.Text,
+        Term = new FixedWidthRecordDescriptor.TermDefinition(
+          this.TermLineID_FW_TextBox.Text,
+          UInt32.Parse(this.TermStart_TextBox.Text),
+          UInt32.Parse(this.TermLength_TextBox.Text))
+      };
+    }
 
     internal void DisplayLogMessage(String message)
     {
@@ -126,5 +153,6 @@ namespace Siftan.WinForms
       this.Cancel_Button.Text = "Cancelling...";
       this.controller.CancelProcess();
     }
+    #endregion
   }
 }

@@ -46,7 +46,7 @@ namespace Siftan.WinForms
 
       String[] inputFiles = FilePatternResolver.ResolveFilePattern(this.mainForm.InputFilePattern, this.mainForm.InputFileSearchDepth);
 
-      IRecordReader recordReader = this.CreateRecordReader(this.mainForm);
+      IRecordReader recordReader = this.CreateRecordReader();
 
       IRecordMatchExpression expression = new InListExpression(this.mainForm.ValueList);
 
@@ -111,18 +111,19 @@ namespace Siftan.WinForms
     {
     }
 
-    private IRecordReader CreateRecordReader(MainForm mainForm)
+    private IRecordReader CreateRecordReader()
     {
-      DelimitedRecordDescriptor descriptor = new DelimitedRecordDescriptor
+      if (this.mainForm.HasDelimitedRecord)
       {
-        Delimiter = mainForm.Delimiter,
-        Qualifier = mainForm.Qualifier,
-        HeaderID = mainForm.HeaderLineID,
-        LineIDIndex = mainForm.LineIDIndex,
-        Term = new DelimitedRecordDescriptor.TermDefinition(mainForm.TermLineID, mainForm.TermIndex)
-      };
+        return new DelimitedRecordReader(mainForm.GetDelimitedRecord());
+      }
 
-      return new DelimitedRecordReader(descriptor);
+      if (this.mainForm.HasFixedWidthRecord)
+      {
+        return new FixedWidthRecordReader(mainForm.GetFixedWidthRecord());
+      }
+
+      throw new Exception();
     }
 
     private void MessageLoggedHandler(Object sender, String message)
