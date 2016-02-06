@@ -69,6 +69,7 @@ namespace Siftan.WinForms.AcceptanceTests
 
         WindowSetter windowSetter = new WindowSetter(window);
         windowSetter
+          .SelectTabPage("RecordDescriptors_TabControl", "Delimited")
           .SetTextBoxValue("Delimiter_TextBox", Delimiter)
           .SetTextBoxValue("Qualifier_TextBox", Qualifier.ToString())
           .SetTextBoxValue("HeaderLineID_TextBox", HeaderLineID)
@@ -132,6 +133,7 @@ namespace Siftan.WinForms.AcceptanceTests
 
         WindowSetter windowSetter = new WindowSetter(window);
         windowSetter
+          .SelectTabPage("RecordDescriptors_TabControl", "Delimited")
           .SetTextBoxValue("Delimiter_TextBox", Delimiter)
           .SetTextBoxValue("Qualifier_TextBox", Qualifier.ToString())
           .SetTextBoxValue("HeaderLineID_TextBox", HeaderLineID)
