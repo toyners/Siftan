@@ -3,8 +3,6 @@ namespace Siftan.TestSupport
 {
   using System;
   using System.IO;
-  using System.Reflection;
-  using Jabberwocky.Toolkit.Assembly;
   using Shouldly;
 
   /// <summary>
@@ -12,11 +10,6 @@ namespace Siftan.TestSupport
   /// </summary>
   public static class TestFileSupport
   {
-    public static void CreateFile(String resourceFilePath, String inputFilePath)
-    {
-      Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFilePath, inputFilePath);
-    }
-
     public static void AssertFileIsCorrect(String filePath, String[] expectedFileLines)
     {
       File.Exists(filePath).ShouldBeTrue(String.Format("File '{0}' does not exist", filePath));
