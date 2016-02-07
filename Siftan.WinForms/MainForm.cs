@@ -116,13 +116,6 @@ namespace Siftan.WinForms
 
     internal void SetCurrentFilePosition(Int64 position)
     {
-      if (this.InvokeRequired)
-      {
-        Action action = () => SetCurrentFilePosition(position);
-        this.Invoke(action);
-        return;
-      }
-
       if (position >= this.currentFileSize)
       {
         this.progressBar1.Value = 100;

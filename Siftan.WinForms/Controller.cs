@@ -138,7 +138,10 @@ namespace Siftan.WinForms
 
     private void FileReadHandler(Object sender, Int64 position)
     {
-      this.mainForm.SetCurrentFilePosition(position);
+      // This method is always called from a non-UI thread so marshal the call
+      // to UI thread here.
+      Action action = () => this.mainForm.SetCurrentFilePosition(position);
+      this.mainForm.Invoke(action);
     }
 
     private Boolean CheckForCancellation()
