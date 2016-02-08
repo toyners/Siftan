@@ -61,7 +61,7 @@ namespace Siftan.WinForms.AcceptanceTests
 
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(InputFileResourcePath, this.inputFilePath);
 
-      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, this.applicationLogFilePath);
+      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, "-a " + this.applicationLogFilePath);
       Application application = Application.Launch(processStartInfo);
 
       try

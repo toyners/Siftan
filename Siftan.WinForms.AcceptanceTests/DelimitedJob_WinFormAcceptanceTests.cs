@@ -59,7 +59,7 @@ namespace Siftan.WinForms.AcceptanceTests
 
       InputFileCreator.CreateFile(InputFileResourcePath, this.inputFilePath);
 
-      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, this.applicationLogFilePath);
+      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, "-a " + this.applicationLogFilePath);
       Application application = Application.Launch(processStartInfo);
 
       try
@@ -123,7 +123,7 @@ namespace Siftan.WinForms.AcceptanceTests
 
       InputFileCreator.CreateFile(InputFileResourcePath, this.inputFilePath);
 
-      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, this.applicationLogFilePath);
+      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, "-a " + this.applicationLogFilePath);
       Application application = Application.Launch(processStartInfo);
 
       try

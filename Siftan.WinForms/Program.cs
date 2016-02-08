@@ -2,10 +2,8 @@
 namespace Siftan.WinForms
 {
   using System;
-  using System.IO;
-  using System.Reflection;
   using System.Windows.Forms;
-  using Jabberwocky.Toolkit.Path;
+  using CommandLine;
 
   public static class Program
   {
@@ -15,35 +13,31 @@ namespace Siftan.WinForms
     [STAThread]
     public static void Main(String[] args)
     {
+      CommandLineOptions commandLineOptions = new CommandLineOptions();
+      var result = Parser.Default.ParseArguments(args, commandLineOptions);
+
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
 
-      var logManager = CreateLogManager(args);
-      BaseController controller = CreateController(logManager);
+      var logManager = new LogManager(commandLineOptions.ApplicationLog);
+      BaseController controller = CreateController(commandLineOptions.ControllerName, logManager);
       MainForm mainForm = controller.CreateMainForm();
       Application.Run(mainForm);
     }
 
-    public static ILogManager CreateLogManager(String[] args)
+    private static BaseController CreateController(String controllerClassName, ILogManager logManager)
     {
-      if (args.Length == 1)
+      if (controllerClassName == typeof(Controller).FullName)
       {
-        return new LogManager(args[0]);
+        return new Controller(logManager);
       }
 
-      return new LogManager(CreateDefaultApplicationLogFilePath());
-    }
+      if (controllerClassName == typeof(TaskController).FullName)
+      {
+        return new TaskController(logManager);
+      }
 
-    public static BaseController CreateController(ILogManager logManager)
-    {
-      return new Controller(logManager);
-    }
-
-    public static String CreateDefaultApplicationLogFilePath()
-    {
-      String assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-      return PathOperations.CompleteDirectoryPath(assemblyDirectory) +
-             DateTime.Today.ToString("dd-MM-yyyy") + ".log";
+      throw new ArgumentException(String.Format("'{0}' not recognised as a controller name.", controllerClassName));
     }
   }
 }

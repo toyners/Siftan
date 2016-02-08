@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Jabberwocky.Toolkit, Version=1.0.5.0, Culture=neutral, PublicKeyToken=8994d5f40ad2f5fb, processorArchitecture=MSIL">
       <HintPath>..\packages\Jabberwocky.Toolkit.1.0.5.0\lib\net45\Jabberwocky.Toolkit.dll</HintPath>
       <Private>True</Private>
@@ -52,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseController.cs" />
+    <Compile Include="CommandLineOptions.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
