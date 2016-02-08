@@ -67,6 +67,13 @@ namespace Siftan.WinForms
     /// <param name="expression">Instance of the expression used to matched against the record.</param>
     public abstract void LaunchEngine(String[] inputFilePaths, IRecordReader recordReader, IRecordMatchExpression expression);
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="message"></param>
+    public abstract void MessageLoggedHandler(Object sender, String message);
+
     private IRecordReader CreateRecordReader()
     {
       if (this.mainForm.HasDelimitedRecord)
@@ -80,11 +87,6 @@ namespace Siftan.WinForms
       }
 
       throw new Exception();
-    }
-
-    private void MessageLoggedHandler(Object sender, String message)
-    {
-      this.mainForm.DisplayLogMessage(message);
     }
 
     private void VerifyParameters()

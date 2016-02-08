@@ -99,13 +99,6 @@ namespace Siftan.WinForms
 
     internal void DisplayLogMessage(String message)
     {
-      if (this.InvokeRequired)
-      {
-        Action action = () => DisplayLogMessage(message);
-        this.Invoke(action);
-        return;
-      }
-
       this.Results_TextBox.Text += message + "\r\n";
     }
 

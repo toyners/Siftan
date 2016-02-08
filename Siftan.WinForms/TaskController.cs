@@ -68,6 +68,14 @@ namespace Siftan.WinForms
       }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
+    public override void MessageLoggedHandler(Object sender, String message)
+    {
+      new Task(() =>
+      {
+        this.mainForm.DisplayLogMessage(message);
+      }).Start(TaskScheduler.FromCurrentSynchronizationContext());
+    }
+
     private Boolean CheckForCancellation()
     {
       if (this.cancellationToken.IsCancellationRequested)

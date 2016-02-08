@@ -78,6 +78,14 @@ namespace Siftan.WinForms
       this.worker.RunWorkerAsync();
     }
 
+    public override void MessageLoggedHandler(Object sender, String message)
+    {
+      // This method is always called from a non-UI thread so marshal the call
+      // to UI thread here.
+      Action action = () => this.mainForm.DisplayLogMessage(message);
+      this.mainForm.Invoke(action);
+    }
+
     private void BackgroundWorkCompleted(Object sender, RunWorkerCompletedEventArgs e)
     {
       if (e.Error != null)
@@ -95,11 +103,6 @@ namespace Siftan.WinForms
       this.uiLogManager.Close();
       this.worker = null;
       this.mainForm.JobFinished();
-    }
-
-    private void MessageLoggedHandler(Object sender, String message)
-    {
-      this.mainForm.DisplayLogMessage(message);
     }
 
     private void FileOpenedHandler(Object sender, Int64 size)
