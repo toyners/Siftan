@@ -10,13 +10,13 @@ namespace Siftan.WinForms
   public partial class MainForm : Form, IDelimitedRecordDescriptorSource, IFixedWidthRecordDescriptorSource
   {
     #region Fields
-    private readonly Controller controller;
+    private readonly BaseController controller;
 
     private Int64 currentFileSize;
     #endregion
 
     #region Construction
-    public MainForm(Controller controller)
+    public MainForm(BaseController controller)
     {
       controller.VerifyThatObjectIsNotNull("Parameter 'controller' is null.");
       this.controller = controller;

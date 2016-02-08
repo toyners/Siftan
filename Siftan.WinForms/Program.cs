@@ -2,11 +2,8 @@
 namespace Siftan.WinForms
 {
   using System;
-  using System.Collections.Generic;
   using System.IO;
-  using System.Linq;
   using System.Reflection;
-  using System.Threading.Tasks;
   using System.Windows.Forms;
   using Jabberwocky.Toolkit.Path;
 
@@ -22,7 +19,7 @@ namespace Siftan.WinForms
       Application.SetCompatibleTextRenderingDefault(false);
 
       var logManager = CreateLogManager(args);
-      Controller controller = new Controller(logManager);
+      BaseController controller = CreateController(logManager);
       MainForm mainForm = controller.CreateMainForm();
       Application.Run(mainForm);
     }
@@ -35,6 +32,11 @@ namespace Siftan.WinForms
       }
 
       return new LogManager(CreateDefaultApplicationLogFilePath());
+    }
+
+    public static BaseController CreateController(ILogManager logManager)
+    {
+      return new Controller(logManager);
     }
 
     public static String CreateDefaultApplicationLogFilePath()

@@ -3,30 +3,30 @@ namespace Siftan.WinForms
 {
   using System;
   using System.ComponentModel;
-  using System.IO;
-  using Jabberwocky.Toolkit.File;
   using Jabberwocky.Toolkit.IO;
-  using Jabberwocky.Toolkit.Object;
   using Siftan;
 
-  public class Controller
+  /// <summary>
+  /// Controller that uses a background worker to perform the process in a reponsive fashion.
+  /// </summary>
+  public class Controller : BaseController
   {
-    private readonly UILogManager uiLogManager;
-
     private IRecordWriter recordWriter;
 
     private BackgroundWorker worker;
 
-    private MainForm mainForm;
-
-    public Controller(ILogManager logManager)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Controller"/> class.
+    /// </summary>
+    /// <param name="logManager">Instance that performs logging of the process.</param>
+    public Controller(ILogManager logManager) : base(logManager)
     {
-      logManager.VerifyThatObjectIsNotNull("Parameter 'logManager' is null.");
-      this.uiLogManager = new UILogManager(logManager);
-      this.uiLogManager.MessageLogged += this.MessageLoggedHandler;
     }
 
-    internal void CancelProcess()
+    /// <summary>
+    /// Cancels the process.
+    /// </summary>
+    public override void CancelProcess()
     {
       if (this.worker != null)
       {
@@ -34,30 +34,20 @@ namespace Siftan.WinForms
       }
     }
 
-    internal MainForm CreateMainForm()
+    /// <summary>
+    /// Launches the engine.
+    /// </summary>
+    /// <param name="inputFilePaths">List of full input files to be processed.</param>
+    /// <param name="recordReader">Instance that reads the record from the input files.</param>
+    /// <param name="expression">Instance of the expression used to matched against the record.</param>
+    public override void LaunchEngine(String[] inputFilePaths, IRecordReader recordReader, IRecordMatchExpression expression)
     {
-      this.mainForm = new MainForm(this);
-      return this.mainForm;
-    }
-
-    internal void StartProcess()
-    {
-      VerifyParameters(this.mainForm);
-
-      String[] inputFiles = FilePatternResolver.ResolveFilePattern(this.mainForm.InputFilePattern, this.mainForm.InputFileSearchDepth);
-
-      IRecordReader recordReader = this.CreateRecordReader();
-
-      IRecordMatchExpression expression = new InListExpression(this.mainForm.ValueList);
-
       StatisticsManager statisticsManager = new StatisticsManager();
 
       this.recordWriter = new OneFileRecordWriter(
         this.mainForm.MatchedOutputFilePath,
         this.mainForm.UnmatchedOutputFilePath,
         statisticsManager);
-
-      this.uiLogManager.JobLogFilePath = Path.Combine(this.mainForm.OutputDirectory, "Job.log");
 
       Engine engine = new Engine();
       engine.FileOpened += this.FileOpenedHandler;
@@ -69,8 +59,8 @@ namespace Siftan.WinForms
       this.worker.DoWork += (sender, e) =>
       {
         engine.Execute(
-          inputFiles,
-          uiLogManager,
+          inputFilePaths,
+          this.uiLogManager,
           new FileReaderFactory(),
           recordReader,
           expression,
@@ -105,25 +95,6 @@ namespace Siftan.WinForms
       this.uiLogManager.Close();
       this.worker = null;
       this.mainForm.JobFinished();
-    }
-
-    private void VerifyParameters(MainForm mainForm)
-    {
-    }
-
-    private IRecordReader CreateRecordReader()
-    {
-      if (this.mainForm.HasDelimitedRecord)
-      {
-        return new DelimitedRecordReader(mainForm.GetDelimitedRecord());
-      }
-
-      if (this.mainForm.HasFixedWidthRecord)
-      {
-        return new FixedWidthRecordReader(mainForm.GetFixedWidthRecord());
-      }
-
-      throw new Exception();
     }
 
     private void MessageLoggedHandler(Object sender, String message)
