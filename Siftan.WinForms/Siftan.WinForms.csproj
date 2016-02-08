@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="BaseController.cs" />
     <Compile Include="CommandLineOptions.cs" />
-    <Compile Include="Controller.cs" />
+    <Compile Include="BackgroundController.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

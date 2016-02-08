@@ -9,17 +9,17 @@ namespace Siftan.WinForms
   /// <summary>
   /// Controller that uses a background worker to perform the process in a reponsive fashion.
   /// </summary>
-  public class Controller : BaseController
+  public class BackgroundController : BaseController
   {
     private IRecordWriter recordWriter;
 
     private BackgroundWorker worker;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Controller"/> class.
+    /// Initializes a new instance of the <see cref="BackgroundController"/> class.
     /// </summary>
     /// <param name="logManager">Instance that performs logging of the process.</param>
-    public Controller(ILogManager logManager) : base(logManager)
+    public BackgroundController(ILogManager logManager) : base(logManager)
     {
     }
 

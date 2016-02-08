@@ -18,7 +18,7 @@ namespace Siftan.WinForms
     public CommandLineOptions()
     {
       this.ApplicationLog = CreateDefaultApplicationLogFilePath();
-      this.ControllerName = typeof(Controller).FullName;
+      this.ControllerName = typeof(BackgroundController).FullName;
     }
 
     /// <summary>

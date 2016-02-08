@@ -27,9 +27,9 @@ namespace Siftan.WinForms
 
     private static BaseController CreateController(String controllerClassName, ILogManager logManager)
     {
-      if (controllerClassName == typeof(Controller).FullName)
+      if (controllerClassName == typeof(BackgroundController).FullName)
       {
-        return new Controller(logManager);
+        return new BackgroundController(logManager);
       }
 
       if (controllerClassName == typeof(TaskController).FullName)
