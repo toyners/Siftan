@@ -7,18 +7,18 @@ namespace Siftan.WinForms
   using Jabberwocky.Toolkit.IO;
 
   /// <summary>
-  /// Controller that usestasks to perform the process in a reponsive fashion.
+  /// Controller that uses tasks to perform the process in a reponsive fashion.
   /// </summary>
   public class TaskController : BaseController
   {
-    private readonly CancellationTokenSource cancellationTokenSource;
+    private CancellationTokenSource cancellationTokenSource;
 
-    private readonly CancellationToken cancellationToken;
+    private CancellationToken cancellationToken;
+
+    private TaskScheduler mainTaskScheduler;
 
     public TaskController(ILogManager logManager) : base(logManager)
     {
-      this.cancellationTokenSource = new CancellationTokenSource();
-      this.cancellationToken = this.cancellationTokenSource.Token;
     }
 
     /// <summary>
@@ -49,6 +49,14 @@ namespace Siftan.WinForms
       engine.FileRead += this.FileReadHandler;
       engine.CheckForCancellation = this.CheckForCancellation;
 
+      // Get the UI thread now because this method is guaranteed to be running on that thread (since this
+      // method is called from a winform control handler method)
+      this.mainTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+      // Create a new cancellation source and token - the previous one may have been cancelled already.
+      this.cancellationTokenSource = new CancellationTokenSource();
+      this.cancellationToken = this.cancellationTokenSource.Token;
+
       Task task = Task.Factory.StartNew(() =>
       {
         engine.Execute(
@@ -60,10 +68,27 @@ namespace Siftan.WinForms
           recordWriter,
           statisticsManager,
           statisticsManager);
-      }, this.cancellationTokenSource.Token);
+      }, this.cancellationToken);
 
       Task finishedTask = task.ContinueWith((antecedent) =>
       {
+        if (antecedent.Exception != null)
+        {
+          this.uiLogManager.WriteMessagesToLogs("Job FAILED.");
+          AggregateException ae = antecedent.Exception.Flatten();
+          Int32 count = 1;
+          foreach (Exception e in ae.InnerExceptions)
+          {
+            this.uiLogManager.WriteMessagesToLogs(String.Format("EXCEPTION {0}: {1}", count++, e.Message));
+            this.uiLogManager.WriteMessagesToLogs("STACK: " + e.StackTrace);
+          }
+        }
+        else if (this.cancellationToken.IsCancellationRequested)
+        {
+          this.uiLogManager.WriteMessagesToLogs("CANCELLED.");
+        }
+
+        this.uiLogManager.Close();
         this.mainForm.JobFinished();
       }, TaskScheduler.FromCurrentSynchronizationContext());
     }
@@ -73,7 +98,7 @@ namespace Siftan.WinForms
       new Task(() =>
       {
         this.mainForm.DisplayLogMessage(message);
-      }).Start(TaskScheduler.FromCurrentSynchronizationContext());
+      }).Start(mainTaskScheduler);
     }
 
     private Boolean CheckForCancellation()
@@ -96,7 +121,7 @@ namespace Siftan.WinForms
       new Task(() =>
       {
         this.mainForm.SetCurrentFilePosition(position);
-      }).Start(TaskScheduler.FromCurrentSynchronizationContext());
+      }).Start(mainTaskScheduler);
     }
 
     private IRecordReader CreateRecordReader()

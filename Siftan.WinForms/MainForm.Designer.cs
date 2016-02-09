@@ -415,7 +415,7 @@
       this.InputDirectory_TextBox.Name = "InputDirectory_TextBox";
       this.InputDirectory_TextBox.Size = new System.Drawing.Size(361, 20);
       this.InputDirectory_TextBox.TabIndex = 11;
-      this.InputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.WinForms.AcceptanceTests\\";
+      this.InputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Debug\\";
       // 
       // Output_GroupBox
       // 
@@ -448,7 +448,7 @@
       this.UnmatchedOutputFileName_TextBox.Name = "UnmatchedOutputFileName_TextBox";
       this.UnmatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
       this.UnmatchedOutputFileName_TextBox.TabIndex = 23;
-      this.UnmatchedOutputFileName_TextBox.Text = "unmatched.csv";
+      this.UnmatchedOutputFileName_TextBox.Text = "Unmatched.csv";
       // 
       // CreateUnmatchedOutput_CheckBox
       // 
@@ -475,7 +475,7 @@
       this.MatchedOutputFileName_TextBox.Name = "MatchedOutputFileName_TextBox";
       this.MatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
       this.MatchedOutputFileName_TextBox.TabIndex = 20;
-      this.MatchedOutputFileName_TextBox.Text = "matched.csv";
+      this.MatchedOutputFileName_TextBox.Text = "Matched.csv";
       // 
       // label12
       // 
@@ -492,7 +492,7 @@
       this.OutputDirectory_TextBox.Name = "OutputDirectory_TextBox";
       this.OutputDirectory_TextBox.Size = new System.Drawing.Size(332, 20);
       this.OutputDirectory_TextBox.TabIndex = 19;
-      this.OutputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Siftan.WinForms.AcceptanceTests\\";
+      this.OutputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Debug\\";
       // 
       // groupBox1
       // 
@@ -542,6 +542,7 @@
       this.Cancel_Button.TabIndex = 22;
       this.Cancel_Button.Text = "Cancel";
       this.Cancel_Button.UseVisualStyleBackColor = true;
+      this.Cancel_Button.Click += new System.EventHandler(this.Cancel_Button_Click);
       // 
       // Start_Button
       // 
