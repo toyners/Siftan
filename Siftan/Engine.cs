@@ -2,6 +2,7 @@
 namespace Siftan
 {
   using System;
+  using System.Text;
   using Jabberwocky.Toolkit.IO;
   using Jabberwocky.Toolkit.Object;
 
@@ -88,6 +89,8 @@ namespace Siftan
 
     private void Process(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeMatchedRecordMethod, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
     {
+      StringBuilder messageBuilder = new StringBuilder();
+
       foreach (String filePath in filePaths)
       {
         this.logManager.WriteImportantMessageToJobLog("Processing '" + filePath + "'.");
@@ -100,11 +103,11 @@ namespace Siftan
         {
           this.OnFileRead(fileReader.Position);
 
-          String message = "Record found at position " + record.Start + " with Term '" + record.Term + "'";
+          messageBuilder.Append("Record found at position " + record.Start + " with Term '" + record.Term + "'");
           if (expression.IsMatch(record))
           {
             this.statisticsCollector.RecordIsMatched(filePath);
-            message += " matches with List Term '" + record.Term + "'";
+            messageBuilder.Append(" matches with List Term '" + record.Term + "'");
             writeMatchedRecordMethod(fileReader, record);
           }
           else
@@ -113,8 +116,9 @@ namespace Siftan
             writeUnmatchedRecordMethod(fileReader, record);
           }
 
-          message += ".";
-          this.logManager.WriteMessageToJobLog(message);
+          messageBuilder.Append(".");
+          this.logManager.WriteMessageToJobLog(messageBuilder.ToString());
+          messageBuilder.Clear();
 
           if (this.IsCancelled())
           {
