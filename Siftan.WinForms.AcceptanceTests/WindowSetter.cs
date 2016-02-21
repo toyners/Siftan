@@ -66,6 +66,14 @@ namespace Siftan.WinForms.AcceptanceTests
       return this;
     }
 
+    public WindowSetter SetRadioButtonOn(String id)
+    {
+      var radionButton = this.window.Get<RadioButton>(id);
+      this.window.WaitWhileBusy();
+      radionButton.Select();
+      return this;
+    }
+
     /// <summary>
     /// Clicks the button control.
     /// </summary>

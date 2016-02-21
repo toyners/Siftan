@@ -41,7 +41,7 @@ namespace Siftan.WinForms
     {
       get
       {
-        if (this.CreateUnmatchedOutput_CheckBox.Checked)
+        if (this.CreateMatchedOutput_CheckBox.Checked)
         {
           return Path.Combine(this.OutputDirectory_TextBox.Text, this.UnmatchedOutputFileName_TextBox.Text);
         }

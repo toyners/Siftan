@@ -63,11 +63,6 @@
       this.label7 = new System.Windows.Forms.Label();
       this.InputDirectory_TextBox = new System.Windows.Forms.TextBox();
       this.Output_GroupBox = new System.Windows.Forms.GroupBox();
-      this.label13 = new System.Windows.Forms.Label();
-      this.UnmatchedOutputFileName_TextBox = new System.Windows.Forms.TextBox();
-      this.CreateUnmatchedOutput_CheckBox = new System.Windows.Forms.CheckBox();
-      this.label11 = new System.Windows.Forms.Label();
-      this.MatchedOutputFileName_TextBox = new System.Windows.Forms.TextBox();
       this.label12 = new System.Windows.Forms.Label();
       this.OutputDirectory_TextBox = new System.Windows.Forms.TextBox();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -77,6 +72,15 @@
       this.Cancel_Button = new System.Windows.Forms.Button();
       this.Start_Button = new System.Windows.Forms.Button();
       this.Results_TextBox = new System.Windows.Forms.TextBox();
+      this.CreateUnmatchedOutput_CheckBox = new System.Windows.Forms.CheckBox();
+      this.CreateMatchedOutput_CheckBox = new System.Windows.Forms.CheckBox();
+      this.label13 = new System.Windows.Forms.Label();
+      this.UnmatchedOutputFileName_TextBox = new System.Windows.Forms.TextBox();
+      this.label11 = new System.Windows.Forms.Label();
+      this.MatchedOutputFileName_TextBox = new System.Windows.Forms.TextBox();
+      this.Single_RadioButton = new System.Windows.Forms.RadioButton();
+      this.ForEachFile_RadioButton = new System.Windows.Forms.RadioButton();
+      this.ForEachTerm_RadioButton = new System.Windows.Forms.RadioButton();
       this.RecordFormat_GroupBox.SuspendLayout();
       this.RecordDescriptors_TabControl.SuspendLayout();
       this.Delimited_Tab.SuspendLayout();
@@ -111,6 +115,7 @@
       // 
       // Delimited_Tab
       // 
+      this.Delimited_Tab.BackColor = System.Drawing.SystemColors.Control;
       this.Delimited_Tab.Controls.Add(this.label5);
       this.Delimited_Tab.Controls.Add(this.label6);
       this.Delimited_Tab.Controls.Add(this.label4);
@@ -129,7 +134,6 @@
       this.Delimited_Tab.Size = new System.Drawing.Size(439, 161);
       this.Delimited_Tab.TabIndex = 0;
       this.Delimited_Tab.Text = "Delimited";
-      this.Delimited_Tab.UseVisualStyleBackColor = true;
       // 
       // label5
       // 
@@ -238,6 +242,7 @@
       // 
       // FixedWidth_Tab
       // 
+      this.FixedWidth_Tab.BackColor = System.Drawing.SystemColors.Control;
       this.FixedWidth_Tab.Controls.Add(this.label15);
       this.FixedWidth_Tab.Controls.Add(this.TermLength_TextBox);
       this.FixedWidth_Tab.Controls.Add(this.label16);
@@ -255,7 +260,6 @@
       this.FixedWidth_Tab.Size = new System.Drawing.Size(439, 161);
       this.FixedWidth_Tab.TabIndex = 1;
       this.FixedWidth_Tab.Text = "Fixed Width";
-      this.FixedWidth_Tab.UseVisualStyleBackColor = true;
       // 
       // label15
       // 
@@ -394,9 +398,9 @@
       // 
       // InputFileName_TextBox
       // 
-      this.InputFileName_TextBox.Location = new System.Drawing.Point(94, 45);
+      this.InputFileName_TextBox.Location = new System.Drawing.Point(64, 45);
       this.InputFileName_TextBox.Name = "InputFileName_TextBox";
-      this.InputFileName_TextBox.Size = new System.Drawing.Size(220, 20);
+      this.InputFileName_TextBox.Size = new System.Drawing.Size(250, 20);
       this.InputFileName_TextBox.TabIndex = 13;
       this.InputFileName_TextBox.Text = "Input.csv";
       // 
@@ -411,9 +415,9 @@
       // 
       // InputDirectory_TextBox
       // 
-      this.InputDirectory_TextBox.Location = new System.Drawing.Point(94, 19);
+      this.InputDirectory_TextBox.Location = new System.Drawing.Point(64, 19);
       this.InputDirectory_TextBox.Name = "InputDirectory_TextBox";
-      this.InputDirectory_TextBox.Size = new System.Drawing.Size(361, 20);
+      this.InputDirectory_TextBox.Size = new System.Drawing.Size(391, 20);
       this.InputDirectory_TextBox.TabIndex = 11;
       this.InputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Debug\\";
       // 
@@ -421,61 +425,21 @@
       // 
       this.Output_GroupBox.Controls.Add(this.label13);
       this.Output_GroupBox.Controls.Add(this.UnmatchedOutputFileName_TextBox);
-      this.Output_GroupBox.Controls.Add(this.CreateUnmatchedOutput_CheckBox);
       this.Output_GroupBox.Controls.Add(this.label11);
       this.Output_GroupBox.Controls.Add(this.MatchedOutputFileName_TextBox);
+      this.Output_GroupBox.Controls.Add(this.Single_RadioButton);
+      this.Output_GroupBox.Controls.Add(this.ForEachFile_RadioButton);
+      this.Output_GroupBox.Controls.Add(this.ForEachTerm_RadioButton);
+      this.Output_GroupBox.Controls.Add(this.CreateMatchedOutput_CheckBox);
+      this.Output_GroupBox.Controls.Add(this.CreateUnmatchedOutput_CheckBox);
       this.Output_GroupBox.Controls.Add(this.label12);
       this.Output_GroupBox.Controls.Add(this.OutputDirectory_TextBox);
       this.Output_GroupBox.Location = new System.Drawing.Point(11, 310);
       this.Output_GroupBox.Name = "Output_GroupBox";
-      this.Output_GroupBox.Size = new System.Drawing.Size(463, 124);
+      this.Output_GroupBox.Size = new System.Drawing.Size(463, 220);
       this.Output_GroupBox.TabIndex = 23;
       this.Output_GroupBox.TabStop = false;
       this.Output_GroupBox.Text = "Output";
-      // 
-      // label13
-      // 
-      this.label13.AutoSize = true;
-      this.label13.Location = new System.Drawing.Point(7, 94);
-      this.label13.Name = "label13";
-      this.label13.Size = new System.Drawing.Size(110, 13);
-      this.label13.TabIndex = 24;
-      this.label13.Text = "Unmatched Filename:";
-      // 
-      // UnmatchedOutputFileName_TextBox
-      // 
-      this.UnmatchedOutputFileName_TextBox.Location = new System.Drawing.Point(123, 91);
-      this.UnmatchedOutputFileName_TextBox.Name = "UnmatchedOutputFileName_TextBox";
-      this.UnmatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
-      this.UnmatchedOutputFileName_TextBox.TabIndex = 23;
-      this.UnmatchedOutputFileName_TextBox.Text = "Unmatched.csv";
-      // 
-      // CreateUnmatchedOutput_CheckBox
-      // 
-      this.CreateUnmatchedOutput_CheckBox.AutoSize = true;
-      this.CreateUnmatchedOutput_CheckBox.Location = new System.Drawing.Point(123, 71);
-      this.CreateUnmatchedOutput_CheckBox.Name = "CreateUnmatchedOutput_CheckBox";
-      this.CreateUnmatchedOutput_CheckBox.Size = new System.Drawing.Size(163, 17);
-      this.CreateUnmatchedOutput_CheckBox.TabIndex = 18;
-      this.CreateUnmatchedOutput_CheckBox.Text = "Write out unmatched records";
-      this.CreateUnmatchedOutput_CheckBox.UseVisualStyleBackColor = true;
-      // 
-      // label11
-      // 
-      this.label11.AutoSize = true;
-      this.label11.Location = new System.Drawing.Point(6, 48);
-      this.label11.Name = "label11";
-      this.label11.Size = new System.Drawing.Size(97, 13);
-      this.label11.TabIndex = 22;
-      this.label11.Text = "Matched Filename:";
-      // 
-      // MatchedOutputFileName_TextBox
-      // 
-      this.MatchedOutputFileName_TextBox.Location = new System.Drawing.Point(123, 45);
-      this.MatchedOutputFileName_TextBox.Name = "MatchedOutputFileName_TextBox";
-      this.MatchedOutputFileName_TextBox.Size = new System.Drawing.Size(178, 20);
-      this.MatchedOutputFileName_TextBox.TabIndex = 20;
-      this.MatchedOutputFileName_TextBox.Text = "Matched.csv";
       // 
       // label12
       // 
@@ -488,30 +452,30 @@
       // 
       // OutputDirectory_TextBox
       // 
-      this.OutputDirectory_TextBox.Location = new System.Drawing.Point(123, 19);
+      this.OutputDirectory_TextBox.Location = new System.Drawing.Point(64, 19);
       this.OutputDirectory_TextBox.Name = "OutputDirectory_TextBox";
-      this.OutputDirectory_TextBox.Size = new System.Drawing.Size(332, 20);
+      this.OutputDirectory_TextBox.Size = new System.Drawing.Size(391, 20);
       this.OutputDirectory_TextBox.TabIndex = 19;
       this.OutputDirectory_TextBox.Text = "C:\\Projects\\Siftan\\Temp\\Debug\\";
       // 
       // groupBox1
       // 
       this.groupBox1.Controls.Add(this.InList_TextBox);
-      this.groupBox1.Location = new System.Drawing.Point(11, 440);
+      this.groupBox1.Location = new System.Drawing.Point(12, 536);
       this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(463, 92);
+      this.groupBox1.Size = new System.Drawing.Size(463, 94);
       this.groupBox1.TabIndex = 24;
       this.groupBox1.TabStop = false;
-      this.groupBox1.Text = "Values";
+      this.groupBox1.Text = "Terms";
       // 
       // InList_TextBox
       // 
       this.InList_TextBox.Location = new System.Drawing.Point(9, 19);
       this.InList_TextBox.Multiline = true;
       this.InList_TextBox.Name = "InList_TextBox";
-      this.InList_TextBox.Size = new System.Drawing.Size(444, 61);
+      this.InList_TextBox.Size = new System.Drawing.Size(444, 63);
       this.InList_TextBox.TabIndex = 14;
-      this.InList_TextBox.Text = "12345";
+      this.InList_TextBox.Text = "12345\r\n12346";
       // 
       // groupBox2
       // 
@@ -521,14 +485,14 @@
       this.groupBox2.Controls.Add(this.Results_TextBox);
       this.groupBox2.Location = new System.Drawing.Point(480, 7);
       this.groupBox2.Name = "groupBox2";
-      this.groupBox2.Size = new System.Drawing.Size(405, 525);
+      this.groupBox2.Size = new System.Drawing.Size(405, 623);
       this.groupBox2.TabIndex = 25;
       this.groupBox2.TabStop = false;
       this.groupBox2.Text = "Results";
       // 
       // progressBar1
       // 
-      this.progressBar1.Location = new System.Drawing.Point(6, 450);
+      this.progressBar1.Location = new System.Drawing.Point(6, 548);
       this.progressBar1.Name = "progressBar1";
       this.progressBar1.Size = new System.Drawing.Size(393, 25);
       this.progressBar1.TabIndex = 24;
@@ -536,7 +500,7 @@
       // Cancel_Button
       // 
       this.Cancel_Button.Enabled = false;
-      this.Cancel_Button.Location = new System.Drawing.Point(6, 481);
+      this.Cancel_Button.Location = new System.Drawing.Point(6, 579);
       this.Cancel_Button.Name = "Cancel_Button";
       this.Cancel_Button.Size = new System.Drawing.Size(96, 32);
       this.Cancel_Button.TabIndex = 22;
@@ -546,7 +510,7 @@
       // 
       // Start_Button
       // 
-      this.Start_Button.Location = new System.Drawing.Point(303, 481);
+      this.Start_Button.Location = new System.Drawing.Point(303, 579);
       this.Start_Button.Name = "Start_Button";
       this.Start_Button.Size = new System.Drawing.Size(96, 32);
       this.Start_Button.TabIndex = 23;
@@ -561,16 +525,104 @@
       this.Results_TextBox.Name = "Results_TextBox";
       this.Results_TextBox.ReadOnly = true;
       this.Results_TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-      this.Results_TextBox.Size = new System.Drawing.Size(393, 425);
+      this.Results_TextBox.Size = new System.Drawing.Size(393, 523);
       this.Results_TextBox.TabIndex = 21;
       this.Results_TextBox.TabStop = false;
       this.Results_TextBox.WordWrap = false;
+      // 
+      // CreateUnmatchedOutput_CheckBox
+      // 
+      this.CreateUnmatchedOutput_CheckBox.AutoSize = true;
+      this.CreateUnmatchedOutput_CheckBox.Location = new System.Drawing.Point(9, 68);
+      this.CreateUnmatchedOutput_CheckBox.Name = "CreateUnmatchedOutput_CheckBox";
+      this.CreateUnmatchedOutput_CheckBox.Size = new System.Drawing.Size(163, 17);
+      this.CreateUnmatchedOutput_CheckBox.TabIndex = 31;
+      this.CreateUnmatchedOutput_CheckBox.Text = "Write out unmatched records";
+      this.CreateUnmatchedOutput_CheckBox.UseVisualStyleBackColor = true;
+      // 
+      // CreateMatchedOutput_CheckBox
+      // 
+      this.CreateMatchedOutput_CheckBox.AutoSize = true;
+      this.CreateMatchedOutput_CheckBox.Checked = true;
+      this.CreateMatchedOutput_CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.CreateMatchedOutput_CheckBox.Location = new System.Drawing.Point(9, 45);
+      this.CreateMatchedOutput_CheckBox.Name = "CreateMatchedOutput_CheckBox";
+      this.CreateMatchedOutput_CheckBox.Size = new System.Drawing.Size(151, 17);
+      this.CreateMatchedOutput_CheckBox.TabIndex = 32;
+      this.CreateMatchedOutput_CheckBox.Text = "Write out matched records";
+      this.CreateMatchedOutput_CheckBox.UseVisualStyleBackColor = true;
+      // 
+      // label13
+      // 
+      this.label13.AutoSize = true;
+      this.label13.Location = new System.Drawing.Point(25, 147);
+      this.label13.Name = "label13";
+      this.label13.Size = new System.Drawing.Size(110, 13);
+      this.label13.TabIndex = 45;
+      this.label13.Text = "Unmatched Filename:";
+      // 
+      // UnmatchedOutputFileName_TextBox
+      // 
+      this.UnmatchedOutputFileName_TextBox.Location = new System.Drawing.Point(141, 144);
+      this.UnmatchedOutputFileName_TextBox.Name = "UnmatchedOutputFileName_TextBox";
+      this.UnmatchedOutputFileName_TextBox.Size = new System.Drawing.Size(314, 20);
+      this.UnmatchedOutputFileName_TextBox.TabIndex = 44;
+      this.UnmatchedOutputFileName_TextBox.Text = "Unmatched.csv";
+      // 
+      // label11
+      // 
+      this.label11.AutoSize = true;
+      this.label11.Location = new System.Drawing.Point(24, 121);
+      this.label11.Name = "label11";
+      this.label11.Size = new System.Drawing.Size(97, 13);
+      this.label11.TabIndex = 43;
+      this.label11.Text = "Matched Filename:";
+      // 
+      // MatchedOutputFileName_TextBox
+      // 
+      this.MatchedOutputFileName_TextBox.Location = new System.Drawing.Point(141, 118);
+      this.MatchedOutputFileName_TextBox.Name = "MatchedOutputFileName_TextBox";
+      this.MatchedOutputFileName_TextBox.Size = new System.Drawing.Size(314, 20);
+      this.MatchedOutputFileName_TextBox.TabIndex = 42;
+      this.MatchedOutputFileName_TextBox.Text = "Matched.csv";
+      // 
+      // Single_RadioButton
+      // 
+      this.Single_RadioButton.AutoSize = true;
+      this.Single_RadioButton.Checked = true;
+      this.Single_RadioButton.Location = new System.Drawing.Point(9, 96);
+      this.Single_RadioButton.Name = "Single_RadioButton";
+      this.Single_RadioButton.Size = new System.Drawing.Size(73, 17);
+      this.Single_RadioButton.TabIndex = 39;
+      this.Single_RadioButton.TabStop = true;
+      this.Single_RadioButton.Text = "Output file";
+      this.Single_RadioButton.UseVisualStyleBackColor = true;
+      // 
+      // ForEachFile_RadioButton
+      // 
+      this.ForEachFile_RadioButton.AutoSize = true;
+      this.ForEachFile_RadioButton.Location = new System.Drawing.Point(9, 170);
+      this.ForEachFile_RadioButton.Name = "ForEachFile_RadioButton";
+      this.ForEachFile_RadioButton.Size = new System.Drawing.Size(158, 17);
+      this.ForEachFile_RadioButton.TabIndex = 40;
+      this.ForEachFile_RadioButton.Text = "Output file for each Input file";
+      this.ForEachFile_RadioButton.UseVisualStyleBackColor = true;
+      // 
+      // ForEachTerm_RadioButton
+      // 
+      this.ForEachTerm_RadioButton.AutoSize = true;
+      this.ForEachTerm_RadioButton.Location = new System.Drawing.Point(9, 193);
+      this.ForEachTerm_RadioButton.Name = "ForEachTerm_RadioButton";
+      this.ForEachTerm_RadioButton.Size = new System.Drawing.Size(142, 17);
+      this.ForEachTerm_RadioButton.TabIndex = 41;
+      this.ForEachTerm_RadioButton.Text = "Output file for each Term";
+      this.ForEachTerm_RadioButton.UseVisualStyleBackColor = true;
       // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(895, 544);
+      this.ClientSize = new System.Drawing.Size(895, 640);
       this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.groupBox1);
       this.Controls.Add(this.Output_GroupBox);
@@ -623,11 +675,6 @@
     private System.Windows.Forms.Label label7;
     private System.Windows.Forms.TextBox InputDirectory_TextBox;
     private System.Windows.Forms.GroupBox Output_GroupBox;
-    private System.Windows.Forms.Label label13;
-    private System.Windows.Forms.TextBox UnmatchedOutputFileName_TextBox;
-    private System.Windows.Forms.CheckBox CreateUnmatchedOutput_CheckBox;
-    private System.Windows.Forms.Label label11;
-    private System.Windows.Forms.TextBox MatchedOutputFileName_TextBox;
     private System.Windows.Forms.Label label12;
     private System.Windows.Forms.TextBox OutputDirectory_TextBox;
     private System.Windows.Forms.GroupBox groupBox1;
@@ -650,6 +697,15 @@
     private System.Windows.Forms.TextBox TermLineID_FW_TextBox;
     private System.Windows.Forms.Label label14;
     private System.Windows.Forms.TextBox HeaderLineID_FW_TextBox;
+    private System.Windows.Forms.Label label13;
+    private System.Windows.Forms.TextBox UnmatchedOutputFileName_TextBox;
+    private System.Windows.Forms.Label label11;
+    private System.Windows.Forms.TextBox MatchedOutputFileName_TextBox;
+    private System.Windows.Forms.RadioButton Single_RadioButton;
+    private System.Windows.Forms.RadioButton ForEachFile_RadioButton;
+    private System.Windows.Forms.RadioButton ForEachTerm_RadioButton;
+    private System.Windows.Forms.CheckBox CreateMatchedOutput_CheckBox;
+    private System.Windows.Forms.CheckBox CreateUnmatchedOutput_CheckBox;
   }
 }
 
