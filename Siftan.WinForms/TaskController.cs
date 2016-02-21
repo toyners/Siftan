@@ -93,8 +93,15 @@ namespace Siftan.WinForms
       }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
+    /// <summary>
+    /// Event handler for message logging. 
+    /// </summary>
+    /// <param name="sender">Object that raised the message logging event.</param>
+    /// <param name="message">Message being logged.</param>
     public override void MessageLoggedHandler(Object sender, String message)
     {
+      // This method is always called from a non-UI thread so marshal the call
+      // to UI thread here.
       new Task(() =>
       {
         this.mainForm.DisplayLogMessage(message);

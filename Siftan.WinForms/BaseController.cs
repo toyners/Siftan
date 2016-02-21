@@ -68,10 +68,10 @@ namespace Siftan.WinForms
     public abstract void LaunchEngine(String[] inputFilePaths, IRecordReader recordReader, IRecordMatchExpression expression);
 
     /// <summary>
-    /// 
+    /// Event handler for message logging. 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="message"></param>
+    /// <param name="sender">Object that raised the message logging event.</param>
+    /// <param name="message">Message being logged.</param>
     public abstract void MessageLoggedHandler(Object sender, String message);
 
     private IRecordReader CreateRecordReader()
