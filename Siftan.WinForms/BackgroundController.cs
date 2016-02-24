@@ -42,12 +42,7 @@ namespace Siftan.WinForms
     /// <param name="expression">Instance of the expression used to matched against the record.</param>
     public override void LaunchEngine(String[] inputFilePaths, IRecordReader recordReader, IRecordMatchExpression expression)
     {
-      StatisticsManager statisticsManager = new StatisticsManager();
-
-      this.recordWriter = new OneFileRecordWriter(
-        this.mainForm.MatchedOutputFilePath,
-        this.mainForm.UnmatchedOutputFilePath,
-        statisticsManager);
+      this.recordWriter = CreateRecordWriter();
 
       Engine engine = new Engine();
       engine.FileOpened += this.FileOpenedHandler;
@@ -64,9 +59,9 @@ namespace Siftan.WinForms
           new FileReaderFactory(),
           recordReader,
           expression,
-          recordWriter,
-          statisticsManager,
-          statisticsManager);
+          this.recordWriter,
+          this.statisticsManager,
+          this.statisticsManager);
 
         if (engine.CheckForCancellation())
         {

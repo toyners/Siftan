@@ -30,6 +30,10 @@ namespace Siftan.WinForms
 
     public Boolean HasFixedWidthRecord { get { return this.RecordDescriptors_TabControl.SelectedTab == this.FixedWidth_Tab; } }
 
+    public Boolean WriteOutputFile { get { return this.OutputSingle_RadioButton.Checked; } }
+
+    public Boolean WriteOutputPerInputFile { get { return this.OutputForEachFile_RadioButton.Checked; } }
+
     internal String OutputDirectory { get { return this.OutputDirectory_TextBox.Text; } }
 
     internal String MatchedOutputFilePath

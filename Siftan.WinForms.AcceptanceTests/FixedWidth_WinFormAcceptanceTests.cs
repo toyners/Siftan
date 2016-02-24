@@ -81,6 +81,7 @@ namespace Siftan.WinForms.AcceptanceTests
           .SetTextBoxValue("InputDirectory_TextBox", this.workingDirectory)
           .SetTextBoxValue("InputFileName_TextBox", this.inputFileName)
           .SetTextBoxValue("OutputDirectory_TextBox", this.workingDirectory)
+          .SetRadioButtonOn("OutputSingle_RadioButton")
           .SetTextBoxValue("MatchedOutputFileName_TextBox", this.matchedOutputFileName)
           .SetCheckBoxChecked("CreateUnmatchedOutput_CheckBox", true)
           .SetTextBoxValue("UnmatchedOutputFileName_TextBox", this.unmatchedOutputFileName)

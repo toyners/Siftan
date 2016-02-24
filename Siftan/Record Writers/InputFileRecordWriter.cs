@@ -6,6 +6,13 @@ namespace Siftan
 
   public class InputFileRecordWriter : IRecordWriter
   {
+    private IStatisticsCollector statisticsCollector;
+
+    public InputFileRecordWriter(IStatisticsCollector statisticsCollector)
+    {
+      this.statisticsCollector = statisticsCollector;
+    }
+
     public Boolean DoWriteMatchedRecords
     {
       get

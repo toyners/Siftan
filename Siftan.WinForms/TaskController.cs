@@ -37,12 +37,7 @@ namespace Siftan.WinForms
     /// <param name="expression">Instance of the expression used to matched against the record.</param>
     public override void LaunchEngine(String[] inputFilePaths, IRecordReader recordReader, IRecordMatchExpression expression)
     {
-      StatisticsManager statisticsManager = new StatisticsManager();
-
-      var recordWriter = new OneFileRecordWriter(
-        this.mainForm.MatchedOutputFilePath,
-        this.mainForm.UnmatchedOutputFilePath,
-        statisticsManager);
+      var recordWriter = CreateRecordWriter();
 
       Engine engine = new Engine();
       engine.FileOpened += this.FileOpenedHandler;
@@ -66,8 +61,8 @@ namespace Siftan.WinForms
           recordReader,
           expression,
           recordWriter,
-          statisticsManager,
-          statisticsManager);
+          this.statisticsManager,
+          this.statisticsManager);
       }, this.cancellationToken);
 
       Task finishedTask = task.ContinueWith((antecedent) =>
@@ -88,6 +83,7 @@ namespace Siftan.WinForms
           this.uiLogManager.WriteMessagesToLogs("CANCELLED.");
         }
 
+        recordWriter.Close();
         this.uiLogManager.Close();
         this.mainForm.JobFinished();
       }, TaskScheduler.FromCurrentSynchronizationContext());

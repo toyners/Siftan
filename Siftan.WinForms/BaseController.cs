@@ -11,6 +11,8 @@ namespace Siftan.WinForms
   /// </summary>
   public abstract class BaseController
   {
+    protected readonly StatisticsManager statisticsManager = new StatisticsManager();
+
     protected readonly UILogManager uiLogManager;
 
     protected MainForm mainForm;
@@ -74,19 +76,32 @@ namespace Siftan.WinForms
     /// <param name="message">Message being logged.</param>
     public abstract void MessageLoggedHandler(Object sender, String message);
 
+    protected IRecordWriter CreateRecordWriter()
+    {
+      if (this.mainForm.WriteOutputFile)
+      {
+        return new OneFileRecordWriter(this.mainForm.MatchedOutputFilePath, this.mainForm.UnmatchedOutputFilePath, this.statisticsManager);
+      }
+      else if (this.mainForm.WriteOutputPerInputFile)
+      {
+        return new InputFileRecordWriter(this.statisticsManager);
+      }
+
+      throw new Exception("Cannot create record writer. No recognised state found in main form.");
+    }
+
     private IRecordReader CreateRecordReader()
     {
       if (this.mainForm.HasDelimitedRecord)
       {
         return new DelimitedRecordReader(mainForm.GetDelimitedRecord());
       }
-
-      if (this.mainForm.HasFixedWidthRecord)
+      else if (this.mainForm.HasFixedWidthRecord)
       {
         return new FixedWidthRecordReader(mainForm.GetFixedWidthRecord());
       }
 
-      throw new Exception();
+      throw new Exception("Cannot create record reader. No recognised state found in main form");
     }
 
     private void VerifyParameters()

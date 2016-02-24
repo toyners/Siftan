@@ -63,6 +63,15 @@
       this.label7 = new System.Windows.Forms.Label();
       this.InputDirectory_TextBox = new System.Windows.Forms.TextBox();
       this.Output_GroupBox = new System.Windows.Forms.GroupBox();
+      this.label13 = new System.Windows.Forms.Label();
+      this.UnmatchedOutputFileName_TextBox = new System.Windows.Forms.TextBox();
+      this.label11 = new System.Windows.Forms.Label();
+      this.MatchedOutputFileName_TextBox = new System.Windows.Forms.TextBox();
+      this.OutputSingle_RadioButton = new System.Windows.Forms.RadioButton();
+      this.OutputForEachFile_RadioButton = new System.Windows.Forms.RadioButton();
+      this.OutputForEachTerm_RadioButton = new System.Windows.Forms.RadioButton();
+      this.CreateMatchedOutput_CheckBox = new System.Windows.Forms.CheckBox();
+      this.CreateUnmatchedOutput_CheckBox = new System.Windows.Forms.CheckBox();
       this.label12 = new System.Windows.Forms.Label();
       this.OutputDirectory_TextBox = new System.Windows.Forms.TextBox();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -72,15 +81,6 @@
       this.Cancel_Button = new System.Windows.Forms.Button();
       this.Start_Button = new System.Windows.Forms.Button();
       this.Results_TextBox = new System.Windows.Forms.TextBox();
-      this.CreateUnmatchedOutput_CheckBox = new System.Windows.Forms.CheckBox();
-      this.CreateMatchedOutput_CheckBox = new System.Windows.Forms.CheckBox();
-      this.label13 = new System.Windows.Forms.Label();
-      this.UnmatchedOutputFileName_TextBox = new System.Windows.Forms.TextBox();
-      this.label11 = new System.Windows.Forms.Label();
-      this.MatchedOutputFileName_TextBox = new System.Windows.Forms.TextBox();
-      this.Single_RadioButton = new System.Windows.Forms.RadioButton();
-      this.ForEachFile_RadioButton = new System.Windows.Forms.RadioButton();
-      this.ForEachTerm_RadioButton = new System.Windows.Forms.RadioButton();
       this.RecordFormat_GroupBox.SuspendLayout();
       this.RecordDescriptors_TabControl.SuspendLayout();
       this.Delimited_Tab.SuspendLayout();
@@ -427,9 +427,9 @@
       this.Output_GroupBox.Controls.Add(this.UnmatchedOutputFileName_TextBox);
       this.Output_GroupBox.Controls.Add(this.label11);
       this.Output_GroupBox.Controls.Add(this.MatchedOutputFileName_TextBox);
-      this.Output_GroupBox.Controls.Add(this.Single_RadioButton);
-      this.Output_GroupBox.Controls.Add(this.ForEachFile_RadioButton);
-      this.Output_GroupBox.Controls.Add(this.ForEachTerm_RadioButton);
+      this.Output_GroupBox.Controls.Add(this.OutputSingle_RadioButton);
+      this.Output_GroupBox.Controls.Add(this.OutputForEachFile_RadioButton);
+      this.Output_GroupBox.Controls.Add(this.OutputForEachTerm_RadioButton);
       this.Output_GroupBox.Controls.Add(this.CreateMatchedOutput_CheckBox);
       this.Output_GroupBox.Controls.Add(this.CreateUnmatchedOutput_CheckBox);
       this.Output_GroupBox.Controls.Add(this.label12);
@@ -440,6 +440,94 @@
       this.Output_GroupBox.TabIndex = 23;
       this.Output_GroupBox.TabStop = false;
       this.Output_GroupBox.Text = "Output";
+      // 
+      // label13
+      // 
+      this.label13.AutoSize = true;
+      this.label13.Location = new System.Drawing.Point(25, 147);
+      this.label13.Name = "label13";
+      this.label13.Size = new System.Drawing.Size(110, 13);
+      this.label13.TabIndex = 45;
+      this.label13.Text = "Unmatched Filename:";
+      // 
+      // UnmatchedOutputFileName_TextBox
+      // 
+      this.UnmatchedOutputFileName_TextBox.Location = new System.Drawing.Point(141, 144);
+      this.UnmatchedOutputFileName_TextBox.Name = "UnmatchedOutputFileName_TextBox";
+      this.UnmatchedOutputFileName_TextBox.Size = new System.Drawing.Size(314, 20);
+      this.UnmatchedOutputFileName_TextBox.TabIndex = 44;
+      this.UnmatchedOutputFileName_TextBox.Text = "Unmatched.csv";
+      // 
+      // label11
+      // 
+      this.label11.AutoSize = true;
+      this.label11.Location = new System.Drawing.Point(24, 121);
+      this.label11.Name = "label11";
+      this.label11.Size = new System.Drawing.Size(97, 13);
+      this.label11.TabIndex = 43;
+      this.label11.Text = "Matched Filename:";
+      // 
+      // MatchedOutputFileName_TextBox
+      // 
+      this.MatchedOutputFileName_TextBox.Location = new System.Drawing.Point(141, 118);
+      this.MatchedOutputFileName_TextBox.Name = "MatchedOutputFileName_TextBox";
+      this.MatchedOutputFileName_TextBox.Size = new System.Drawing.Size(314, 20);
+      this.MatchedOutputFileName_TextBox.TabIndex = 42;
+      this.MatchedOutputFileName_TextBox.Text = "Matched.csv";
+      // 
+      // OutputSingle_RadioButton
+      // 
+      this.OutputSingle_RadioButton.AutoSize = true;
+      this.OutputSingle_RadioButton.Checked = true;
+      this.OutputSingle_RadioButton.Location = new System.Drawing.Point(9, 96);
+      this.OutputSingle_RadioButton.Name = "OutputSingle_RadioButton";
+      this.OutputSingle_RadioButton.Size = new System.Drawing.Size(73, 17);
+      this.OutputSingle_RadioButton.TabIndex = 39;
+      this.OutputSingle_RadioButton.TabStop = true;
+      this.OutputSingle_RadioButton.Text = "Output file";
+      this.OutputSingle_RadioButton.UseVisualStyleBackColor = true;
+      // 
+      // OutputForEachFile_RadioButton
+      // 
+      this.OutputForEachFile_RadioButton.AutoSize = true;
+      this.OutputForEachFile_RadioButton.Location = new System.Drawing.Point(9, 170);
+      this.OutputForEachFile_RadioButton.Name = "OutputForEachFile_RadioButton";
+      this.OutputForEachFile_RadioButton.Size = new System.Drawing.Size(158, 17);
+      this.OutputForEachFile_RadioButton.TabIndex = 40;
+      this.OutputForEachFile_RadioButton.Text = "Output file for each Input file";
+      this.OutputForEachFile_RadioButton.UseVisualStyleBackColor = true;
+      // 
+      // OutputForEachTerm_RadioButton
+      // 
+      this.OutputForEachTerm_RadioButton.AutoSize = true;
+      this.OutputForEachTerm_RadioButton.Location = new System.Drawing.Point(9, 193);
+      this.OutputForEachTerm_RadioButton.Name = "OutputForEachTerm_RadioButton";
+      this.OutputForEachTerm_RadioButton.Size = new System.Drawing.Size(142, 17);
+      this.OutputForEachTerm_RadioButton.TabIndex = 41;
+      this.OutputForEachTerm_RadioButton.Text = "Output file for each Term";
+      this.OutputForEachTerm_RadioButton.UseVisualStyleBackColor = true;
+      // 
+      // CreateMatchedOutput_CheckBox
+      // 
+      this.CreateMatchedOutput_CheckBox.AutoSize = true;
+      this.CreateMatchedOutput_CheckBox.Checked = true;
+      this.CreateMatchedOutput_CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.CreateMatchedOutput_CheckBox.Location = new System.Drawing.Point(9, 45);
+      this.CreateMatchedOutput_CheckBox.Name = "CreateMatchedOutput_CheckBox";
+      this.CreateMatchedOutput_CheckBox.Size = new System.Drawing.Size(151, 17);
+      this.CreateMatchedOutput_CheckBox.TabIndex = 32;
+      this.CreateMatchedOutput_CheckBox.Text = "Write out matched records";
+      this.CreateMatchedOutput_CheckBox.UseVisualStyleBackColor = true;
+      // 
+      // CreateUnmatchedOutput_CheckBox
+      // 
+      this.CreateUnmatchedOutput_CheckBox.AutoSize = true;
+      this.CreateUnmatchedOutput_CheckBox.Location = new System.Drawing.Point(9, 68);
+      this.CreateUnmatchedOutput_CheckBox.Name = "CreateUnmatchedOutput_CheckBox";
+      this.CreateUnmatchedOutput_CheckBox.Size = new System.Drawing.Size(163, 17);
+      this.CreateUnmatchedOutput_CheckBox.TabIndex = 31;
+      this.CreateUnmatchedOutput_CheckBox.Text = "Write out unmatched records";
+      this.CreateUnmatchedOutput_CheckBox.UseVisualStyleBackColor = true;
       // 
       // label12
       // 
@@ -530,94 +618,6 @@
       this.Results_TextBox.TabStop = false;
       this.Results_TextBox.WordWrap = false;
       // 
-      // CreateUnmatchedOutput_CheckBox
-      // 
-      this.CreateUnmatchedOutput_CheckBox.AutoSize = true;
-      this.CreateUnmatchedOutput_CheckBox.Location = new System.Drawing.Point(9, 68);
-      this.CreateUnmatchedOutput_CheckBox.Name = "CreateUnmatchedOutput_CheckBox";
-      this.CreateUnmatchedOutput_CheckBox.Size = new System.Drawing.Size(163, 17);
-      this.CreateUnmatchedOutput_CheckBox.TabIndex = 31;
-      this.CreateUnmatchedOutput_CheckBox.Text = "Write out unmatched records";
-      this.CreateUnmatchedOutput_CheckBox.UseVisualStyleBackColor = true;
-      // 
-      // CreateMatchedOutput_CheckBox
-      // 
-      this.CreateMatchedOutput_CheckBox.AutoSize = true;
-      this.CreateMatchedOutput_CheckBox.Checked = true;
-      this.CreateMatchedOutput_CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.CreateMatchedOutput_CheckBox.Location = new System.Drawing.Point(9, 45);
-      this.CreateMatchedOutput_CheckBox.Name = "CreateMatchedOutput_CheckBox";
-      this.CreateMatchedOutput_CheckBox.Size = new System.Drawing.Size(151, 17);
-      this.CreateMatchedOutput_CheckBox.TabIndex = 32;
-      this.CreateMatchedOutput_CheckBox.Text = "Write out matched records";
-      this.CreateMatchedOutput_CheckBox.UseVisualStyleBackColor = true;
-      // 
-      // label13
-      // 
-      this.label13.AutoSize = true;
-      this.label13.Location = new System.Drawing.Point(25, 147);
-      this.label13.Name = "label13";
-      this.label13.Size = new System.Drawing.Size(110, 13);
-      this.label13.TabIndex = 45;
-      this.label13.Text = "Unmatched Filename:";
-      // 
-      // UnmatchedOutputFileName_TextBox
-      // 
-      this.UnmatchedOutputFileName_TextBox.Location = new System.Drawing.Point(141, 144);
-      this.UnmatchedOutputFileName_TextBox.Name = "UnmatchedOutputFileName_TextBox";
-      this.UnmatchedOutputFileName_TextBox.Size = new System.Drawing.Size(314, 20);
-      this.UnmatchedOutputFileName_TextBox.TabIndex = 44;
-      this.UnmatchedOutputFileName_TextBox.Text = "Unmatched.csv";
-      // 
-      // label11
-      // 
-      this.label11.AutoSize = true;
-      this.label11.Location = new System.Drawing.Point(24, 121);
-      this.label11.Name = "label11";
-      this.label11.Size = new System.Drawing.Size(97, 13);
-      this.label11.TabIndex = 43;
-      this.label11.Text = "Matched Filename:";
-      // 
-      // MatchedOutputFileName_TextBox
-      // 
-      this.MatchedOutputFileName_TextBox.Location = new System.Drawing.Point(141, 118);
-      this.MatchedOutputFileName_TextBox.Name = "MatchedOutputFileName_TextBox";
-      this.MatchedOutputFileName_TextBox.Size = new System.Drawing.Size(314, 20);
-      this.MatchedOutputFileName_TextBox.TabIndex = 42;
-      this.MatchedOutputFileName_TextBox.Text = "Matched.csv";
-      // 
-      // Single_RadioButton
-      // 
-      this.Single_RadioButton.AutoSize = true;
-      this.Single_RadioButton.Checked = true;
-      this.Single_RadioButton.Location = new System.Drawing.Point(9, 96);
-      this.Single_RadioButton.Name = "Single_RadioButton";
-      this.Single_RadioButton.Size = new System.Drawing.Size(73, 17);
-      this.Single_RadioButton.TabIndex = 39;
-      this.Single_RadioButton.TabStop = true;
-      this.Single_RadioButton.Text = "Output file";
-      this.Single_RadioButton.UseVisualStyleBackColor = true;
-      // 
-      // ForEachFile_RadioButton
-      // 
-      this.ForEachFile_RadioButton.AutoSize = true;
-      this.ForEachFile_RadioButton.Location = new System.Drawing.Point(9, 170);
-      this.ForEachFile_RadioButton.Name = "ForEachFile_RadioButton";
-      this.ForEachFile_RadioButton.Size = new System.Drawing.Size(158, 17);
-      this.ForEachFile_RadioButton.TabIndex = 40;
-      this.ForEachFile_RadioButton.Text = "Output file for each Input file";
-      this.ForEachFile_RadioButton.UseVisualStyleBackColor = true;
-      // 
-      // ForEachTerm_RadioButton
-      // 
-      this.ForEachTerm_RadioButton.AutoSize = true;
-      this.ForEachTerm_RadioButton.Location = new System.Drawing.Point(9, 193);
-      this.ForEachTerm_RadioButton.Name = "ForEachTerm_RadioButton";
-      this.ForEachTerm_RadioButton.Size = new System.Drawing.Size(142, 17);
-      this.ForEachTerm_RadioButton.TabIndex = 41;
-      this.ForEachTerm_RadioButton.Text = "Output file for each Term";
-      this.ForEachTerm_RadioButton.UseVisualStyleBackColor = true;
-      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -701,9 +701,9 @@
     private System.Windows.Forms.TextBox UnmatchedOutputFileName_TextBox;
     private System.Windows.Forms.Label label11;
     private System.Windows.Forms.TextBox MatchedOutputFileName_TextBox;
-    private System.Windows.Forms.RadioButton Single_RadioButton;
-    private System.Windows.Forms.RadioButton ForEachFile_RadioButton;
-    private System.Windows.Forms.RadioButton ForEachTerm_RadioButton;
+    private System.Windows.Forms.RadioButton OutputSingle_RadioButton;
+    private System.Windows.Forms.RadioButton OutputForEachFile_RadioButton;
+    private System.Windows.Forms.RadioButton OutputForEachTerm_RadioButton;
     private System.Windows.Forms.CheckBox CreateMatchedOutput_CheckBox;
     private System.Windows.Forms.CheckBox CreateUnmatchedOutput_CheckBox;
   }
