@@ -45,7 +45,7 @@ namespace Siftan.WinForms
     {
       get
       {
-        if (this.CreateMatchedOutput_CheckBox.Checked)
+        if (this.CreateUnmatchedOutput_CheckBox.Checked)
         {
           return Path.Combine(this.OutputDirectory_TextBox.Text, this.UnmatchedOutputFileName_TextBox.Text);
         }
@@ -63,7 +63,7 @@ namespace Siftan.WinForms
 
     internal FilePatternResolver.SearchDepths InputFileSearchDepth
     {
-      get 
+      get
       {
         return this.SearchSubdirectories_CheckBox.Checked ?
           FilePatternResolver.SearchDepths.AllDirectories :
