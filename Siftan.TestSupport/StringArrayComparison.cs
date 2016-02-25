@@ -11,43 +11,36 @@ namespace Siftan.TestSupport
   {
     public static void IsMatching(String[] actualLines, String[] expectedLines)
     {
-      try
+      Int32 lastMatchIndex = -1;
+      String lastMatchLine;
+
+      foreach (String expectedLine in expectedLines)
       {
-        Int32 lastMatchIndex = -1;
-        String lastMatchLine;
+        Boolean matched = false;
 
-        foreach (String expectedLine in expectedLines)
+        for (Int32 logIndex = 0; logIndex < actualLines.Length; logIndex++)
         {
-          Boolean matched = false;
-
-          for (Int32 logIndex = 0; logIndex < actualLines.Length; logIndex++)
+          String actualLine = actualLines[logIndex];
+          if (Regex.IsMatch(actualLine, expectedLine))
           {
-            String actualLine = actualLines[logIndex];
-            if (Regex.IsMatch(actualLine, expectedLine))
+            if (lastMatchIndex > logIndex)
             {
-              if (lastMatchIndex > logIndex)
-              {
-                throw new Exception(String.Format("Expected line '{0}' to follow '{1}' but '{1}' follows '{0}'.",
-                  actualLine,
-                  actualLines[lastMatchIndex]));
-              }
-
-              matched = true;
-              lastMatchIndex = logIndex;
-              lastMatchLine = actualLine;
-              break;
+              throw new Exception(String.Format("Expected line '{0}' to follow '{1}' but '{1}' follows '{0}'.",
+                actualLine,
+                actualLines[lastMatchIndex]));
             }
-          }
 
-          if (!matched)
-          {
-            throw new Exception(String.Format("Missing line '{0}' from array.", expectedLine));
+            matched = true;
+            lastMatchIndex = logIndex;
+            lastMatchLine = actualLine;
+            break;
           }
         }
-      }
-      catch (Exception exception)
-      {
-        throw new Exception(exception.Message);
+
+        if (!matched)
+        {
+          throw new Exception(String.Format("Missing line '{0}' from array.", expectedLine));
+        }
       }
     }
   }
