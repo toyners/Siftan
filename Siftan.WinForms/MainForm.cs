@@ -127,6 +127,7 @@ namespace Siftan.WinForms
     {
       this.progressBar1.Value = 0;
       this.Cancel_Button.Text = "Cancel";
+      this.Cancel_Button.Enabled = false;
       this.Start_Button.Enabled = true;
     }
 
@@ -134,6 +135,7 @@ namespace Siftan.WinForms
     {
       this.Cancel_Button.Enabled = true;
       this.Start_Button.Enabled = false;
+      this.Results_TextBox.Clear();
       this.controller.StartProcess();
     }
 
