@@ -43,10 +43,20 @@ namespace Siftan
 
     public void WriteMatchedRecord(IStreamReader reader, Record record)
     {
+      WriteRecordsToFile(reader, record, "Matched_From_");
+    }
+
+    public void WriteUnmatchedRecord(IStreamReader reader, Record record)
+    {
+      WriteRecordsToFile(reader, record, "Unmatched_From_");
+    }
+
+    private void WriteRecordsToFile(IStreamReader reader, Record record, String outputPrefix)
+    {
       StreamWriter writer;
       if (!writers.ContainsKey(reader.Name))
       {
-        String outputName = Path.GetDirectoryName(reader.Name) + "Matched_From_" + Path.GetFileName(reader.Name);
+        String outputName = Path.GetDirectoryName(reader.Name) + @"\" + outputPrefix + Path.GetFileName(reader.Name);
         writer = new StreamWriter(outputName);
         writers.Add(reader.Name, writer);
       }
@@ -56,11 +66,6 @@ namespace Siftan
       }
 
       StreamWriteOperations.WriteRecordToStream(writer, reader, record);
-    }
-
-    public void WriteUnmatchedRecord(IStreamReader reader, Record record)
-    {
-      throw new NotImplementedException();
     }
   }
 }
