@@ -68,8 +68,10 @@
     <Compile Include="WindowSetter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DelimitedRecordFile.csv" />
+    <EmbeddedResource Include="Resources\DelimitedRecordFile.csv" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="Resources\SecondDelimitedRecordFile.csv" />
+    <EmbeddedResource Include="Resources\FirstDelimitedRecordFile.csv" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
@@ -89,7 +91,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FixedWidthRecordFile.txt" />
+    <EmbeddedResource Include="Resources\FixedWidthRecordFile.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

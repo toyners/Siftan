@@ -15,7 +15,11 @@ namespace Siftan.WinForms.AcceptanceTests
   [TestFixture]
   public class DelimitedJob_WinFormAcceptanceTests : AcceptanceTestsBase
   {
-    private const String InputFileResourcePath = "Siftan.WinForms.AcceptanceTests.DelimitedRecordFile.csv";
+    private const String InputFileResourcePath = "Siftan.WinForms.AcceptanceTests.Resources.DelimitedRecordFile.csv";
+
+    private const String FirstInputFileResourcePath = "";
+
+    private const String SecondInputFileResourcePath = "";
 
     private const String Delimiter = "|";
 
@@ -258,7 +262,8 @@ namespace Siftan.WinForms.AcceptanceTests
 
       var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan.WinForms");
 
-      InputFileCreator.CreateFile(InputFileResourcePath, this.inputFilePath);
+      InputFileCreator.CreateFile(FirstInputFileResourcePath, firstInputFilePath);
+      InputFileCreator.CreateFile(SecondInputFileResourcePath, secondInputFilePath);
 
       var commandLineArguments = String.Format("-a {0}", this.applicationLogFilePath);
       ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, commandLineArguments);

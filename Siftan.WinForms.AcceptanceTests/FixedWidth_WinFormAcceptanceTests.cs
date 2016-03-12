@@ -17,7 +17,7 @@ namespace Siftan.WinForms.AcceptanceTests
   [TestFixture]
   public class FixedWidth_WinFormAcceptanceTests : AcceptanceTestsBase
   {
-    private const String InputFileResourcePath = "Siftan.WinForms.AcceptanceTests.FixedWidthRecordFile.txt";
+    private const String InputFileResourcePath = "Siftan.WinForms.AcceptanceTests.Resources.FixedWidthRecordFile.txt";
 
     private const UInt32 LineIDStart = 0;
 
