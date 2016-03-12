@@ -54,6 +54,16 @@ namespace Siftan.WinForms
       }
     }
 
+    internal Boolean CreateMatchedOutput
+    {
+      get { return this.CreateMatchedOutput_CheckBox.Checked; }
+    }
+
+    internal Boolean CreateUnmatchedOutput
+    {
+      get { return this.CreateUnmatchedOutput_CheckBox.Checked; }
+    }
+
     internal String[] ValueList { get { return this.InList_TextBox.Text.Split(new[] { "\r\n" }, StringSplitOptions.None); } }
 
     internal String InputFilePattern

@@ -84,7 +84,7 @@ namespace Siftan.WinForms
       }
       else if (this.mainForm.WriteOutputPerInputFile)
       {
-        return new InputFileRecordWriter(this.statisticsManager);
+        return new InputFileRecordWriter(this.statisticsManager, this.mainForm.CreateMatchedOutput, this.mainForm.CreateUnmatchedOutput);
       }
 
       throw new Exception("Cannot create record writer. No recognised state found in main form.");

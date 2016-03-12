@@ -12,25 +12,21 @@ namespace Siftan
 
     private Dictionary<String, StreamWriter> writers = new Dictionary<String, StreamWriter>();
 
-    public InputFileRecordWriter(IStatisticsCollector statisticsCollector)
+    public InputFileRecordWriter(IStatisticsCollector statisticsCollector, Boolean doWriteMatchedRecords, Boolean doWriteUnmatchedRecords)
     {
       this.statisticsCollector = statisticsCollector;
+      this.DoWriteMatchedRecords = doWriteMatchedRecords;
+      this.DoWriteUnmatchedRecords = doWriteUnmatchedRecords;
     }
 
     public Boolean DoWriteMatchedRecords
     {
-      get
-      {
-        throw new NotImplementedException();
-      }
+      get; private set;
     }
 
     public Boolean DoWriteUnmatchedRecords
     {
-      get
-      {
-        throw new NotImplementedException();
-      }
+      get; private set;
     }
 
     public void Close()

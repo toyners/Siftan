@@ -17,9 +17,9 @@ namespace Siftan.WinForms.AcceptanceTests
   {
     private const String InputFileResourcePath = "Siftan.WinForms.AcceptanceTests.Resources.DelimitedRecordFile.csv";
 
-    private const String FirstInputFileResourcePath = "";
+    private const String FirstInputFileResourcePath = "Siftan.WinForms.AcceptanceTests.Resources.FirstDelimitedRecordFile.csv";
 
-    private const String SecondInputFileResourcePath = "";
+    private const String SecondInputFileResourcePath = "Siftan.WinForms.AcceptanceTests.Resources.SecondDelimitedRecordFile.csv";
 
     private const String Delimiter = "|";
 
@@ -255,10 +255,10 @@ namespace Siftan.WinForms.AcceptanceTests
       String firstInputFilePath = this.workingDirectory + "FirstInput.csv";
       String secondInputFilePath = this.workingDirectory + "SecondInput.csv";
       String inputFilePattern = "*Input.csv";
-      String firstMatchedOutputFilePath = this.workingDirectory + "Matched_FirstInput.csv";
-      String secondMatchedOutputFilePath = this.workingDirectory + "Matched_SecondInput.csv";
-      String firstUnmatchedOutputFilePath = this.workingDirectory + "Unmatched_FirstInput.csv";
-      String secondUnmatchedOutputFilePath = this.workingDirectory + "Unmatched_SecondInput.csv";
+      String firstMatchedOutputFilePath = this.workingDirectory + "Matched_From_FirstInput.csv";
+      String secondMatchedOutputFilePath = this.workingDirectory + "Matched_From_SecondInput.csv";
+      String firstUnmatchedOutputFilePath = this.workingDirectory + "Unmatched_From_FirstInput.csv";
+      String secondUnmatchedOutputFilePath = this.workingDirectory + "Unmatched_From_SecondInput.csv";
 
       var applicationPath = ApplicationPathCreator.GetApplicationPath("Siftan.WinForms");
 
@@ -287,6 +287,7 @@ namespace Siftan.WinForms.AcceptanceTests
           .SetTextBoxValue("InputFileName_TextBox", inputFilePattern)
           .SetRadioButtonOn("OutputForEachFile_RadioButton")
           .SetTextBoxValue("OutputDirectory_TextBox", this.workingDirectory)
+          .SetCheckBoxChecked("CreateMatchedOutput_CheckBox", true)
           .SetCheckBoxChecked("CreateUnmatchedOutput_CheckBox", true)
           .SetTextBoxValue("InList_TextBox", SingleValuesList)
           .ClickButton("Start_Button");

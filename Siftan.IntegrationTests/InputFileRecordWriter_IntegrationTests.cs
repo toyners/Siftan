@@ -35,7 +35,7 @@ namespace Siftan.IntegrationTests
       File.WriteAllLines(this.workingDirectory + "FileB.txt", new String[] { "g", "h", "i", "j", "k", "l" });
 
       var mockStatisticsCollector = Substitute.For<IStatisticsCollector>();
-      InputFileRecordWriter writer = new InputFileRecordWriter(mockStatisticsCollector);
+      InputFileRecordWriter writer = new InputFileRecordWriter(mockStatisticsCollector, true, false);
       using (FileReader inputFileA = new FileReader(this.workingDirectory + "FileA.txt"))
       {
         using (FileReader inputFileB = new FileReader(this.workingDirectory + "FileB.txt"))
@@ -65,7 +65,7 @@ namespace Siftan.IntegrationTests
       File.WriteAllLines(this.workingDirectory + "FileB.txt", new String[] { "g", "h", "i", "j", "k", "l" });
 
       var mockStatisticsCollector = Substitute.For<IStatisticsCollector>();
-      InputFileRecordWriter writer = new InputFileRecordWriter(mockStatisticsCollector);
+      InputFileRecordWriter writer = new InputFileRecordWriter(mockStatisticsCollector, false, true);
       using (FileReader inputFileA = new FileReader(this.workingDirectory + "FileA.txt"))
       {
         using (FileReader inputFileB = new FileReader(this.workingDirectory + "FileB.txt"))
