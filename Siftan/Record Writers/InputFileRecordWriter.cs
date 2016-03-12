@@ -50,15 +50,15 @@ namespace Siftan
     private void WriteRecordsToFile(IStreamReader reader, Record record, String outputPrefix)
     {
       StreamWriter writer;
-      if (!writers.ContainsKey(reader.Name))
+      String outputName = Path.GetDirectoryName(reader.Name) + @"\" + outputPrefix + Path.GetFileName(reader.Name);
+      if (!writers.ContainsKey(outputName))
       {
-        String outputName = Path.GetDirectoryName(reader.Name) + @"\" + outputPrefix + Path.GetFileName(reader.Name);
         writer = new StreamWriter(outputName);
-        writers.Add(reader.Name, writer);
+        writers.Add(outputName, writer);
       }
       else
       {
-        writer = writers[reader.Name];
+        writer = writers[outputName];
       }
 
       StreamWriteOperations.WriteRecordToStream(writer, reader, record);
