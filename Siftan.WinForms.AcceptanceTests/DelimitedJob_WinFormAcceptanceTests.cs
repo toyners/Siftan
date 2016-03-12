@@ -301,7 +301,7 @@ namespace Siftan.WinForms.AcceptanceTests
         firstMatchedOutputFilePath,
         new String[]
         {
-          "01|Ben|Toynbee|12345|1.23",
+          "01|File|One|12345|1.23",
           "02|||12345||",
           "03|||12345||",
           "03|||12345||",
@@ -312,18 +312,18 @@ namespace Siftan.WinForms.AcceptanceTests
         secondMatchedOutputFilePath,
         new String[]
         {
-          "01|Ben|Toynbee|12346|1.23",
-          "02|||12346||",
-          "03|||12346||",
-          "03|||12346||",
-          "05|||12346||"
+          "01|File|Two|12345|1.23",
+          "02|||12345||",
+          "03|||12345||",
+          "03|||12345||",
+          "05|||12345||"
         });
 
         TestFileSupport.AssertFileIsCorrect(
         firstUnmatchedOutputFilePath,
         new String[]
         {
-          "01|Sid|Sample|54321|1.23",
+          "01|File|One|54321|1.23",
           "02|||54321||",
           "03|||54321||",
           "05|||54321||"
@@ -333,10 +333,10 @@ namespace Siftan.WinForms.AcceptanceTests
         secondUnmatchedOutputFilePath,
         new String[]
         {
-          "01|Sid|Sample|64321|1.23",
-          "02|||64321||",
-          "03|||64321||",
-          "05|||64321||"
+          "01|File|Two|54321|1.23",
+          "02|||54321||",
+          "03|||54321||",
+          "05|||54321||"
         });
 
         TestFileSupport.AssertFileIsCorrect(
@@ -344,12 +344,12 @@ namespace Siftan.WinForms.AcceptanceTests
           new String[]
           {
             TestConstants.DateTimeStampRegex + "Run Started...",
-            TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("Processing {0}", firstInputFilePath)),
+            TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("Processing '{0}'", firstInputFilePath)),
             TestConstants.DateTimeStampRegex + "Record found at position 0 with Term '12345' matches with List Term '12345'.",
-            TestConstants.DateTimeStampRegex + "Record found at position 86 with Term '54321'.",
-            TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("Processing {0}", secondInputFilePath)),
-            TestConstants.DateTimeStampRegex + "Record found at position 0 with Term '12346' matches with List Term '12346'.",
-            TestConstants.DateTimeStampRegex + "Record found at position 86 with Term '64321'.",
+            TestConstants.DateTimeStampRegex + "Record found at position 83 with Term '54321'.",
+            TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("Processing '{0}'", secondInputFilePath)),
+            TestConstants.DateTimeStampRegex + "Record found at position 0 with Term '12345' matches with List Term '12345'.",
+            TestConstants.DateTimeStampRegex + "Record found at position 83 with Term '54321'.",
             TestConstants.DateTimeStampRegex + Regex.Escape("4 Record(s) processed."),
             TestConstants.DateTimeStampRegex + Regex.Escape("2 Record(s) matched."),
             TestConstants.DateTimeStampRegex + Regex.Escape("2 Record(s) not matched."),
