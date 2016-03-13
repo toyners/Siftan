@@ -10,6 +10,12 @@ namespace Siftan
 
     private Dictionary<String, OutputFileCounter> outputFileCounters = new Dictionary<String, OutputFileCounter>();
 
+    public void Reset()
+    {
+      this.inputFileCounters.Clear();
+      this.outputFileCounters.Clear();
+    }
+
     public void RecordIsMatched(String inputFilePath)
     {
       this.GetInputFileCounter(inputFilePath).Matched++;

@@ -50,6 +50,8 @@ namespace Siftan.WinForms
     {
       this.VerifyParameters();
 
+      this.statisticsManager.Reset();
+
       String[] inputFilePaths = FilePatternResolver.ResolveFilePattern(this.mainForm.InputFilePattern, this.mainForm.InputFileSearchDepth);
 
       IRecordReader recordReader = this.CreateRecordReader();
