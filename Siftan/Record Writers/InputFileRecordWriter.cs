@@ -5,6 +5,7 @@ namespace Siftan
   using System.Collections.Generic;
   using System.IO;
   using Jabberwocky.Toolkit.IO;
+  using Jabberwocky.Toolkit.Object;
 
   public class InputFileRecordWriter : IRecordWriter
   {
@@ -49,6 +50,9 @@ namespace Siftan
 
     private void WriteRecordsToFile(IStreamReader reader, Record record, String outputPrefix)
     {
+      reader.VerifyThatObjectIsNotNull("Cannot write record. Parameter 'reader' is null.");
+      record.VerifyThatObjectIsNotNull("Cannot write record. Parameter 'record' is null.");
+
       StreamWriter writer;
       String outputName = Path.GetDirectoryName(reader.Name) + @"\" + outputPrefix + Path.GetFileName(reader.Name);
       if (!writers.ContainsKey(outputName))
@@ -60,6 +64,8 @@ namespace Siftan
       {
         writer = writers[outputName];
       }
+
+      this.statisticsCollector.RecordWrittenToOutputFile(outputName);
 
       StreamWriteOperations.WriteRecordToStream(writer, reader, record);
     }
