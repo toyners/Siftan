@@ -18,12 +18,12 @@ namespace Siftan.TestSupport
       {
         Boolean matched = false;
 
-        for (Int32 logIndex = 0; logIndex < actualLines.Length; logIndex++)
+        for (Int32 actualIndex = 0; actualIndex < actualLines.Length; actualIndex++)
         {
-          String actualLine = actualLines[logIndex];
+          String actualLine = actualLines[actualIndex];
           if (Regex.IsMatch(actualLine, expectedLine))
           {
-            if (lastMatchIndex > logIndex)
+            if (lastMatchIndex > actualIndex)
             {
               throw new Exception(String.Format("Expected line '{0}' to follow '{1}' but '{1}' follows '{0}'.",
                 actualLine,
@@ -31,7 +31,7 @@ namespace Siftan.TestSupport
             }
 
             matched = true;
-            lastMatchIndex = logIndex;
+            lastMatchIndex = actualIndex;
             lastMatchLine = actualLine;
             break;
           }
