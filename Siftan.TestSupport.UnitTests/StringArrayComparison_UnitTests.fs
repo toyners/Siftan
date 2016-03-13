@@ -36,3 +36,23 @@ type StringArrayComparison_UnitTests() =
         (fun () -> StringArrayComparison.IsMatching(actualFileLines, expectedFileLines) |> ignore)
         |> should (throwWithMessage "Missing line 'DDD' from array.") typeof<System.Exception>
 
+    [<Test>]
+    member public this.``File containing duplicate lines does not throw meaningful exception``() =
+        // Assert
+        let actualFileLines = [|"AAA"; "BBB"; "AAA"; "BBB"|]
+        let expectedFileLines = [|"AAA"; "BBB"; "AAA"; "BBB"|]
+        
+        // Act
+        (fun () -> StringArrayComparison.IsMatching(actualFileLines, expectedFileLines) |> ignore)
+        |> should not' (throw typeof<System.Exception>)
+
+    [<Test>]
+    member public this.``File containing duplicate lines does not throw meaningful exception1``() =
+        // Assert
+        let actualFileLines = [|"AAA"; "BBB"; "AAA"; "BBB"|]
+        let expectedFileLines = [|"AAA"; "BBB"; "BBB"; "AAA"|]
+        
+        // Act
+        (fun () -> StringArrayComparison.IsMatching(actualFileLines, expectedFileLines) |> ignore)
+        |> should (throwWithMessage "Expected line 'AAA' to follow 'BBB' but 'BBB' follows 'AAA'.") typeof<System.Exception>
+
