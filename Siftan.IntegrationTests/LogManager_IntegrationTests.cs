@@ -61,12 +61,7 @@ namespace Siftan.IntegrationTests
     [SetUp]
     public void SetupBeforeEachTest()
     {
-      if (Directory.Exists(this.workingDirectory))
-      {
-        Directory.Delete(this.workingDirectory, true);
-      }
-
-      Directory.CreateDirectory(this.workingDirectory);
+      TestDirectory.ClearDirectory(this.workingDirectory);
 
       this.mockDateTimeStamper = Substitute.For<IDateTimeStamper>();
       this.mockDateTimeStamper.Now.Returns(LateNewYearsEveDateTimeStamp, EarlyNewYearsDayDateTimeStamp, NewYearsDayDateTimeStamp);

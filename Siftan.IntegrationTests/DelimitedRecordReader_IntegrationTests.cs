@@ -8,60 +8,64 @@ namespace Siftan.IntegrationTests
   using Jabberwocky.Toolkit.Assembly;
   using Jabberwocky.Toolkit.IO;
   using NUnit.Framework;
+  using TestSupport;
 
   [TestFixture]
   public class DelimitedRecordReader_IntegrationTests
   {
+    private String workingDirectory;
+
     #region Methods
+    [TestFixtureSetUp]
+    public void SetupBeforeAllTests()
+    {
+      this.workingDirectory = Path.GetTempPath() + @"DelimitedRecordReader_IntegrationTests\";
+    }
+
+    [SetUp]
+    public void SetupBeforeEachTest()
+    {
+      TestDirectory.ClearDirectory(this.workingDirectory);
+    }
+
     [Test]
     public void ReadRecord_TwoRecordsInFile_ReturnsTwoRecordObjects()
     {
-      String testFilePath = null;
-      try
+      // Arrange
+      String resourceFileName = "Siftan.IntegrationTests.TestFile.csv";
+      String inputFilePath = this.workingDirectory + resourceFileName;
+      Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
+
+      DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
       {
-        Int32 firstRecordEndPosition = "ï»¿01|Ben|Toynbee|12345|1.23  02|||12345||  03|||12345||  03|||12345||  05|||12345||  ".Length;
-        Int32 secondRecordEndPosition = firstRecordEndPosition + "01|Sid|Sample|54321|1.23  02|||54321||  03|||54321||  05|||54321||".Length;
+        Delimiter = "|",
+        Qualifier = '\0',
+        LineIDIndex = 0,
+        HeaderID = "01",
+        Term = new DelimitedRecordDescriptor.TermDefinition("01", 3)
+      };
 
-        // Arrange
-        testFilePath = Path.GetTempPath() + Path.GetRandomFileName();
-        Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.IntegrationTests.TestFile.csv", testFilePath);
+      DelimitedRecordReader reader = new DelimitedRecordReader(recordDescriptor);
 
-        DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
-        {
-          Delimiter = "|",
-          Qualifier = '\0',
-          LineIDIndex = 0,
-          HeaderID = "01",
-          Term = new DelimitedRecordDescriptor.TermDefinition("01", 3)
-        };
+      FileReader fileReader = new FileReader(inputFilePath);
 
-        DelimitedRecordReader reader = new DelimitedRecordReader(recordDescriptor);
+      // Act
+      Record firstRecord = reader.ReadRecord(fileReader);
+      Int64 firstRecordEndPosition = fileReader.Position;
+      Record secondRecord = reader.ReadRecord(fileReader);
+      Int64 secondRecordEndPosition = fileReader.Position;
 
-        FileReader fileReader = new FileReader(testFilePath);
+      fileReader.Close();
 
-        // Act
-        Record firstRecord = reader.ReadRecord(fileReader);
-        Record secondRecord = reader.ReadRecord(fileReader);
+      // Assert
+      firstRecord.Should().NotBeNull();
+      secondRecord.Should().NotBeNull();
+      firstRecord.Should().NotBeSameAs(secondRecord);
 
-        fileReader.Close();
-
-        // Assert
-        firstRecord.Should().NotBeNull();
-        secondRecord.Should().NotBeNull();
-        firstRecord.Should().NotBeSameAs(secondRecord);
-
-        firstRecord.Start.Should().Be(0);
-        firstRecord.End.Should().Be(firstRecordEndPosition);
-        secondRecord.Start.Should().Be(firstRecordEndPosition);
-        secondRecord.End.Should().Be(secondRecordEndPosition);
-      }
-      finally
-      {
-        if (testFilePath != null && File.Exists(testFilePath))
-        {
-          File.Delete(testFilePath);
-        }
-      }
+      firstRecord.Start.Should().Be(0);
+      firstRecord.End.Should().Be(firstRecordEndPosition);
+      secondRecord.Start.Should().Be(firstRecordEndPosition);
+      secondRecord.End.Should().Be(secondRecordEndPosition);
     }
     #endregion
   }

@@ -33,12 +33,7 @@ namespace Siftan.TestSupport
 
     protected void CreateEmptyWorkingDirectory()
     {
-      if (Directory.Exists(this.workingDirectory))
-      {
-        Directory.Delete(this.workingDirectory, true);
-      }
-
-      Directory.CreateDirectory(this.workingDirectory);
+      TestDirectory.ClearDirectory(this.workingDirectory);
     }
 
     private void SetFilePaths(String projectName, String extension)

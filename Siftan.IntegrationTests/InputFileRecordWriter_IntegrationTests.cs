@@ -8,23 +8,23 @@ namespace Siftan.IntegrationTests
   using NSubstitute;
   using NUnit.Framework;
   using Shouldly;
+  using TestSupport;
 
   [TestFixture]
   public class InputFileRecordWriter_IntegrationTests
   {
     private String workingDirectory;
 
+    [TestFixtureSetUp]
+    public void SetupBeforeAllTests()
+    {
+      this.workingDirectory = Path.GetTempPath() + @"InputFileRecordWriter_IntegrationTests\";
+    }
+
     [SetUp]
     public void SetupBeforeEachTest()
     {
-      this.workingDirectory = Path.GetTempPath() + @"InputFileRecordWriter_IntegrationTests\";
-
-      if (Directory.Exists(this.workingDirectory))
-      {
-        Directory.Delete(this.workingDirectory, true);
-      }
-
-      Directory.CreateDirectory(this.workingDirectory);
+      TestDirectory.ClearDirectory(this.workingDirectory);
     }
 
     [Test]

@@ -61,12 +61,7 @@ namespace Siftan.Console.AcceptanceTests
 
     public void SetupBeforeEachTest()
     {
-      if (Directory.Exists(this.workingDirectory))
-      {
-        Directory.Delete(this.workingDirectory, true);
-      }
-
-      Directory.CreateDirectory(this.workingDirectory);
+      TestSupport.TestDirectory.ClearDirectory(this.workingDirectory);
     }
 
     public void SetToWriteMatchedAndUnmatchedFixedWidthRecordsThatAreInDataFile()
