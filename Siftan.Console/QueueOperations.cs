@@ -2,11 +2,11 @@
 namespace Siftan.Console
 {
   using System;
-  using System.Collections;
+  using System.Collections.Generic;
 
   internal static class QueueOperations
   {
-    internal static String DequeueArgument(Queue queue, String field = null)
+    internal static String DequeueArgument(Queue<String> queue, String field = null)
     {
       if (queue.Count == 0)
       {
@@ -16,16 +16,16 @@ namespace Siftan.Console
         }
       }
 
-      return queue.Dequeue() as String;
+      return queue.Dequeue();
     }
 
-    internal static UInt32 DequeueUInt32(Queue queue, String field)
+    internal static UInt32 DequeueUInt32(Queue<String> queue, String field)
     {
       String value = DequeueArgument(queue, field);
       return ConvertToUInt32(value);
     }
 
-    internal static Char DequeueChar(Queue queue, String field)
+    internal static Char DequeueChar(Queue<String> queue, String field)
     {
       String value = DequeueArgument(queue, field);
       if (value.Length > 1)
@@ -47,7 +47,7 @@ namespace Siftan.Console
       return convertedValue;
     }
 
-    internal static T DequeueEnum<T>(Queue queue, String field) where T : struct
+    internal static T DequeueEnum<T>(Queue<String> queue, String field) where T : struct
     {
       String value = DequeueArgument(queue, field);
 
@@ -60,7 +60,7 @@ namespace Siftan.Console
       return result;
     }
 
-    internal static String[] DequeueArray(Queue queue, Char seperator, String field)
+    internal static String[] DequeueArray(Queue<String> queue, Char seperator, String field)
     {
       String value = DequeueArgument(queue, field);
       return value.Split(seperator);

@@ -2,7 +2,7 @@
 namespace Siftan.Console
 {
   using System;
-  using System.Collections;
+  using System.Collections.Generic;
 
   public class Options
   {
@@ -16,13 +16,13 @@ namespace Siftan.Console
         throw new Exception("No command line arguments.");
       }
 
-      Queue queue = new Queue(args);
+      Queue<String> queue = new Queue<String>(args);
 
       this.Input = new InputOptions(queue);
 
       while (queue.Count > 0)
       {
-        String noun = queue.Dequeue() as String;
+        String noun = queue.Dequeue();
 
         switch (noun)
         {
@@ -108,10 +108,10 @@ namespace Siftan.Console
     #region Classes
     public class InputOptions
     {
-      internal InputOptions(Queue queue)
+      internal InputOptions(Queue<String> queue)
       {
         this.Pattern = QueueOperations.DequeueArgument(queue);
-        String field = queue.Peek() as String;
+        String field = queue.Peek();
         if (field == "-r")
         {
           queue.Dequeue();
@@ -127,12 +127,12 @@ namespace Siftan.Console
     public class DelimitedOptions
     {
       #region Construction
-      internal DelimitedOptions(Queue queue)
+      internal DelimitedOptions(Queue<String> queue)
       {
         Boolean parsingComplete = false;
         while (queue.Count > 0 && !parsingComplete)
         {
-          String field = queue.Peek() as String;
+          String field = queue.Peek();
           switch (field)
           {
             case "-d":
@@ -220,7 +220,7 @@ namespace Siftan.Console
     public class FixedWidthOptions
     {
       #region Construction
-      internal FixedWidthOptions(Queue queue)
+      internal FixedWidthOptions(Queue<String> queue)
       {
         Boolean parsingComplete = false;
         Boolean gotLineStart = false;
@@ -229,7 +229,7 @@ namespace Siftan.Console
         Boolean gotTermLength = false;
         while (queue.Count > 0 && !parsingComplete)
         {
-          String field = queue.Peek() as String;
+          String field = queue.Peek();
           switch (field)
           {
             case "-h":
@@ -336,12 +336,12 @@ namespace Siftan.Console
     public class InListOptions
     {
       #region Construction
-      internal InListOptions(Queue queue)
+      internal InListOptions(Queue<String> queue)
       {
         Boolean parsingComplete = false;
         while (queue.Count > 0 && !parsingComplete)
         {
-          String field = queue.Peek() as String;
+          String field = queue.Peek();
           switch (field)
           {
             case "-f":
@@ -399,12 +399,12 @@ namespace Siftan.Console
     public class OutputOptions
     {
       #region Construction
-      internal OutputOptions(Queue queue)
+      internal OutputOptions(Queue<String> queue)
       {
         Boolean parsingComplete = false;
         while (queue.Count > 0 && !parsingComplete)
         {
-          String field = queue.Peek() as String;
+          String field = queue.Peek();
           switch (field)
           {
             case "-fm":
@@ -445,12 +445,12 @@ namespace Siftan.Console
 
     public class LogOptions
     {
-      internal LogOptions(Queue queue)
+      internal LogOptions(Queue<String> queue)
       {
         Boolean parsingComplete = false;
         while (queue.Count > 0 && !parsingComplete)
         {
-          String field = queue.Peek() as String;
+          String field = queue.Peek();
           switch (field)
           {
             case "-a":
