@@ -4,9 +4,9 @@ namespace Siftan.Console
   using System;
   using System.Collections.Generic;
 
-  internal static class QueueOperations
+  public static class QueueExtensions
   {
-    internal static String DequeueArgument(Queue<String> queue, String field = null)
+    public static String DequeueArgument(this Queue<String> queue, String field = null)
     {
       if (queue.Count == 0)
       {
@@ -14,18 +14,20 @@ namespace Siftan.Console
         {
           throw new Exception(String.Format("Missing value for field '{0}'.", field));
         }
+
+        throw new Exception("No arguments found.");
       }
 
       return queue.Dequeue();
     }
 
-    internal static UInt32 DequeueUInt32(Queue<String> queue, String field)
+    public static UInt32 DequeueUInt32(this Queue<String> queue, String field)
     {
       String value = DequeueArgument(queue, field);
       return ConvertToUInt32(value);
     }
 
-    internal static Char DequeueChar(Queue<String> queue, String field)
+    public static Char DequeueChar(this Queue<String> queue, String field)
     {
       String value = DequeueArgument(queue, field);
       if (value.Length > 1)
@@ -36,18 +38,7 @@ namespace Siftan.Console
       return value[0];
     }
 
-    internal static UInt32 ConvertToUInt32(String value)
-    {
-      UInt32 convertedValue;
-      if (!UInt32.TryParse(value, out convertedValue))
-      {
-        throw new InvalidCastException(String.Format("Value '{0}' cannot be cast to type UInt32.", value));
-      }
-
-      return convertedValue;
-    }
-
-    internal static T DequeueEnum<T>(Queue<String> queue, String field) where T : struct
+    public static T DequeueEnum<T>(this Queue<String> queue, String field) where T : struct
     {
       String value = DequeueArgument(queue, field);
 
@@ -60,10 +51,21 @@ namespace Siftan.Console
       return result;
     }
 
-    internal static String[] DequeueArray(Queue<String> queue, Char seperator, String field)
+    public static String[] DequeueArray(this Queue<String> queue, Char seperator, String field)
     {
       String value = DequeueArgument(queue, field);
       return value.Split(seperator);
+    }
+
+    private static UInt32 ConvertToUInt32(String value)
+    {
+      UInt32 convertedValue;
+      if (!UInt32.TryParse(value, out convertedValue))
+      {
+        throw new InvalidCastException(String.Format("Value '{0}' cannot be cast to type UInt32.", value));
+      }
+
+      return convertedValue;
     }
   }
 }

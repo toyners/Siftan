@@ -110,7 +110,7 @@ namespace Siftan.Console
     {
       internal InputOptions(Queue<String> queue)
       {
-        this.Pattern = QueueOperations.DequeueArgument(queue);
+        this.Pattern = queue.Dequeue();
         String field = queue.Peek();
         if (field == "-r")
         {
@@ -137,43 +137,43 @@ namespace Siftan.Console
           {
             case "-d":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.Delimiter = QueueOperations.DequeueArgument(queue, "-d");
+              queue.Dequeue();
+              this.Delimiter = queue.DequeueArgument("-d");
               break;
             }
 
             case "-q":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.Qualifier = QueueOperations.DequeueChar(queue, "-q");
+              queue.Dequeue();
+              this.Qualifier = queue.DequeueChar("-q");
               break;
             }
 
             case "-h":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.HeaderLineID = QueueOperations.DequeueArgument(queue, "-h");
+              queue.Dequeue();
+              this.HeaderLineID = queue.DequeueArgument("-h");
               break;
             }
 
             case "-ti":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.TermIndex = QueueOperations.DequeueUInt32(queue, "-ti");
+              queue.Dequeue();
+              this.TermIndex = queue.DequeueUInt32("-ti");
               break;
             }
 
             case "-li":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.LineIDIndex = QueueOperations.DequeueUInt32(queue, "-li");
+              queue.Dequeue();
+              this.LineIDIndex = queue.DequeueUInt32("-li");
               break;
             }
 
             case "-t":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.TermLineID = QueueOperations.DequeueArgument(queue, "-t");
+              queue.Dequeue();
+              this.TermLineID = queue.DequeueArgument("-t");
               break;
             }
 
@@ -234,46 +234,46 @@ namespace Siftan.Console
           {
             case "-h":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.HeaderLineID = QueueOperations.DequeueArgument(queue, "-h");
+              queue.Dequeue();
+              this.HeaderLineID = queue.DequeueArgument("-h");
               break;
             }
 
             case "-ls":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.LineIDStart = QueueOperations.DequeueUInt32(queue, "-hs");
+              queue.Dequeue();
+              this.LineIDStart = queue.DequeueUInt32("-hs");
               gotLineStart = true;
               break;
             }
 
             case "-ll":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.LineIDLength = QueueOperations.DequeueUInt32(queue, "-hl");
+              queue.Dequeue();
+              this.LineIDLength = queue.DequeueUInt32("-hl");
               gotLineLength = true;
               break;
             }
 
             case "-t":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.TermLineID = QueueOperations.DequeueArgument(queue, "-t");
+              queue.Dequeue();
+              this.TermLineID = queue.DequeueArgument("-t");
               break;
             }
 
             case "-ts":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.TermStart = QueueOperations.DequeueUInt32(queue, "-ts");
+              queue.Dequeue();
+              this.TermStart = queue.DequeueUInt32("-ts");
               gotTermStart = true;
               break;
             }
 
             case "-tl":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.TermLength = QueueOperations.DequeueUInt32(queue, "-tl");
+              queue.Dequeue();
+              this.TermLength = queue.DequeueUInt32("-tl");
               gotTermLength = true;
               break;
             }
@@ -346,22 +346,22 @@ namespace Siftan.Console
           {
             case "-f":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.FilePath = QueueOperations.DequeueArgument(queue, "-f");
+              queue.Dequeue();
+              this.FilePath = queue.DequeueArgument("-f");
               break;
             }
 
             case "-m":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.MatchQuota = QueueOperations.DequeueEnum<InListExpression.MatchQuotas>(queue, "-m");
+              queue.Dequeue();
+              this.MatchQuota = queue.DequeueEnum<InListExpression.MatchQuotas>("-m");
               break;
             }
 
             case "-v":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.Values = QueueOperations.DequeueArray(queue, ':', "-v");
+              queue.Dequeue();
+              this.Values = queue.DequeueArray(':', "-v");
               break;
             }
 
@@ -409,15 +409,15 @@ namespace Siftan.Console
           {
             case "-fm":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.FileMatched = QueueOperations.DequeueArgument(queue, "-fm");
+              queue.Dequeue();
+              this.FileMatched = queue.DequeueArgument("-fm");
               break;
             }
 
             case "-fu":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.FileUnmatched = QueueOperations.DequeueArgument(queue, "-fu");
+              queue.Dequeue();
+              this.FileUnmatched = queue.DequeueArgument("-fu");
               break;
             }
 
@@ -455,15 +455,15 @@ namespace Siftan.Console
           {
             case "-a":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.ApplicationLogFilePath = QueueOperations.DequeueArgument(queue, "-a");
+              queue.Dequeue();
+              this.ApplicationLogFilePath = queue.DequeueArgument("-a");
               break;
             }
 
             case "-j":
             {
-              QueueOperations.DequeueArgument(queue);
-              this.JobLogFilePath = QueueOperations.DequeueArgument(queue, "-j");
+              queue.Dequeue();
+              this.JobLogFilePath = queue.DequeueArgument("-j");
               break;
             }
 
