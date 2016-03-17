@@ -72,11 +72,11 @@
     <Compile Include="StatisticsManager_IntegrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TestFile.csv" />
+    <EmbeddedResource Include="Resources\TestFile.csv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <EmbeddedResource Include="SingleFile.csv" />
+    <EmbeddedResource Include="Resources\SingleFile.csv" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Siftan.TestSupport\Siftan.TestSupport.csproj">
