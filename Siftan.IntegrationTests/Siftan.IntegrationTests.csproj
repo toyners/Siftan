@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="SingleFile.csv" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Siftan.TestSupport\Siftan.TestSupport.csproj">
