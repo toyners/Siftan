@@ -19,7 +19,7 @@ namespace Siftan.IntegrationTests
     [TestFixtureSetUp]
     public void SetupBeforeAllTests()
     {
-      this.workingDirectory = Path.GetTempPath() + @"DelimitedRecordReader_IntegrationTests\";
+      this.workingDirectory = Path.GetTempPath() + @"DelimitedRecordSource_IntegrationTests\";
     }
 
     [SetUp]
@@ -32,7 +32,7 @@ namespace Siftan.IntegrationTests
     public void Test()
     {
       // Arrange
-      String resourceFileName = "Siftan.IntegrationTests.SingleFile.csv";
+      String resourceFileName = "Siftan.IntegrationTests.Resources.SingleFile.csv";
       String inputFilePath = this.workingDirectory + resourceFileName;
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
 
