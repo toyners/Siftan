@@ -65,16 +65,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DelimitedRecordReader_IntegrationTests.cs" />
+    <Compile Include="DelimitedRecordSource_IntegrationTests.cs" />
     <Compile Include="InputFileRecordWriter_IntegrationTests.cs" />
     <Compile Include="LogManager_IntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatisticsManager_IntegrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TestFile.csv" />
+    <EmbeddedResource Include="Resources\TestFile.csv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Resources\SingleFile.csv" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Siftan.TestSupport\Siftan.TestSupport.csproj">

@@ -1,6 +1,7 @@
 ﻿
 namespace Siftan
 {
+  using System;
   using Jabberwocky.Toolkit.IO;
 
   public interface IRecordReader

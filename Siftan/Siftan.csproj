@@ -47,6 +47,7 @@
     <Compile Include="DateTimeStamper.cs" />
     <Compile Include="DelimitedRecordDescriptor.cs" />
     <Compile Include="DelimitedRecordReader.cs" />
+    <Compile Include="DelimitedRecordSource.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="FileOpenedEventHandler.cs" />
     <Compile Include="FileReadEventHandler.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="IDelimitedRecordDescriptorSource.cs" />
     <Compile Include="IFixedWidthRecordDescriptorSource.cs" />
     <Compile Include="ILogManager.cs" />
+    <Compile Include="IRecordSource.cs" />
     <Compile Include="Record Writers\InputFileRecordWriter.cs" />
     <Compile Include="IRecordWriter.cs" />
     <Compile Include="IStatisticsCollector.cs" />
