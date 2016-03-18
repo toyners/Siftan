@@ -10,59 +10,26 @@ namespace Siftan
 
   public class DelimitedRecordSource : IRecordSource
   {
-    private const Byte EF = 239;
-    private const Byte BB = 187;
-    private const Byte BF = 191;
-
     private readonly DelimitedRecordDescriptor descriptor;
     private readonly FileStream stream;
     private readonly List<Int64> positions;
     private Byte[] buffer;
     private Int32 bufferIndex;
     private Int32 bufferLength;
-    private Encoding encoding;
-    private Int32 byteCount; // Number of bytes per character
 
-    public DelimitedRecordSource(DelimitedRecordDescriptor descriptor, String filePath) :
-      this(descriptor, filePath, Encoding.UTF8)
-    {
-    }
-
-    public DelimitedRecordSource(DelimitedRecordDescriptor descriptor, String filePath, Encoding encoding)
+    public DelimitedRecordSource(DelimitedRecordDescriptor descriptor, String filePath)
     {
       this.descriptor = descriptor;
       this.stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-
-      this.DetermineEncoding(encoding);
-      
-      this.buffer = new Byte[1024 * this.byteCount];
+      this.buffer = new Byte[1024];
       this.bufferIndex = this.bufferLength = 0;
+      this.positions = new List<Int64>();
+
+      this.stream.ReadByte();
+      this.stream.ReadByte();
+      this.stream.ReadByte();
 
       this.ReadRecord();
-    }
-
-    private void DetermineEncoding(Encoding encoding)
-    {
-      if (encoding != null)
-      {
-        this.encoding = encoding;
-
-        this.stream.ReadByte();
-        this.stream.ReadByte();
-        this.stream.ReadByte();
-      }
-      else
-      {
-        // Determine encoding from BOM. Use UTF8 if no BOM are found.
-        if (this.stream.ReadByte() == EF &&
-          this.stream.ReadByte() == BB &&
-          this.stream.ReadByte() == BF)
-        {
-          this.encoding = Encoding.UTF8;
-        }
-      }
-
-      this.byteCount = 1; // this.encoding.GetMaxByteCount(1);
     }
 
     public Int64 GetRecordCount
@@ -97,9 +64,11 @@ namespace Siftan
 
     private void ReadRecord()
     {
-      //Boolean withinQualifier = false;
       StringBuilder stringBuilder = new StringBuilder(1024);
       Char character = '\0';
+      Int32 delimiterIndex = 0;
+      Int32 termIndex = 0;
+      Int64 recordIndex = this.stream.Position;
 
       while (true)
       {
@@ -107,6 +76,29 @@ namespace Siftan
         {
           break;
         }
+
+        if (character == this.descriptor.Delimiter[delimiterIndex])
+        {
+          if (++delimiterIndex == this.descriptor.Delimiter.Length)
+          {
+            // Got the term to examine
+            if (termIndex == this.descriptor.LineIDIndex)
+            {
+              if (this.descriptor.HeaderID == stringBuilder.ToString())
+              {
+                // Got the record header - mark the position down
+                this.positions.Add(recordIndex);
+                this.GotRecord = true;
+              }
+            }
+
+            stringBuilder.Clear();
+            delimiterIndex = 0;
+          }
+
+          continue;
+        }
+
         
         stringBuilder.Append(character);
       }
@@ -125,7 +117,7 @@ namespace Siftan
         this.bufferIndex = 0;
       }
 
-      character = this.encoding.GetChars(this.buffer, this.bufferIndex, this.byteCount)[0];
+      character = (Char)this.buffer[this.bufferIndex++];
       return true;
     }
   }
