@@ -54,7 +54,12 @@ namespace Siftan
 
     public Boolean MoveToNextRecord()
     {
-      throw new NotImplementedException();
+      if (this.GotRecord)
+      {
+        this.ReadRecord();
+      }
+
+      return this.GotRecord;
     }
 
     public Boolean MoveToRecord(Int64 index)
@@ -68,7 +73,7 @@ namespace Siftan
       Char character = '\0';
       Int32 delimiterIndex = 0;
       Int32 termIndex = 0;
-      Int64 recordIndex = this.stream.Position;
+      Int64 recordPosition = this.stream.Position;
 
       while (true)
       {
@@ -87,7 +92,7 @@ namespace Siftan
               if (this.descriptor.HeaderID == stringBuilder.ToString())
               {
                 // Got the record header - mark the position down
-                this.positions.Add(recordIndex);
+                this.positions.Add(recordPosition);
                 this.GotRecord = true;
               }
             }
@@ -108,13 +113,12 @@ namespace Siftan
     {
       if (this.bufferIndex == this.bufferLength)
       {
+        this.bufferIndex = 0;
         this.bufferLength = this.stream.Read(this.buffer, 0, this.buffer.Length);
         if (this.bufferLength == 0)
         {
           return false; // Nothing read must be EOF
         }
-
-        this.bufferIndex = 0;
       }
 
       character = (Char)this.buffer[this.bufferIndex++];

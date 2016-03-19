@@ -29,6 +29,12 @@ namespace Siftan.IntegrationTests
     }
 
     [Test]
+    public void HalfRecordInFile()
+    {
+      throw new NotImplementedException();
+    }
+
+    [Test]
     public void Test()
     {
       // Arrange
