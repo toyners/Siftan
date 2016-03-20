@@ -35,10 +35,10 @@ namespace Siftan.IntegrationTests
     }
 
     [Test]
-    public void Test()
+    public void ReadRecordFromSingleRecordFile()
     {
       // Arrange
-      String resourceFileName = "Siftan.IntegrationTests.Resources.SingleFile.csv";
+      String resourceFileName = "Siftan.IntegrationTests.Resources.SingleRecord.csv";
       String inputFilePath = this.workingDirectory + resourceFileName;
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
 
@@ -57,6 +57,7 @@ namespace Siftan.IntegrationTests
       source.MoveToNextRecord().ShouldBeFalse();
       source.Close();
     }
+
     #endregion 
   }
 }
