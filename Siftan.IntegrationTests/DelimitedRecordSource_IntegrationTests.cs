@@ -42,13 +42,7 @@ namespace Siftan.IntegrationTests
       String inputFilePath = this.workingDirectory + resourceFileName;
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
 
-      DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
-      {
-        Delimiter = "|",
-        Qualifier = '\0',
-        LineIDIndex = 0,
-        HeaderID = "01",
-      };
+      DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
 
       DelimitedRecordSource source = new DelimitedRecordSource(recordDescriptor, inputFilePath);
 
@@ -58,6 +52,36 @@ namespace Siftan.IntegrationTests
       source.Close();
     }
 
+    [Test]
+    public void ReadAllRecordsFromFile()
+    {
+      // Arrange
+      String resourceFileName = "Siftan.IntegrationTests.Resources.TwoRecords.csv";
+      String inputFilePath = this.workingDirectory + resourceFileName;
+      Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
+
+      DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
+
+      DelimitedRecordSource source = new DelimitedRecordSource(recordDescriptor, inputFilePath);
+
+      // Act and Assert
+      source.GotRecord.ShouldBeTrue();
+      source.MoveToNextRecord().ShouldBeTrue();
+      source.MoveToNextRecord().ShouldBeFalse();
+      source.Close();
+    }
+
+
+    private DelimitedRecordDescriptor CreateDelimitedDescriptor()
+    {
+     return new DelimitedRecordDescriptor
+      {
+        Delimiter = "|",
+        Qualifier = '\0',
+        LineIDIndex = 0,
+        HeaderID = "01",
+      };
+    }
     #endregion 
   }
 }
