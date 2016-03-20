@@ -13,4 +13,13 @@ namespace Siftan
     Boolean IsMatch(Record record);
     #endregion
   }
+
+  public interface IRecordMatcher
+  {
+    #region Properties
+    Boolean HasReachedMatchQuota { get; }
+    #endregion
+
+    Boolean IsMatch(IRecordSource recordSource);
+  }
 }

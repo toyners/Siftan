@@ -159,6 +159,30 @@ namespace Siftan
     private void WriteNothing(IStreamReader reader, Record record)
     {
     }
+
+    private void Process(String[] filePaths, IRecordSourceFactory recordSourceFactory, IRecordMatcher recordMatcher, IRecordWriter2 recordWriter)
+    {
+      foreach (String filePath in filePaths)
+      {
+        IRecordSource recordSource = recordSourceFactory.CreateSource(filePath);
+
+        while (!recordMatcher.HasReachedMatchQuota && recordSource.GotRecord)
+        {
+          if (recordMatcher.IsMatch(recordSource))
+          {
+            recordWriter.WriteMatchedRecord(recordSource);
+          }
+          else
+          {
+            recordWriter.WriteUnmatchedRecord(recordSource);
+          }
+
+          recordSource.MoveToNextRecord();
+        }
+
+        recordSource.Close();
+      }
+    }
     #endregion
   }
 }

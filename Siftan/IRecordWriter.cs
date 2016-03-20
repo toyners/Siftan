@@ -16,4 +16,11 @@ namespace Siftan
 
     void Close();
   }
+
+  public interface IRecordWriter2
+  {
+    void WriteMatchedRecord(IRecordSource recordSource);
+
+    void WriteUnmatchedRecord(IRecordSource recordSource);
+  }
 }

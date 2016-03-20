@@ -17,4 +17,9 @@ namespace Siftan
 
     Boolean MoveToRecord(Int64 index);
   }
+
+  public interface IRecordSourceFactory
+  {
+    IRecordSource CreateSource(String key);
+  }
 }
