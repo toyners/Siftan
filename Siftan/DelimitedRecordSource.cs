@@ -4,15 +4,13 @@ namespace Siftan
   using System;
   using System.Collections.Generic;
   using System.IO;
-  using System.Linq;
   using System.Text;
-  using System.Threading.Tasks;
 
   public class DelimitedRecordSource : IRecordSource
   {
     private readonly DelimitedRecordDescriptor descriptor;
-    private readonly FileStream stream;
     private readonly List<Int64> positions;
+    private FileStream stream;
     private Byte[] buffer;
     private Int32 bufferIndex;
     private Int32 bufferLength;
@@ -44,7 +42,11 @@ namespace Siftan
 
     public void Close()
     {
-      throw new NotImplementedException();
+      if (this.stream != null)
+      {
+        this.stream.Close();
+        this.stream = null;
+      }
     }
 
     public Boolean GetRecordData(Byte[] buffer, out Int64 bytesRead)
@@ -74,6 +76,7 @@ namespace Siftan
       Int32 delimiterIndex = 0;
       Int32 termIndex = 0;
       Int64 recordPosition = this.stream.Position;
+      this.GotRecord = false;
 
       while (true)
       {
