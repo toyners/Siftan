@@ -11,15 +11,16 @@ namespace Siftan
     private readonly DelimitedRecordDescriptor descriptor;
     private readonly List<Int64> positions;
     private FileReader file;
-
-    private String endofLineDelimiter = "\r\n";
+    private String endOfLineDelimiter = "\r\n";
+    private Boolean onNextRecord = false;
+    private Int64 recordPosition;
 
     public DelimitedRecordSource(DelimitedRecordDescriptor descriptor, String filePath)
     {
       this.descriptor = descriptor;
-      this.file = new FileReader(filePath, "\r\n");
+      this.file = new FileReader(filePath);
       this.positions = new List<Int64>();
-
+      this.recordPosition = this.file.Position;
       this.ReadRecord();
     }
 
@@ -65,8 +66,14 @@ namespace Siftan
       Int32 delimiterIndex = 0;
       Int32 termIndex = 0;
       Int32 eolIndex = 0;
-      Int64 recordPosition = this.file.Position;
       this.GotRecord = false;
+
+      if (this.onNextRecord)
+      {
+        this.positions.Add(this.recordPosition);
+        this.GotRecord = true;
+        this.onNextRecord = false;
+      }
 
       while (true)
       {
@@ -75,19 +82,30 @@ namespace Siftan
           break;
         }
 
-        if (GotEndOfLine(character, ref eolIndex))
+        if (GotDelimiter(character, this.endOfLineDelimiter, ref eolIndex))
         {
-
+          termIndex = 0;
+          termBuilder.Clear();
+          recordPosition = this.file.Position;
+          continue;
         }
 
-        if (GotTerm(character, ref delimiterIndex))
+        if (GotDelimiter(character, this.descriptor.Delimiter, ref delimiterIndex))
         {
           // Got the term to examine
-          if (termIndex == this.descriptor.LineIDIndex && this.descriptor.HeaderID == termBuilder.ToString())
+          if (this.GotTerm(termIndex, termBuilder.ToString()))
           {
-            // Got the record header - mark the position down
-            this.positions.Add(recordPosition);
-            this.GotRecord = true;
+            if (!this.GotRecord)
+            {
+              // Got the first record header - mark the position down
+              this.positions.Add(recordPosition);
+              this.GotRecord = true;
+            }
+            else
+            {
+              this.onNextRecord = true;
+              break;
+            }
           }
 
           termBuilder.Clear();
@@ -98,16 +116,16 @@ namespace Siftan
       }
     }
 
-    private Boolean GotEndOfLine(Char character, ref Int32 eolIndex)
+    private Boolean GotTerm(Int32 termIndex, String term)
     {
-      throw new NotImplementedException();
+      return termIndex == this.descriptor.LineIDIndex && term == this.descriptor.HeaderID;
     }
 
-    private Boolean GotTerm(Char character, ref Int32 delimiterIndex)
+    private Boolean GotDelimiter(Char character, String delimiter, ref Int32 delimiterIndex)
     {
-      if (character == this.descriptor.Delimiter[delimiterIndex])
+      if (character == delimiter[delimiterIndex])
       {
-        if (delimiterIndex + 1 == this.descriptor.Delimiter.Length)
+        if (delimiterIndex + 1 == delimiter.Length)
         {
           delimiterIndex = 0;
           return true;
@@ -130,11 +148,10 @@ namespace Siftan
     private Byte[] buffer;
     private Int32 bufferIndex;
     private Int32 bufferLength;
-    private String endOfLineDelimiter;
 
-    public Int64 Position { get { return this.stream.Position; } }
+    public Int64 Position { get; set; }
 
-    public FileReader(String filePath, String endOfLineDelimiter)
+    public FileReader(String filePath)
     {
       this.buffer = new Byte[1024];
       this.bufferIndex = this.bufferLength = 0;
@@ -167,6 +184,7 @@ namespace Siftan
       }
 
       character = (Char)this.buffer[this.bufferIndex++];
+      this.Position++;
       return true;
     }
   }
