@@ -10,22 +10,15 @@ namespace Siftan
   {
     private readonly DelimitedRecordDescriptor descriptor;
     private readonly List<Int64> positions;
-    private FileStream stream;
-    private Byte[] buffer;
-    private Int32 bufferIndex;
-    private Int32 bufferLength;
+    private FileReader file;
+
+    private String endofLineDelimiter = "\r\n";
 
     public DelimitedRecordSource(DelimitedRecordDescriptor descriptor, String filePath)
     {
       this.descriptor = descriptor;
-      this.stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-      this.buffer = new Byte[1024];
-      this.bufferIndex = this.bufferLength = 0;
+      this.file = new FileReader(filePath, "\r\n");
       this.positions = new List<Int64>();
-
-      this.stream.ReadByte();
-      this.stream.ReadByte();
-      this.stream.ReadByte();
 
       this.ReadRecord();
     }
@@ -42,11 +35,7 @@ namespace Siftan
 
     public void Close()
     {
-      if (this.stream != null)
-      {
-        this.stream.Close();
-        this.stream = null;
-      }
+      this.file.Close();
     }
 
     public Boolean GetRecordData(Byte[] buffer, out Int64 bytesRead)
@@ -71,48 +60,101 @@ namespace Siftan
 
     private void ReadRecord()
     {
-      StringBuilder stringBuilder = new StringBuilder(1024);
+      StringBuilder termBuilder = new StringBuilder(1024);
       Char character = '\0';
       Int32 delimiterIndex = 0;
       Int32 termIndex = 0;
-      Int64 recordPosition = this.stream.Position;
+      Int32 eolIndex = 0;
+      Int64 recordPosition = this.file.Position;
       this.GotRecord = false;
 
       while (true)
       {
-        if (!TryGetNextCharacter(ref character))
+        if (!this.file.TryGetNextCharacter(ref character))
         {
           break;
         }
 
-        if (character == this.descriptor.Delimiter[delimiterIndex])
+        if (GotEndOfLine(character, ref eolIndex))
         {
-          if (++delimiterIndex == this.descriptor.Delimiter.Length)
-          {
-            // Got the term to examine
-            if (termIndex == this.descriptor.LineIDIndex)
-            {
-              if (this.descriptor.HeaderID == stringBuilder.ToString())
-              {
-                // Got the record header - mark the position down
-                this.positions.Add(recordPosition);
-                this.GotRecord = true;
-              }
-            }
 
-            stringBuilder.Clear();
-            delimiterIndex = 0;
-          }
-
-          continue;
         }
 
+        if (GotTerm(character, ref delimiterIndex))
+        {
+          // Got the term to examine
+          if (termIndex == this.descriptor.LineIDIndex && this.descriptor.HeaderID == termBuilder.ToString())
+          {
+            // Got the record header - mark the position down
+            this.positions.Add(recordPosition);
+            this.GotRecord = true;
+          }
+
+          termBuilder.Clear();
+          continue;
+        }
         
-        stringBuilder.Append(character);
+        termBuilder.Append(character);
       }
     }
 
-    private Boolean TryGetNextCharacter(ref Char character)
+    private Boolean GotEndOfLine(Char character, ref Int32 eolIndex)
+    {
+      throw new NotImplementedException();
+    }
+
+    private Boolean GotTerm(Char character, ref Int32 delimiterIndex)
+    {
+      if (character == this.descriptor.Delimiter[delimiterIndex])
+      {
+        if (delimiterIndex + 1 == this.descriptor.Delimiter.Length)
+        {
+          delimiterIndex = 0;
+          return true;
+        }
+
+        delimiterIndex++;
+      }
+      else
+      {
+        delimiterIndex = 0;
+      }
+
+      return false;
+    }
+  }
+
+  public class FileReader
+  {
+    private FileStream stream;
+    private Byte[] buffer;
+    private Int32 bufferIndex;
+    private Int32 bufferLength;
+    private String endOfLineDelimiter;
+
+    public Int64 Position { get { return this.stream.Position; } }
+
+    public FileReader(String filePath, String endOfLineDelimiter)
+    {
+      this.buffer = new Byte[1024];
+      this.bufferIndex = this.bufferLength = 0;
+      this.stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+      this.stream.ReadByte();
+      this.stream.ReadByte();
+      this.stream.ReadByte();
+    }
+
+    public void Close()
+    {
+      if (this.stream != null)
+      {
+        this.stream.Close();
+        this.stream = null;
+      }
+    }
+
+    public Boolean TryGetNextCharacter(ref Char character)
     {
       if (this.bufferIndex == this.bufferLength)
       {
