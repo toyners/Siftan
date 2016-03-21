@@ -50,6 +50,7 @@
     <Compile Include="DelimitedRecordSource.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="FileOpenedEventHandler.cs" />
+    <Compile Include="FileReader.cs" />
     <Compile Include="FileReadEventHandler.cs" />
     <Compile Include="FixedWidthRecordDescriptor.cs" />
     <Compile Include="FixedWidthRecordReader.cs" />
