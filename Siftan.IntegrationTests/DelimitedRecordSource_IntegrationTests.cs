@@ -71,6 +71,25 @@ namespace Siftan.IntegrationTests
       source.Close();
     }
 
+    [Test]
+    public void GetRecordDataFromFile()
+    {
+      // Arrange
+      String resourceFileName = "Siftan.IntegrationTests.Resources.TwoRecords.csv";
+      String inputFilePath = this.workingDirectory + resourceFileName;
+      Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
+
+      DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
+
+      DelimitedRecordSource source = new DelimitedRecordSource(recordDescriptor, inputFilePath);
+
+      // Act
+      byte[] buffer = null;
+      Int64 bytesRead = source.GetRecordData(buffer);
+
+      bytesRead.ShouldBe(new FileInfo(inputFilePath).Length);
+      buffer.ShouldBe(File.ReadAllBytes(inputFilePath));
+    }
 
     private DelimitedRecordDescriptor CreateDelimitedDescriptor()
     {

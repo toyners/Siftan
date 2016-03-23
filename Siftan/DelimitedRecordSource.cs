@@ -39,7 +39,7 @@ namespace Siftan
       this.file.Close();
     }
 
-    public Boolean GetRecordData(Byte[] buffer, out Int64 bytesRead)
+    public Int64 GetRecordData(Byte[] buffer)
     {
       throw new NotImplementedException();
     }
