@@ -84,7 +84,7 @@ namespace Siftan.IntegrationTests
       DelimitedRecordSource source = new DelimitedRecordSource(recordDescriptor, inputFilePath);
 
       // Act
-      byte[] buffer = null;
+      Byte[] buffer = new Byte[1024];
       Int64 bytesRead = source.GetRecordData(buffer);
 
       bytesRead.ShouldBe(new FileInfo(inputFilePath).Length);

@@ -11,6 +11,7 @@ namespace Siftan
     private Byte[] buffer;
     private Int32 bufferIndex;
     private Int32 bufferLength;
+    private Int64 position;
     #endregion
 
     #region Construction
@@ -23,11 +24,49 @@ namespace Siftan
       this.stream.ReadByte();
       this.stream.ReadByte();
       this.stream.ReadByte();
+
+      // Ensure that the position is set correctly to account for the BOM
+      this.position = 3;
     }
     #endregion
 
     #region Properties
-    public Int64 Position { get; set; }
+    public Int64 Position
+    {
+      get
+      {
+        return this.position;
+      }
+
+      set
+      {
+        Int64 difference = value - this.position;
+        if (Math.Abs(difference) > this.bufferLength)
+        {
+          this.bufferIndex = this.bufferLength = 0;
+          this.position = this.stream.Position = value;
+          return;
+        }
+
+        this.bufferIndex += (Int32)difference;
+        if (this.bufferIndex < 0 || this.bufferIndex >= this.bufferLength)
+        {
+          this.bufferIndex = this.bufferLength = 0;
+          this.position = this.stream.Position = value;
+          return;
+        }
+
+        this.position += (Int32)difference;
+      }
+    }
+
+    private Boolean BlockIsEmpty
+    {
+      get
+      {
+        return this.bufferIndex >= this.bufferLength;
+      }
+    }
     #endregion
 
     #region Methods
@@ -40,21 +79,44 @@ namespace Siftan
       }
     }
 
+    public Int32 ReadBuffer(Byte[] array, Int32 length)
+    {
+      Int32 arrayIndex = 0;
+      if (!this.BlockIsEmpty)
+      {
+        Int32 count = Math.Min(this.bufferLength - this.bufferIndex, length);
+        length -= count;
+        Array.Copy(this.buffer, this.bufferIndex, array, 0, count);
+
+        if (length == 0)
+        {
+          return count;
+        }
+
+        arrayIndex += count;
+        this.Position += count;
+      }
+
+      return this.stream.Read(array, arrayIndex, length);
+    }
+
     public Boolean TryGetNextCharacter(ref Char character)
     {
-      if (this.bufferIndex == this.bufferLength)
+      if (this.bufferIndex == this.bufferLength && !this.ReadNextBlock())
       {
-        this.bufferIndex = 0;
-        this.bufferLength = this.stream.Read(this.buffer, 0, this.buffer.Length);
-        if (this.bufferLength == 0)
-        {
-          return false; // Nothing read must be EOF
-        }
+        return false; // Nothing read must be EOF
       }
 
       character = (Char)this.buffer[this.bufferIndex++];
-      this.Position++;
+      this.position++;
       return true;
+    }
+
+    private Boolean ReadNextBlock()
+    {
+      this.bufferLength = this.stream.Read(this.buffer, 0, this.buffer.Length);
+      this.bufferIndex = 0;
+      return (this.bufferLength > 0);
     }
     #endregion
   }

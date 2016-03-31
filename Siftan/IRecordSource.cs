@@ -11,7 +11,7 @@ namespace Siftan
 
     void Close();
 
-    Int64 GetRecordData(Byte[] buffer);
+    Int32 GetRecordData(Byte[] buffer);
 
     Boolean MoveToNextRecord();
 

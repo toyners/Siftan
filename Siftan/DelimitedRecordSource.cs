@@ -14,6 +14,8 @@ namespace Siftan
     private String endOfLineDelimiter = "\r\n";
     private Boolean onNextRecord = false;
     private Int64 recordPosition;
+    private Int32 recordIndex = 0;
+    private Int32 recordLength = -1;
 
     public DelimitedRecordSource(DelimitedRecordDescriptor descriptor, String filePath)
     {
@@ -39,9 +41,43 @@ namespace Siftan
       this.file.Close();
     }
 
-    public Int64 GetRecordData(Byte[] buffer)
+    public Int32 GetRecordData(Byte[] buffer)
     {
-      throw new NotImplementedException();
+      if (this.recordLength == -1)
+      {
+        Int64 position = this.positions[this.recordIndex];
+        Int64 length = 0;
+
+        if (this.recordIndex == this.positions.Count - 1)
+        {
+          length = this.file.Position - position;
+        }
+        else
+        {
+          length = this.positions[this.recordIndex + 1] - position;
+        }
+
+        if (length > Int32.MaxValue)
+        {
+          throw new Exception();
+        }
+
+        this.recordLength = (Int32)length;
+
+        this.file.Position = position;
+      }
+
+      if (this.recordLength > buffer.Length)
+      {
+        this.recordLength -= buffer.Length;
+        return this.file.ReadBuffer(buffer, buffer.Length);
+      }
+      else
+      {
+        Int32 bytesRead = this.file.ReadBuffer(buffer, this.recordLength);
+        this.recordLength = -1;
+        return bytesRead;
+      }
     }
 
     public Boolean MoveToNextRecord()
