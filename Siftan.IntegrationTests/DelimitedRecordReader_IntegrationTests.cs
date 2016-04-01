@@ -32,7 +32,7 @@ namespace Siftan.IntegrationTests
     public void ReadRecord_TwoRecordsInFile_ReturnsTwoRecordObjects()
     {
       // Arrange
-      String resourceFileName = "Siftan.IntegrationTests.TestFile.csv";
+      String resourceFileName = "Siftan.IntegrationTests.Resources.TestFile.csv";
       String inputFilePath = this.workingDirectory + resourceFileName;
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
 
