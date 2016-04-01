@@ -7,6 +7,7 @@ namespace Siftan.WinForms.AcceptanceTests
   using System.Reflection;
   using System.Text.RegularExpressions;
   using Jabberwocky.Toolkit.Assembly;
+  using Jabberwocky.Toolkit.IO;
   using NUnit.Framework;
   using Shouldly;
   using TestStack.White;
@@ -51,7 +52,7 @@ namespace Siftan.WinForms.AcceptanceTests
     [SetUp]
     public void SetupBeforeEachTest()
     {
-      CreateEmptyWorkingDirectory();
+      DirectoryOperations.EnsureDirectoryIsEmpty(this.workingDirectory);
     }
 
     [Test]

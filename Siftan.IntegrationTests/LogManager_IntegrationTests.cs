@@ -6,6 +6,7 @@ namespace Siftan.IntegrationTests
   using System.IO;
   using System.Text.RegularExpressions;
   using FluentAssertions;
+  using Jabberwocky.Toolkit.IO;
   using NSubstitute;
   using NUnit.Framework;
   using Shouldly;
@@ -61,7 +62,7 @@ namespace Siftan.IntegrationTests
     [SetUp]
     public void SetupBeforeEachTest()
     {
-      TestDirectory.ClearDirectory(this.workingDirectory);
+      DirectoryOperations.EnsureDirectoryIsEmpty(this.workingDirectory);
 
       this.mockDateTimeStamper = Substitute.For<IDateTimeStamper>();
       this.mockDateTimeStamper.Now.Returns(LateNewYearsEveDateTimeStamp, EarlyNewYearsDayDateTimeStamp, NewYearsDayDateTimeStamp);

@@ -25,7 +25,7 @@ namespace Siftan.IntegrationTests
     [SetUp]
     public void SetupBeforeEachTest()
     {
-      TestDirectory.ClearDirectory(this.workingDirectory);
+      DirectoryOperations.EnsureDirectoryIsEmpty(this.workingDirectory);
     }
 
     [Test]

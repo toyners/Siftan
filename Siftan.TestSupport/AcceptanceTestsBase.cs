@@ -31,11 +31,6 @@ namespace Siftan.TestSupport
       this.SetFilePaths(projectName, "txt");
     }
 
-    protected void CreateEmptyWorkingDirectory()
-    {
-      TestDirectory.ClearDirectory(this.workingDirectory);
-    }
-
     private void SetFilePaths(String projectName, String extension)
     {
       this.workingDirectory = String.Format(@"C:\Projects\Siftan\Temp\{0}\", projectName);

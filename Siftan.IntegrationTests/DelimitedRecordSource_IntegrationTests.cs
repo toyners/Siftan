@@ -5,10 +5,9 @@ namespace Siftan.IntegrationTests
   using System.IO;
   using System.Reflection;
   using Jabberwocky.Toolkit.Assembly;
-  using NSubstitute;
+  using Jabberwocky.Toolkit.IO;
   using NUnit.Framework;
   using Shouldly;
-  using TestSupport;
 
   [TestFixture]
   public class DelimitedRecordSource_IntegrationTests
@@ -25,7 +24,7 @@ namespace Siftan.IntegrationTests
     [SetUp]
     public void SetupBeforeEachTest()
     {
-      TestDirectory.ClearDirectory(this.workingDirectory);
+      DirectoryOperations.EnsureDirectoryIsEmpty(this.workingDirectory);
     }
 
     [Test]
