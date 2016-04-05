@@ -59,6 +59,7 @@
     <Compile Include="IFixedWidthRecordDescriptorSource.cs" />
     <Compile Include="ILogManager.cs" />
     <Compile Include="IRecordSource.cs" />
+    <Compile Include="IRecordSourceFactory.cs" />
     <Compile Include="Record Writers\InputFileRecordWriter.cs" />
     <Compile Include="IRecordWriter.cs" />
     <Compile Include="IStatisticsCollector.cs" />

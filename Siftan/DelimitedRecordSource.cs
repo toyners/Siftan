@@ -3,7 +3,6 @@ namespace Siftan
 {
   using System;
   using System.Collections.Generic;
-  using System.IO;
   using System.Text;
 
   public class DelimitedRecordSource : IRecordSource
@@ -26,7 +25,7 @@ namespace Siftan
       this.ReadRecord();
     }
 
-    public Int64 GetRecordCount
+    public Int64 Count
     {
       get
       {
@@ -78,6 +77,11 @@ namespace Siftan
         this.recordLength = -1;
         return bytesRead;
       }
+    }
+
+    public Int32 GetTagData(Dictionary<String, String> tags)
+    {
+      throw new NotImplementedException();
     }
 
     public Boolean MoveToNextRecord()
