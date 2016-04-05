@@ -7,6 +7,10 @@ namespace Siftan
   public class FileReader
   {
     #region Fields
+    private const Byte EF = 239;
+    private const Byte BB = 187;
+    private const Byte BF = 191;
+
     private FileStream stream;
     private Byte[] buffer;
     private Int32 bufferIndex;
@@ -21,9 +25,11 @@ namespace Siftan
       this.bufferIndex = this.bufferLength = 0;
       this.stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-      this.stream.ReadByte();
-      this.stream.ReadByte();
-      this.stream.ReadByte();
+      if (this.stream.ReadByte() != EF || this.stream.ReadByte() != BB || this.stream.ReadByte() != BF)
+      {
+        this.stream.Seek(0, SeekOrigin.Begin);
+        return;
+      }
 
       // Ensure that the position is set correctly to account for the BOM
       this.position = 3;
