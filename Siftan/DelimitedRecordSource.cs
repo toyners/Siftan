@@ -15,6 +15,7 @@ namespace Siftan
     private Int64 recordPosition;
     private Int32 recordIndex = 0;
     private Int32 recordLength = -1;
+    private Boolean disposed;
 
     public DelimitedRecordSource(DelimitedRecordDescriptor descriptor, String filePath)
     {
@@ -29,7 +30,16 @@ namespace Siftan
 
     public void Close()
     {
-      this.file.Close();
+      this.Dispose(true);
+    }
+
+    /// <summary>
+    /// Performs tasks to release unmanaged resources.
+    /// </summary>
+    public void Dispose()
+    {
+      this.Dispose(true);
+      GC.SuppressFinalize(this);
     }
 
     public Int32 GetRecordData(Byte[] buffer)
@@ -84,6 +94,25 @@ namespace Siftan
       }
 
       return this.GotRecord;
+    }
+
+    protected virtual void Dispose(Boolean disposing)
+    {
+      if (this.disposed)
+      {
+        return;
+      }
+
+      if (disposing)
+      {
+        if (this.file != null)
+        {
+          this.file.Close();
+          this.file = null;
+        }
+      }
+
+      this.disposed = true;
     }
 
     private void ReadRecord()

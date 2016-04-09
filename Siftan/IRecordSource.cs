@@ -7,7 +7,7 @@ namespace Siftan
   /// <summary>
   /// Represents a source of records in a list structure.
   /// </summary>
-  public interface IRecordSource
+  public interface IRecordSource : IDisposable
   {
     /// <summary>
     /// Gets a value indicating whether there is a selected record.
