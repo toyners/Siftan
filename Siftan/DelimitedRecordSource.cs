@@ -126,7 +126,7 @@ namespace Siftan
         {
           termIndex = 0;
           termBuilder.Clear();
-          recordPosition = this.file.Position;
+          this.recordPosition = this.file.Position;
           continue;
         }
 
@@ -138,7 +138,7 @@ namespace Siftan
             if (!this.GotRecord)
             {
               // Got the first record header - mark the position down
-              this.positions.Add(recordPosition);
+              this.positions.Add(this.recordPosition);
               this.GotRecord = true;
             }
             else
