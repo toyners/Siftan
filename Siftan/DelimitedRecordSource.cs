@@ -49,7 +49,7 @@ namespace Siftan
 
         if (this.recordIndex == this.positions.Count - 1)
         {
-          length = this.file.Position - position;
+          length = this.recordPosition - position;
         }
         else
         {

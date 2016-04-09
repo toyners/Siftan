@@ -81,8 +81,16 @@ namespace Siftan.IntegrationTests
       String record2 = "01|Record2\r\n02|Record2";
       String inputFilePath = this.workingDirectory + "TwoRecords.csv";
 
-      var list = new List<String>(Regex.Split(record1 + record2, "\r\n"));
+      // Create the expected byte array for first record.
+      Byte[] expectedData = new Byte[record1.Length];
+      Int32 i = 0;
+      foreach (Char c in record1)
+      {
+        expectedData[i++] = (Byte)c;
+      }
 
+      // Create content and write to file.
+      var list = new List<String>(Regex.Split(record1 + record2, "\r\n"));
       File.WriteAllLines(inputFilePath, list.ToArray());
 
       DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
@@ -93,15 +101,15 @@ namespace Siftan.IntegrationTests
       Byte[] buffer = new Byte[1024];
       Int64 bytesRead = source.GetRecordData(buffer);
 
-      StringBuilder b = new StringBuilder();
-      for (int i = 0; i < bytesRead; i++)
-      {
-        b.Append((Char)buffer[i]);
-      }
+      // Copy over the record data ahead of comparison to the expected record data
+      Byte[] actualData = new byte[bytesRead];
+      Array.Copy(buffer, actualData, bytesRead);
 
+      // Assert
       bytesRead.ShouldBe(record1.Length);
-      
-      buffer.ShouldBe(File.ReadAllBytes(inputFilePath));
+      actualData.ShouldBe(expectedData);
+
+      source.Close();
     }
 
     private DelimitedRecordDescriptor CreateDelimitedDescriptor()
