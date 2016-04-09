@@ -46,12 +46,12 @@ namespace Siftan.IntegrationTests
 
       DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
 
-      DelimitedRecordSource source = new DelimitedRecordSource(recordDescriptor, inputFilePath);
-
       // Act and Assert
-      source.GotRecord.ShouldBeTrue();
-      source.MoveToNextRecord().ShouldBeFalse();
-      source.Close();
+      using (var source = new DelimitedRecordSource(recordDescriptor, inputFilePath))
+      {
+        source.GotRecord.ShouldBeTrue();
+        source.MoveToNextRecord().ShouldBeFalse();
+      }
     }
 
     [Test]
@@ -64,13 +64,13 @@ namespace Siftan.IntegrationTests
 
       DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
 
-      DelimitedRecordSource source = new DelimitedRecordSource(recordDescriptor, inputFilePath);
-
       // Act and Assert
-      source.GotRecord.ShouldBeTrue();
-      source.MoveToNextRecord().ShouldBeTrue();
-      source.MoveToNextRecord().ShouldBeFalse();
-      source.Close();
+      using (var source = new DelimitedRecordSource(recordDescriptor, inputFilePath))
+      {
+        source.GotRecord.ShouldBeTrue();
+        source.MoveToNextRecord().ShouldBeTrue();
+        source.MoveToNextRecord().ShouldBeFalse();
+      }
     }
 
     [Test]
@@ -95,21 +95,20 @@ namespace Siftan.IntegrationTests
 
       DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
 
-      DelimitedRecordSource source = new DelimitedRecordSource(recordDescriptor, inputFilePath);
+      using (var source = new DelimitedRecordSource(recordDescriptor, inputFilePath))
+      {
+        // Act
+        Byte[] buffer = new Byte[1024];
+        Int64 bytesRead = source.GetRecordData(buffer);
 
-      // Act
-      Byte[] buffer = new Byte[1024];
-      Int64 bytesRead = source.GetRecordData(buffer);
+        // Copy over the record data ahead of comparison to the expected record data
+        Byte[] actualData = new byte[bytesRead];
+        Array.Copy(buffer, actualData, bytesRead);
 
-      // Copy over the record data ahead of comparison to the expected record data
-      Byte[] actualData = new byte[bytesRead];
-      Array.Copy(buffer, actualData, bytesRead);
-
-      // Assert
-      bytesRead.ShouldBe(record1.Length);
-      actualData.ShouldBe(expectedData);
-
-      source.Close();
+        // Assert
+        bytesRead.ShouldBe(record1.Length);
+        actualData.ShouldBe(expectedData);
+      }
     }
 
     private DelimitedRecordDescriptor CreateDelimitedDescriptor()
