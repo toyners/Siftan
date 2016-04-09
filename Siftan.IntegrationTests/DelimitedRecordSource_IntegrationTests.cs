@@ -2,8 +2,11 @@
 namespace Siftan.IntegrationTests
 {
   using System;
+  using System.Collections.Generic;
   using System.IO;
   using System.Reflection;
+  using System.Text;
+  using System.Text.RegularExpressions;
   using Jabberwocky.Toolkit.Assembly;
   using Jabberwocky.Toolkit.IO;
   using NUnit.Framework;
@@ -74,9 +77,13 @@ namespace Siftan.IntegrationTests
     public void GetRecordDataFromFile()
     {
       // Arrange
-      String resourceFileName = "Siftan.IntegrationTests.Resources.TwoRecords.csv";
-      String inputFilePath = this.workingDirectory + resourceFileName;
-      Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
+      String record1 = "01|Record1\r\n02|Record1\r\n03|Record1\r\n";
+      String record2 = "01|Record2\r\n02|Record2";
+      String inputFilePath = this.workingDirectory + "TwoRecords.csv";
+
+      var list = new List<String>(Regex.Split(record1 + record2, "\r\n"));
+
+      File.WriteAllLines(inputFilePath, list.ToArray());
 
       DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
 
@@ -86,7 +93,14 @@ namespace Siftan.IntegrationTests
       Byte[] buffer = new Byte[1024];
       Int64 bytesRead = source.GetRecordData(buffer);
 
-      bytesRead.ShouldBe(new FileInfo(inputFilePath).Length);
+      StringBuilder b = new StringBuilder();
+      for (int i = 0; i < bytesRead; i++)
+      {
+        b.Append((Char)buffer[i]);
+      }
+
+      bytesRead.ShouldBe(record1.Length);
+      
       buffer.ShouldBe(File.ReadAllBytes(inputFilePath));
     }
 
