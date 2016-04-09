@@ -10,12 +10,7 @@ namespace Siftan
   public interface IRecordSource
   {
     /// <summary>
-    /// Gets the number of records in the source that have be
-    /// </summary>
-    Int64 Count { get; }
-
-    /// <summary>
-    /// Gets a value indicating whether the 
+    /// Gets a value indicating whether there is a selected record.
     /// </summary>
     Boolean GotRecord { get; }
 
@@ -44,12 +39,5 @@ namespace Siftan
     /// </summary>
     /// <returns>True if the move was successful. False if there are no more records in the source. GotRecord will reflect this result.</returns>
     Boolean MoveToNextRecord();
-
-    /// <summary>
-    /// Move to the record based on the index.
-    /// </summary>
-    /// <param name="index">0 based index of the record in the source.</param>
-    /// <returns>True if the move is successful. False if no valid record is selected. GotRecord will reflect this result.</returns>
-    Boolean MoveToRecord(Int64 index);
   }
 }

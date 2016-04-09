@@ -25,14 +25,6 @@ namespace Siftan
       this.ReadRecord();
     }
 
-    public Int64 Count
-    {
-      get
-      {
-        throw new NotImplementedException();
-      }
-    }
-
     public Boolean GotRecord { get; private set; }
 
     public void Close()
@@ -92,11 +84,6 @@ namespace Siftan
       }
 
       return this.GotRecord;
-    }
-
-    public Boolean MoveToRecord(Int64 index)
-    {
-      throw new NotImplementedException();
     }
 
     private void ReadRecord()
