@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.IntegrationTests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.Console.AcceptanceTests", "Siftan.Console.AcceptanceTests\Siftan.Console.AcceptanceTests.csproj", "{DD9A9E49-216C-44B5-9412-8EFEA773F1D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan_WPF", "Siftan_WPF\Siftan_WPF.csproj", "{EB36723A-CB4A-40BD-9541-B7174ECCC7E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siftan.WPF", "Siftan.WPF\Siftan.WPF.csproj", "{EB36723A-CB4A-40BD-9541-B7174ECCC7E8}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Siftan.Console.UnitTests", "Siftan.Console.UnitTests\Siftan.Console.UnitTests.fsproj", "{8D7F69D8-C43D-4D1E-8854-ECD2B4DE4EBB}"
 EndProject
