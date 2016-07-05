@@ -132,18 +132,12 @@ namespace Siftan
 
     private void OnFileOpened(Int64 fileSize)
     {
-      if (this.FileOpened != null)
-      {
-        this.FileOpened(this, fileSize);
-      }
+      this.FileOpened?.Invoke(this, fileSize);
     }
 
     private void OnFileRead(Int64 filePosition)
     {
-      if (this.FileRead != null)
-      {
-        this.FileRead(this, filePosition);
-      }
+      this.FileRead?.Invoke(this, filePosition);
     }
 
     private Boolean IsCancelled()
