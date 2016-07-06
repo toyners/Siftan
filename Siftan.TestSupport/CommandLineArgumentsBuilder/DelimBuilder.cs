@@ -22,7 +22,7 @@ namespace Siftan.TestSupport
 
     public const String DefaultDelimiter = ",";
 
-    private List<String> tokens = new List<String> { DelimKey };
+    private readonly List<String> tokens = new List<String> { DelimKey };
 
     public String[] Build()
     {

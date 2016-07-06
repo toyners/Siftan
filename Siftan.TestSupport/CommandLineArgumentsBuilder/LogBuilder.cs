@@ -12,7 +12,7 @@ namespace Siftan.TestSupport
 
     public const String JobKey = "-j";
 
-    private List<String> tokens = new List<String> { LogKey };
+    private readonly List<String> tokens = new List<String> { LogKey };
 
     public String[] Build()
     {

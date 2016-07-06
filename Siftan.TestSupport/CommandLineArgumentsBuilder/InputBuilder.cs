@@ -12,7 +12,7 @@ namespace Siftan.TestSupport
 
     public const String SearchSubDirectories = "-r";
 
-    private List<String> tokens = new List<String>();
+    private readonly List<String> tokens = new List<String>();
 
     public String[] Build()
     {

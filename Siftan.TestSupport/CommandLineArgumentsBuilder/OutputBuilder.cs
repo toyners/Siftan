@@ -12,7 +12,7 @@ namespace Siftan.TestSupport
 
     public const String UnmatchedOutputKey = "-fu";
 
-    private List<String> tokens = new List<String> { OutputKey };
+    private readonly List<String> tokens = new List<String> { OutputKey };
 
     public String[] Build()
     {

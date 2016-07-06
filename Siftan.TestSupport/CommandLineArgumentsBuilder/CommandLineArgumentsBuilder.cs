@@ -6,7 +6,7 @@ namespace Siftan.TestSupport
 
   public class CommandLineArgumentsBuilder : IBuilder
   {
-    private List<IBuilder> builders = new List<IBuilder>();
+    private readonly List<IBuilder> builders = new List<IBuilder>();
 
     public CommandLineArgumentsBuilder WithInput(InputBuilder inputBuilder)
     {

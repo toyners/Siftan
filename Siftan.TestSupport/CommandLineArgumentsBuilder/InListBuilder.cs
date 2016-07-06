@@ -14,7 +14,7 @@ namespace Siftan.TestSupport
 
     public const String QuotaKey = "-m";
 
-    private List<String> tokens = new List<String> { InListKey };
+    private readonly List<String> tokens = new List<String> { InListKey };
 
     public String[] Build()
     {
