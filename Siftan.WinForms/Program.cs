@@ -13,15 +13,15 @@ namespace Siftan.WinForms
     [STAThread]
     public static void Main(String[] args)
     {
-      CommandLineOptions commandLineOptions = new CommandLineOptions();
+      var commandLineOptions = new CommandLineOptions();
       var result = Parser.Default.ParseArguments(args, commandLineOptions);
 
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
 
       var logManager = new LogManager(commandLineOptions.ApplicationLog);
-      BaseController controller = CreateController(commandLineOptions.ControllerName, logManager);
-      MainForm mainForm = controller.CreateMainForm();
+      var controller = CreateController(commandLineOptions.ControllerName, logManager);
+      var mainForm = controller.CreateMainForm();
       Application.Run(mainForm);
     }
 

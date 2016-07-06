@@ -13,20 +13,20 @@ namespace Siftan.Console
   {
     public static void Main(String[] args)
     {
-      LogManager logManager = new LogManager(CreateDefaultApplicationLogFilePath());
+      var logManager = new LogManager(CreateDefaultApplicationLogFilePath());
 
       try
       {
-        Options options = new Options(args);
+        var options = new Options(args);
 
         CompleteLogConfiguring(options, logManager);
 
-        String[] inputFilePaths = GetInputFilePaths(options);
+        var inputFilePaths = GetInputFilePaths(options);
 
         IRecordReader recordReader = null;
         if (options.Delimited != null)
         {
-          DelimitedRecordDescriptor recordDescriptor = CreateDelimitedRecordDescriptor(options.Delimited);
+          var recordDescriptor = CreateDelimitedRecordDescriptor(options.Delimited);
           recordReader = new DelimitedRecordReader(recordDescriptor);
         }
         else
@@ -44,9 +44,9 @@ namespace Siftan.Console
           expression = new InListExpression(options.InList.Values);
         }
 
-        StatisticsManager statisticsManager = new StatisticsManager();
+        var statisticsManager = new StatisticsManager();
 
-        OneFileRecordWriter recordWriter = new OneFileRecordWriter(
+        var recordWriter = new OneFileRecordWriter(
           options.Output.FileMatched,
           options.Output.FileUnmatched,
           statisticsManager);
@@ -105,7 +105,7 @@ namespace Siftan.Console
     private static String[] GetInputFilePaths(Options options)
     {
       FilePatternResolver.SearchDepths searchDepth = options.Input.SearchSubdirectories ? FilePatternResolver.SearchDepths.AllDirectories : FilePatternResolver.SearchDepths.InitialDirectoryOnly;
-      String[] inputFilePaths = FilePatternResolver.ResolveFilePattern(options.Input.Pattern, searchDepth);
+      var inputFilePaths = FilePatternResolver.ResolveFilePattern(options.Input.Pattern, searchDepth);
 
       if (inputFilePaths.Length == 0)
       {
@@ -129,7 +129,7 @@ namespace Siftan.Console
 
     public static String CreateDefaultApplicationLogFilePath()
     {
-      String assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+      var assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
       return PathOperations.CompleteDirectoryPath(assemblyDirectory) +
              DateTime.Today.ToString("dd-MM-yyyy") + ".log";
     }

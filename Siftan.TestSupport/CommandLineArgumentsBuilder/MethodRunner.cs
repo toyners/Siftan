@@ -11,7 +11,7 @@ namespace Siftan.TestSupport
     {
       const Int32 oneSecond = 1000; // in milliseconds
       const Int32 thirtySeconds = 30;
-      Stopwatch stopWatch = new Stopwatch();
+      var stopWatch = new Stopwatch();
       stopWatch.Start();
 
       while (!action() && stopWatch.Elapsed.Seconds < thirtySeconds)

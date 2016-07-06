@@ -9,8 +9,8 @@ namespace Siftan.Console.AcceptanceTests
   {
     public static void Run(String command, String commandArguments)
     {
-      ProcessStartInfo processStartInfo = new ProcessStartInfo(command, commandArguments);
-      Application application = Application.Launch(processStartInfo);
+      var processStartInfo = new ProcessStartInfo(command, commandArguments);
+      var application = Application.Launch(processStartInfo);
 
       MethodRunner.RunForDuration(() => { return application.Process.HasExited; });
 

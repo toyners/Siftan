@@ -11,23 +11,28 @@ namespace Siftan.WinForms
   /// </summary>
   public abstract class BaseController
   {
+    #region Fields
     protected readonly StatisticsManager statisticsManager = new StatisticsManager();
 
     protected readonly UILogManager uiLogManager;
 
     protected MainForm mainForm;
+    #endregion
 
+    #region Construction
     /// <summary>
     /// Initializes a new instance of the <see cref="BaseController"/> class.
     /// </summary>
     /// <param name="logManager">Instance that performs logging of the process.</param>
-    public BaseController(ILogManager logManager)
+    protected BaseController(ILogManager logManager)
     {
       logManager.VerifyThatObjectIsNotNull("Parameter 'logManager' is null.");
       this.uiLogManager = new UILogManager(logManager);
       this.uiLogManager.MessageLogged += this.MessageLoggedHandler;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// Cancels the process.
     /// </summary>
@@ -52,9 +57,9 @@ namespace Siftan.WinForms
 
       this.statisticsManager.Reset();
 
-      String[] inputFilePaths = FilePatternResolver.ResolveFilePattern(this.mainForm.InputFilePattern, this.mainForm.InputFileSearchDepth);
+      var inputFilePaths = FilePatternResolver.ResolveFilePattern(this.mainForm.InputFilePattern, this.mainForm.InputFileSearchDepth);
 
-      IRecordReader recordReader = this.CreateRecordReader();
+      var recordReader = this.CreateRecordReader();
 
       IRecordMatchExpression expression = new InListExpression(this.mainForm.ValueList);
 
@@ -109,5 +114,6 @@ namespace Siftan.WinForms
     private void VerifyParameters()
     {
     }
+    #endregion
   }
 }

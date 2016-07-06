@@ -55,7 +55,7 @@ namespace Siftan.IntegrationTests
       {
         Regex.Escape(LateNewYearsEveDateTimeStamp) + " " + FirstLogMessage,
         Regex.Escape(EarlyNewYearsDayDateTimeStamp) + " " + SecondLogMessage,
-        Regex.Escape(NewYearsDayDateTimeStamp) + " " + ThirdLogMessage,
+        Regex.Escape(NewYearsDayDateTimeStamp) + " " + ThirdLogMessage
       };
     }
 
@@ -72,7 +72,7 @@ namespace Siftan.IntegrationTests
     public void WritingMessagesToApplicationLogAndClosingCreatesValidLog()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      var logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
 
       // Act
       WriteMessagesToApplicationLog(logManager);
@@ -81,7 +81,7 @@ namespace Siftan.IntegrationTests
       // Assert
       File.Exists(this.applicationLogFilePath).Should().BeTrue();
 
-      String[] logFileLines = File.ReadAllLines(this.applicationLogFilePath);
+      var logFileLines = File.ReadAllLines(this.applicationLogFilePath);
       AssertLogFileContentsAreCorrect(logFileLines);
     }
 
@@ -89,7 +89,7 @@ namespace Siftan.IntegrationTests
     public void MessagesInOpenApplicationLogCanBeReadByOtherReader()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      var logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
 
       try
       {
@@ -99,7 +99,7 @@ namespace Siftan.IntegrationTests
         // Assert
         File.Exists(this.applicationLogFilePath).Should().BeTrue();
 
-        String[] logFileLines = GetOpenLogFileContent(this.applicationLogFilePath);
+        var logFileLines = GetOpenLogFileContent(this.applicationLogFilePath);
         AssertLogFileContentsAreCorrect(logFileLines);
       }
       finally
@@ -113,7 +113,7 @@ namespace Siftan.IntegrationTests
     public void ApplicationLogFileNotCreatedWhenLogManagerIsInstantiated()
     {
       // Act
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      var logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
       logManager.Close();
 
       // Assert
@@ -124,7 +124,7 @@ namespace Siftan.IntegrationTests
     public void ChangingApplicationLogFilePathResultsInANewLogBeingCreated()
     {
       // Act
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      var logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
       logManager.WriteMessageToApplicationLog("Application log file.");
       logManager.Close();
 
@@ -141,7 +141,7 @@ namespace Siftan.IntegrationTests
     public void WritingMessagesToJobLogAndClosingCreatesValidLog()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      var logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
       logManager.JobLogFilePath = this.jobLogFilePath;
 
       // Act
@@ -151,7 +151,7 @@ namespace Siftan.IntegrationTests
       // Assert
       File.Exists(this.jobLogFilePath).Should().BeTrue();
 
-      String[] logFileLines = File.ReadAllLines(this.jobLogFilePath);
+      var logFileLines = File.ReadAllLines(this.jobLogFilePath);
       AssertLogFileContentsAreCorrect(logFileLines);
     }
 
@@ -159,7 +159,7 @@ namespace Siftan.IntegrationTests
     public void MessagesInOpenJobLogCanBeReadByOtherReader()
     {
       // Arrange
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      var logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
       logManager.JobLogFilePath = this.jobLogFilePath;
 
       try
@@ -170,7 +170,7 @@ namespace Siftan.IntegrationTests
         // Assert
         File.Exists(this.jobLogFilePath).Should().BeTrue();
 
-        String[] logFileLines = GetOpenLogFileContent(this.jobLogFilePath);
+        var logFileLines = GetOpenLogFileContent(this.jobLogFilePath);
         AssertLogFileContentsAreCorrect(logFileLines);
       }
       finally
@@ -184,7 +184,7 @@ namespace Siftan.IntegrationTests
     public void JobLogFileNotCreatedWhenLogManagerIsInstantiated()
     {
       // Act
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      var logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
       logManager.JobLogFilePath = this.jobLogFilePath;
       logManager.Close();
 
@@ -196,7 +196,7 @@ namespace Siftan.IntegrationTests
     public void ChangingJobLogFilePathResultsInANewLogBeingCreated()
     {
       // Act
-      LogManager logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
+      var logManager = new LogManager(this.mockDateTimeStamper, this.applicationLogFilePath);
       logManager.JobLogFilePath = this.jobLogFilePath;
       logManager.WriteMessageToJobLog("Job log file.");
       logManager.Close();
@@ -229,9 +229,9 @@ namespace Siftan.IntegrationTests
       String[] logFileLines = null;
       Action action = () =>
       {
-        FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Write);
+        var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Write);
 
-        List<String> lines = new List<String>();
+        var lines = new List<String>();
         using (StreamReader sr = new StreamReader(fs))
         {
           while (!sr.EndOfStream)

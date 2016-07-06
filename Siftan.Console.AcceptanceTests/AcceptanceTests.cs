@@ -78,7 +78,7 @@ namespace Siftan.Console.AcceptanceTests
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
-        OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath, new StatisticsManager());
+        var outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath, new StatisticsManager());
 
         // Act
         new Engine().Execute(
@@ -95,7 +95,7 @@ namespace Siftan.Console.AcceptanceTests
         this.AssertLogfileIsCorrect(logFilePath);
 
         File.Exists(matchedOutputFilePath).ShouldBeTrue();
-        String[] lines = File.ReadAllLines(matchedOutputFilePath);
+        var lines = File.ReadAllLines(matchedOutputFilePath);
         lines.Length.ShouldBe(5);
         lines[0].ShouldBe("01Ben Toynbee123451.23");
         lines[1].ShouldBe("02           12345");
@@ -131,7 +131,7 @@ namespace Siftan.Console.AcceptanceTests
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
-        OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath, new StatisticsManager());
+        var outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath, new StatisticsManager());
 
         // Act
         new Engine().Execute(
@@ -148,7 +148,7 @@ namespace Siftan.Console.AcceptanceTests
         this.AssertLogfileIsCorrect(logFilePath);
 
         File.Exists(matchedOutputFilePath).ShouldBeTrue();
-        String[] lines = File.ReadAllLines(matchedOutputFilePath);
+        var lines = File.ReadAllLines(matchedOutputFilePath);
         lines.Length.ShouldBe(5);
         lines[0].ShouldBe("01Ben Toynbee123451.23");
         lines[1].ShouldBe("02           12345");
@@ -176,7 +176,7 @@ namespace Siftan.Console.AcceptanceTests
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.DelimitedRecordFile.csv", inputFilePath);
 
-        OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, null, new StatisticsManager());
+        var outputWriter = new OneFileRecordWriter(matchedOutputFilePath, null, new StatisticsManager());
 
         // Act
         new Engine().Execute(
@@ -214,7 +214,7 @@ namespace Siftan.Console.AcceptanceTests
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
-        OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, null, new StatisticsManager());
+        var outputWriter = new OneFileRecordWriter(matchedOutputFilePath, null, new StatisticsManager());
 
         // Act
         new Engine().Execute(
@@ -253,7 +253,7 @@ namespace Siftan.Console.AcceptanceTests
 
         Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile("Siftan.AcceptanceTests.FixedWidthRecordFile.txt", inputFilePath);
 
-        OneFileRecordWriter outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath, new StatisticsManager());
+        var outputWriter = new OneFileRecordWriter(matchedOutputFilePath, unmatchedOutputFilePath, new StatisticsManager());
 
         // Act
         new Engine().Execute(
@@ -272,7 +272,7 @@ namespace Siftan.Console.AcceptanceTests
         File.Exists(matchedOutputFilePath).ShouldBeFalse();
 
         File.Exists(unmatchedOutputFilePath).ShouldBeTrue();
-        String[] lines = File.ReadAllLines(unmatchedOutputFilePath);
+        var lines = File.ReadAllLines(unmatchedOutputFilePath);
         lines.Length.ShouldBe(4);
         lines[0].ShouldBe("01Sid Sample 543211.23");
         lines[1].ShouldBe("02           54321");
@@ -307,7 +307,7 @@ namespace Siftan.Console.AcceptanceTests
 
     private IRecordReader CreateDelimitedRecordReader()
     {
-      DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
+      var recordDescriptor = new DelimitedRecordDescriptor
       {
         Delimiter = "|",
         Qualifier = '\0',
@@ -321,7 +321,7 @@ namespace Siftan.Console.AcceptanceTests
 
     private IRecordReader CreateFixedWidthRecordReader()
     {
-      FixedWidthRecordDescriptor recordDescriptor = new FixedWidthRecordDescriptor
+      var recordDescriptor = new FixedWidthRecordDescriptor
       {
         LineIDStart = 0,
         LineIDLength = 2,
@@ -343,7 +343,7 @@ namespace Siftan.Console.AcceptanceTests
     private void AssertLogfileIsCorrect(String logFilePath)
     {
       File.Exists(logFilePath).ShouldBeTrue();
-      String[] logLines = File.ReadAllLines(logFilePath);
+      var logLines = File.ReadAllLines(logFilePath);
       logLines.Length.ShouldBe(2);
 
       logLines[0].ShouldMatch(DateTimeStampRegex + "Starting...");
@@ -361,17 +361,17 @@ namespace Siftan.Console.AcceptanceTests
 
       applicationPath = @"C:\C#\Siftan\Siftan_WPF\bin\Debug\Siftan.exe";
 
-      Application application = Application.Launch(applicationPath);
-      Window window = application.GetWindow("Siftan");
+      var application = Application.Launch(applicationPath);
+      var window = application.GetWindow("Siftan");
 
       try
       {
         //SearchCriteria 
-        SearchCriteria searchCriteria = SearchCriteria.
+        var searchCriteria = SearchCriteria.
           ByAutomationId("mybutton").
           AndControlType(typeof(Button), WindowsFramework.Wpf);
 
-        Button button = (Button)window.Get(searchCriteria);
+        var button = (Button)window.Get(searchCriteria);
 
         button.ShouldNotBeNull();
       }

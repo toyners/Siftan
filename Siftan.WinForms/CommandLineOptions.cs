@@ -35,7 +35,7 @@ namespace Siftan.WinForms
 
     private static String CreateDefaultApplicationLogFilePath()
     {
-      String assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+      var assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
       return PathOperations.CompleteDirectoryPath(assemblyDirectory) +
              DateTime.Today.ToString("dd-MM-yyyy") + ".log";
     }

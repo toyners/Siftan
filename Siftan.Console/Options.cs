@@ -16,13 +16,13 @@ namespace Siftan.Console
         throw new Exception("No command line arguments.");
       }
 
-      Queue<String> queue = new Queue<String>(args);
+      var queue = new Queue<String>(args);
 
       this.Input = new InputOptions(queue);
 
       while (queue.Count > 0)
       {
-        String noun = queue.Dequeue();
+        var noun = queue.Dequeue();
 
         switch (noun)
         {
@@ -111,7 +111,7 @@ namespace Siftan.Console
       internal InputOptions(Queue<String> queue)
       {
         this.Pattern = queue.Dequeue();
-        String field = queue.Peek();
+        var field = queue.Peek();
         if (field == "-r")
         {
           queue.Dequeue();
@@ -132,7 +132,7 @@ namespace Siftan.Console
         Boolean parsingComplete = false;
         while (queue.Count > 0 && !parsingComplete)
         {
-          String field = queue.Peek();
+          var field = queue.Peek();
           switch (field)
           {
             case "-d":
@@ -229,7 +229,7 @@ namespace Siftan.Console
         Boolean gotTermLength = false;
         while (queue.Count > 0 && !parsingComplete)
         {
-          String field = queue.Peek();
+          var field = queue.Peek();
           switch (field)
           {
             case "-h":
@@ -341,7 +341,7 @@ namespace Siftan.Console
         Boolean parsingComplete = false;
         while (queue.Count > 0 && !parsingComplete)
         {
-          String field = queue.Peek();
+          var field = queue.Peek();
           switch (field)
           {
             case "-f":
@@ -404,7 +404,7 @@ namespace Siftan.Console
         Boolean parsingComplete = false;
         while (queue.Count > 0 && !parsingComplete)
         {
-          String field = queue.Peek();
+          var field = queue.Peek();
           switch (field)
           {
             case "-fm":
@@ -450,7 +450,7 @@ namespace Siftan.Console
         Boolean parsingComplete = false;
         while (queue.Count > 0 && !parsingComplete)
         {
-          String field = queue.Peek();
+          var field = queue.Peek();
           switch (field)
           {
             case "-a":

@@ -119,7 +119,7 @@ namespace Siftan.Console.AcceptanceTests
           TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) not matched from input file {0}.", this.inputFilePath)),
           TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.matchedOutputFilePath)),
           TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.unmatchedOutputFilePath)),
-          TestConstants.DateTimeStampRegex + "Run Finished.",
+          TestConstants.DateTimeStampRegex + "Run Finished."
         });
     }
 
@@ -157,7 +157,7 @@ namespace Siftan.Console.AcceptanceTests
         {
           TestConstants.DateTimeStampRegex + "Run Started...",
           TestConstants.DateTimeStampRegex + Regex.Escape("0 Record(s) processed."),
-          TestConstants.DateTimeStampRegex + "Run Finished.",
+          TestConstants.DateTimeStampRegex + "Run Finished."
 
         });
     }
@@ -219,7 +219,7 @@ namespace Siftan.Console.AcceptanceTests
           TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("0 Record(s) matched from input file {0}.", this.inputFilePath)),
           TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) not matched from input file {0}.", this.inputFilePath)),
           TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("2 Record(s) written to output file {0}.", this.unmatchedOutputFilePath)),
-          TestConstants.DateTimeStampRegex + "Run Finished.",
+          TestConstants.DateTimeStampRegex + "Run Finished."
         });
     }
 

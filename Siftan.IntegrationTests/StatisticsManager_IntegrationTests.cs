@@ -13,13 +13,13 @@ namespace Siftan.IntegrationTests
     public void StatisticsWrittenToJobLogCorrectly()
     {
       // Arrange
-      ILogManager mockLogManager = Substitute.For<ILogManager>();
+      var mockLogManager = Substitute.For<ILogManager>();
 
       const String InputFilePath = @"C:\InputFile.csv";
       const String MatchedOutputFilePath = @"C:\MatchedOutput.csv";
       const String UnmatchedOutputFilePath = @"C:\UnmatchedOutput.csv";
 
-      StatisticsManager statisticsManager = new StatisticsManager();
+      var statisticsManager = new StatisticsManager();
       statisticsManager.RecordIsMatched(InputFilePath);
       statisticsManager.RecordIsUnmatched(InputFilePath);
       statisticsManager.RecordWrittenToOutputFile(MatchedOutputFilePath);
@@ -47,8 +47,8 @@ namespace Siftan.IntegrationTests
     public void EmptyStatisticsWrittenToJobLogCorrectly()
     {
       // Arrange
-      ILogManager mockLogManager = Substitute.For<ILogManager>();
-      StatisticsManager statisticsManager = new StatisticsManager();
+      var mockLogManager = Substitute.For<ILogManager>();
+      var statisticsManager = new StatisticsManager();
 
       // Act
       statisticsManager.WriteToLog(mockLogManager);

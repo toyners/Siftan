@@ -9,17 +9,22 @@ namespace Siftan
 
   public class InputFileRecordWriter : IRecordWriter
   {
-    private IStatisticsCollector statisticsCollector;
+    #region Fields
+    private readonly IStatisticsCollector statisticsCollector;
 
-    private Dictionary<String, StreamWriter> writers = new Dictionary<String, StreamWriter>();
+    private readonly Dictionary<String, StreamWriter> writers = new Dictionary<String, StreamWriter>();
+    #endregion
 
+    #region Construction
     public InputFileRecordWriter(IStatisticsCollector statisticsCollector, Boolean doWriteMatchedRecords, Boolean doWriteUnmatchedRecords)
     {
       this.statisticsCollector = statisticsCollector;
       this.DoWriteMatchedRecords = doWriteMatchedRecords;
       this.DoWriteUnmatchedRecords = doWriteUnmatchedRecords;
     }
+    #endregion
 
+    #region Properties
     public Boolean DoWriteMatchedRecords
     {
       get; private set;
@@ -29,7 +34,9 @@ namespace Siftan
     {
       get; private set;
     }
+    #endregion
 
+    #region Methods
     public void Close()
     {
       foreach (var writer in this.writers.Values)
@@ -69,5 +76,6 @@ namespace Siftan
 
       StreamWriteOperations.WriteRecordToStream(writer, reader, record);
     }
+    #endregion
   }
 }

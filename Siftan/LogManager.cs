@@ -130,8 +130,8 @@ namespace Siftan
 
     private static StreamWriter OpenLog(String filePath, FileMode fileMode)
     {
-      FileStream logStream = new FileStream(filePath, fileMode, FileAccess.Write, FileShare.Read);
-      StreamWriter log = new StreamWriter(logStream);
+      var logStream = new FileStream(filePath, fileMode, FileAccess.Write, FileShare.Read);
+      var log = new StreamWriter(logStream);
       log.AutoFlush = true;
       return log;
     }

@@ -75,7 +75,7 @@ namespace Siftan
       }
       else
       {
-        Int32 bytesRead = this.file.ReadBuffer(buffer, this.recordLength);
+        var bytesRead = this.file.ReadBuffer(buffer, this.recordLength);
         this.recordLength = -1;
         return bytesRead;
       }
@@ -117,7 +117,7 @@ namespace Siftan
 
     private void ReadRecord()
     {
-      StringBuilder termBuilder = new StringBuilder(1024);
+      var termBuilder = new StringBuilder(1024);
       Char character = '\0';
       Int32 delimiterIndex = 0;
       Int32 termIndex = 0;

@@ -39,7 +39,7 @@ namespace Siftan.WinForms
     {
       var recordWriter = CreateRecordWriter();
 
-      Engine engine = new Engine();
+      var engine = new Engine();
       engine.FileOpened += this.FileOpenedHandler;
       engine.FileRead += this.FileReadHandler;
       engine.CheckForCancellation = this.CheckForCancellation;
@@ -52,7 +52,7 @@ namespace Siftan.WinForms
       this.cancellationTokenSource = new CancellationTokenSource();
       this.cancellationToken = this.cancellationTokenSource.Token;
 
-      Task task = Task.Factory.StartNew(() =>
+      var task = Task.Factory.StartNew(() =>
       {
         engine.Execute(
           inputFilePaths,
@@ -65,12 +65,12 @@ namespace Siftan.WinForms
           this.statisticsManager);
       }, this.cancellationToken);
 
-      Task finishedTask = task.ContinueWith((antecedent) =>
+      var finishedTask = task.ContinueWith((antecedent) =>
       {
         if (antecedent.Exception != null)
         {
           this.uiLogManager.WriteMessagesToLogs("Job FAILED.");
-          AggregateException ae = antecedent.Exception.Flatten();
+          var ae = antecedent.Exception.Flatten();
           Int32 count = 1;
           foreach (Exception e in ae.InnerExceptions)
           {

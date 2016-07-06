@@ -40,7 +40,7 @@ namespace Siftan.TestSupport
 
     public String[] Build()
     {
-      List<String> results = new List<String>();
+      var results = new List<String>();
 
       foreach (IBuilder builder in this.builders)
       {

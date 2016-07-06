@@ -64,15 +64,15 @@ namespace Siftan.WinForms.AcceptanceTests
 
       InputFileCreator.CreateFile(InputFileResourcePath, this.inputFilePath);
 
-      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, "-a " + this.applicationLogFilePath);
-      Application application = Application.Launch(processStartInfo);
+      var processStartInfo = new ProcessStartInfo(applicationPath, "-a " + this.applicationLogFilePath);
+      var application = Application.Launch(processStartInfo);
 
       try
       {
-        Window window = application.GetWindow("Siftan");
+        var window = application.GetWindow("Siftan");
         var results_TextBox = window.Get<TextBox>("Results_TextBox");
 
-        WindowSetter windowSetter = new WindowSetter(window);
+        var windowSetter = new WindowSetter(window);
         windowSetter
           .SelectTabPage("RecordDescriptors_TabControl", "Delimited")
           .SetTextBoxValue("Delimiter_TextBox", Delimiter)
@@ -112,7 +112,7 @@ namespace Siftan.WinForms.AcceptanceTests
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) not matched from input file {0}.", this.inputFilePath)),
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.matchedOutputFilePath)),
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.unmatchedOutputFilePath)),
-            TestConstants.DateTimeStampRegex + "Run Finished.",
+            TestConstants.DateTimeStampRegex + "Run Finished."
           });
       }
       finally
@@ -128,15 +128,15 @@ namespace Siftan.WinForms.AcceptanceTests
 
       InputFileCreator.CreateFile(InputFileResourcePath, this.inputFilePath);
 
-      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, "-a " + this.applicationLogFilePath);
-      Application application = Application.Launch(processStartInfo);
+      var processStartInfo = new ProcessStartInfo(applicationPath, "-a " + this.applicationLogFilePath);
+      var application = Application.Launch(processStartInfo);
 
       try
       {
-        Window window = application.GetWindow("Siftan");
+        var window = application.GetWindow("Siftan");
         var results_TextBox = window.Get<TextBox>("Results_TextBox");
 
-        WindowSetter windowSetter = new WindowSetter(window);
+        var windowSetter = new WindowSetter(window);
         windowSetter
           .SelectTabPage("RecordDescriptors_TabControl", "Delimited")
           .SetTextBoxValue("Delimiter_TextBox", Delimiter)
@@ -175,7 +175,7 @@ namespace Siftan.WinForms.AcceptanceTests
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) matched from input file {0}.", this.inputFilePath)),
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) not matched from input file {0}.", this.inputFilePath)),
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.matchedOutputFilePath)),
-            TestConstants.DateTimeStampRegex + "Run Finished.",
+            TestConstants.DateTimeStampRegex + "Run Finished."
           });
       }
       finally
@@ -192,15 +192,15 @@ namespace Siftan.WinForms.AcceptanceTests
       InputFileCreator.CreateFile(InputFileResourcePath, this.inputFilePath);
 
       var commandLineArguments = String.Format("-a {0} -c {1}", this.applicationLogFilePath, typeof(TaskController).FullName);
-      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, commandLineArguments);
-      Application application = Application.Launch(processStartInfo);
+      var processStartInfo = new ProcessStartInfo(applicationPath, commandLineArguments);
+      var application = Application.Launch(processStartInfo);
 
       try
       {
-        Window window = application.GetWindow("Siftan");
+        var window = application.GetWindow("Siftan");
         var results_TextBox = window.Get<TextBox>("Results_TextBox");
 
-        WindowSetter windowSetter = new WindowSetter(window);
+        var windowSetter = new WindowSetter(window);
         windowSetter
           .SelectTabPage("RecordDescriptors_TabControl", "Delimited")
           .SetTextBoxValue("Delimiter_TextBox", Delimiter)
@@ -241,7 +241,7 @@ namespace Siftan.WinForms.AcceptanceTests
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) not matched from input file {0}.", this.inputFilePath)),
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.matchedOutputFilePath)),
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", this.unmatchedOutputFilePath)),
-            TestConstants.DateTimeStampRegex + "Run Finished.",
+            TestConstants.DateTimeStampRegex + "Run Finished."
           });
       }
       finally
@@ -267,15 +267,15 @@ namespace Siftan.WinForms.AcceptanceTests
       InputFileCreator.CreateFile(SecondInputFileResourcePath, secondInputFilePath);
 
       var commandLineArguments = String.Format("-a {0}", this.applicationLogFilePath);
-      ProcessStartInfo processStartInfo = new ProcessStartInfo(applicationPath, commandLineArguments);
-      Application application = Application.Launch(processStartInfo);
+      var processStartInfo = new ProcessStartInfo(applicationPath, commandLineArguments);
+      var application = Application.Launch(processStartInfo);
 
       try
       {
-        Window window = application.GetWindow("Siftan");
+        var window = application.GetWindow("Siftan");
         var results_TextBox = window.Get<TextBox>("Results_TextBox");
 
-        WindowSetter windowSetter = new WindowSetter(window);
+        var windowSetter = new WindowSetter(window);
         windowSetter
           .SelectTabPage("RecordDescriptors_TabControl", "Delimited")
           .SetTextBoxValue("Delimiter_TextBox", Delimiter)
@@ -364,7 +364,7 @@ namespace Siftan.WinForms.AcceptanceTests
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", firstUnmatchedOutputFilePath)),
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", secondMatchedOutputFilePath)),
             TestConstants.DateTimeStampRegex + Regex.Escape(String.Format("1 Record(s) written to output file {0}.", secondUnmatchedOutputFilePath)),
-            TestConstants.DateTimeStampRegex + "Run Finished.",
+            TestConstants.DateTimeStampRegex + "Run Finished."
           });
       }
       finally

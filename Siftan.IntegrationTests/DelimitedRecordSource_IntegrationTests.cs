@@ -44,7 +44,7 @@ namespace Siftan.IntegrationTests
       String inputFilePath = this.workingDirectory + resourceFileName;
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
 
-      DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
+      var recordDescriptor = CreateDelimitedDescriptor();
 
       // Act and Assert
       using (var source = new DelimitedRecordSource(recordDescriptor, inputFilePath))
@@ -62,7 +62,7 @@ namespace Siftan.IntegrationTests
       String inputFilePath = this.workingDirectory + resourceFileName;
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
 
-      DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
+      var recordDescriptor = CreateDelimitedDescriptor();
 
       // Act and Assert
       using (var source = new DelimitedRecordSource(recordDescriptor, inputFilePath))
@@ -93,7 +93,7 @@ namespace Siftan.IntegrationTests
       var list = new List<String>(Regex.Split(record1 + record2, "\r\n"));
       File.WriteAllLines(inputFilePath, list.ToArray());
 
-      DelimitedRecordDescriptor recordDescriptor = CreateDelimitedDescriptor();
+      var recordDescriptor = CreateDelimitedDescriptor();
 
       using (var source = new DelimitedRecordSource(recordDescriptor, inputFilePath))
       {
@@ -118,7 +118,7 @@ namespace Siftan.IntegrationTests
         Delimiter = "|",
         Qualifier = '\0',
         LineIDIndex = 0,
-        HeaderID = "01",
+        HeaderID = "01"
       };
     }
     #endregion 

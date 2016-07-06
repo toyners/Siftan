@@ -36,7 +36,7 @@ namespace Siftan.IntegrationTests
       String inputFilePath = this.workingDirectory + resourceFileName;
       Assembly.GetExecutingAssembly().CopyEmbeddedResourceToFile(resourceFileName, inputFilePath);
 
-      DelimitedRecordDescriptor recordDescriptor = new DelimitedRecordDescriptor
+      var recordDescriptor = new DelimitedRecordDescriptor
       {
         Delimiter = "|",
         Qualifier = '\0',
@@ -45,14 +45,14 @@ namespace Siftan.IntegrationTests
         Term = new DelimitedRecordDescriptor.TermDefinition("01", 3)
       };
 
-      DelimitedRecordReader reader = new DelimitedRecordReader(recordDescriptor);
+      var reader = new DelimitedRecordReader(recordDescriptor);
 
-      FileReader fileReader = new FileReader(inputFilePath);
+      var fileReader = new FileReader(inputFilePath);
 
       // Act
-      Record firstRecord = reader.ReadRecord(fileReader);
+      var firstRecord = reader.ReadRecord(fileReader);
       Int64 firstRecordEndPosition = fileReader.Position;
-      Record secondRecord = reader.ReadRecord(fileReader);
+      var secondRecord = reader.ReadRecord(fileReader);
       Int64 secondRecordEndPosition = fileReader.Position;
 
       fileReader.Close();

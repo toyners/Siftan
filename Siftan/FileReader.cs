@@ -12,7 +12,7 @@ namespace Siftan
     private const Byte BF = 191;
 
     private FileStream stream;
-    private Byte[] buffer;
+    private readonly Byte[] buffer;
     private Int32 bufferIndex;
     private Int32 bufferLength;
     private Int64 position;
@@ -90,7 +90,7 @@ namespace Siftan
       Int32 arrayIndex = 0;
       if (!this.BlockIsEmpty)
       {
-        Int32 count = Math.Min(this.bufferLength - this.bufferIndex, length);
+        var count = Math.Min(this.bufferLength - this.bufferIndex, length);
         length -= count;
         Array.Copy(this.buffer, this.bufferIndex, array, 0, count);
 

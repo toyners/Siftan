@@ -44,7 +44,7 @@ namespace Siftan.WinForms
     {
       this.recordWriter = CreateRecordWriter();
 
-      Engine engine = new Engine();
+      var engine = new Engine();
       engine.FileOpened += this.FileOpenedHandler;
       engine.FileRead += this.FileReadHandler;
       engine.CheckForCancellation = this.CheckForCancellation;

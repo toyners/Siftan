@@ -27,8 +27,8 @@ namespace Siftan
       while (!streamReader.EndOfStream)
       {
         Int64 position = streamReader.Position;
-        String line = streamReader.ReadLine();
-        String lineIDTerm = line.ExtractField(this.descriptor.Delimiter, this.descriptor.Qualifier, this.descriptor.LineIDIndex);
+        var line = streamReader.ReadLine();
+        var lineIDTerm = line.ExtractField(this.descriptor.Delimiter, this.descriptor.Qualifier, this.descriptor.LineIDIndex);
 
         if (lineIDTerm == this.descriptor.HeaderID)
         {

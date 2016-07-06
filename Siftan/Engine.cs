@@ -89,12 +89,12 @@ namespace Siftan
 
     private void Process(String[] filePaths, IStreamReaderFactory streamReaderFactory, IRecordReader recordReader, IRecordMatchExpression expression, Action<IStreamReader, Record> writeMatchedRecordMethod, Action<IStreamReader, Record> writeUnmatchedRecordMethod)
     {
-      StringBuilder messageBuilder = new StringBuilder();
+      var messageBuilder = new StringBuilder();
 
       foreach (String filePath in filePaths)
       {
         this.logManager.WriteImportantMessageToJobLog("Processing '" + filePath + "'.");
-        IStreamReader fileReader = streamReaderFactory.CreateStreamReader(filePath);
+        var fileReader = streamReaderFactory.CreateStreamReader(filePath);
 
         this.OnFileOpened(fileReader.Length);
 
@@ -158,7 +158,7 @@ namespace Siftan
     {
       foreach (String filePath in filePaths)
       {
-        IRecordSource recordSource = recordSourceFactory.CreateSource(filePath);
+        var recordSource = recordSourceFactory.CreateSource(filePath);
 
         while (!recordMatcher.HasReachedMatchQuota && recordSource.GotRecord)
         {

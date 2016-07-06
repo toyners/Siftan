@@ -153,7 +153,7 @@ namespace Siftan.TestSupport
 
     public static InputBuilder CreateSingleFileInputBuilder(String singleFilePath, Boolean searchSubDirectories = false)
     {
-      InputBuilder inputBuilder = new InputBuilder();
+      var inputBuilder = new InputBuilder();
       inputBuilder = inputBuilder.IsSingleFile(singleFilePath);
 
       return MayAddSearchSubDirectories(inputBuilder, searchSubDirectories);
@@ -161,7 +161,7 @@ namespace Siftan.TestSupport
 
     public static InputBuilder CreateMultipleFilesInputBuilder(String multipleFilesPattern, Boolean searchSubDirectories = false)
     {
-      InputBuilder inputBuilder = new InputBuilder();
+      var inputBuilder = new InputBuilder();
       inputBuilder = inputBuilder.IsMultipleFiles(multipleFilesPattern);
 
       return MayAddSearchSubDirectories(inputBuilder, searchSubDirectories);
@@ -169,7 +169,7 @@ namespace Siftan.TestSupport
 
     public static OutputBuilder CreateOutputBuilder(String matchedOutputFilePath, String unmatchedOutputFilePath)
     {
-      OutputBuilder outputBuilder = new OutputBuilder();
+      var outputBuilder = new OutputBuilder();
 
       if (matchedOutputFilePath != null)
       {

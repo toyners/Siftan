@@ -23,13 +23,13 @@ namespace Siftan.Console
 
     public static UInt32 DequeueUInt32(this Queue<String> queue, String field)
     {
-      String value = DequeueArgument(queue, field);
+      var value = DequeueArgument(queue, field);
       return ConvertToUInt32(value);
     }
 
     public static Char DequeueChar(this Queue<String> queue, String field)
     {
-      String value = DequeueArgument(queue, field);
+      var value = DequeueArgument(queue, field);
       if (value.Length > 1)
       {
         throw new InvalidCastException(String.Format("Value '{0}' cannot be cast to type Char.", value));
@@ -40,12 +40,12 @@ namespace Siftan.Console
 
     public static T DequeueEnum<T>(this Queue<String> queue, String field) where T : struct
     {
-      String value = DequeueArgument(queue, field);
+      var value = DequeueArgument(queue, field);
 
       T result;
       if (!Enum.TryParse(value, out result))
       {
-        throw new Exception(String.Format("Value '{0}' cannot be cast to type {1}.", value, result.GetType().ToString()));
+        throw new Exception(String.Format("Value '{0}' cannot be cast to type {1}.", value, result.GetType()));
       }
 
       return result;
@@ -53,7 +53,7 @@ namespace Siftan.Console
 
     public static String[] DequeueArray(this Queue<String> queue, Char seperator, String field)
     {
-      String value = DequeueArgument(queue, field);
+      var value = DequeueArgument(queue, field);
       return value.Split(seperator);
     }
 
